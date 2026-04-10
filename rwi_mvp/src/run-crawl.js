@@ -13,3 +13,13 @@ fs.writeFileSync(indexOut, snap);
 const plan = JSON.parse(execFileSync('node', ['/Users/bobby/.openclaw/workspace/rwi_mvp/src/index.js', 'plan', indexOut, base], { encoding: 'utf8' }));
 fs.writeFileSync(`${rawDir}/plan.json`, JSON.stringify(plan, null, 2));
 console.log(JSON.stringify(plan, null, 2));
+
+// Placeholder for actual thread fetching/ingest: if snapshot files exist, ingest them.
+for (const url of plan.threads.slice(0, 5)) {
+  const idMatch = url.match(/\.(\d+)\//);
+  if (!idMatch) continue;
+  const file = `${rawDir}/${idMatch[1]}.txt`;
+  if (fs.existsSync(file)) {
+    execFileSync('node', ['/Users/bobby/.openclaw/workspace/rwi_mvp/src/index.js', 'ingest', url, file], { stdio: 'inherit' });
+  }
+}
