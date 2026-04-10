@@ -51,6 +51,17 @@ function exportToday(db, format = 'json') {
   return JSON.stringify(rows, null, 2);
 }
 
+function crawlConfig() {
+  return {
+    baseUrl: 'https://forum.replica-watch.info/forums/replica-genuine-watch-sales.9951900/?order=post_date&direction=desc',
+    pages: 5,
+  };
+}
+
+function listDeltaToday(db) {
+  return summarizeToday(db);
+}
+
 function slugToId(url = '') {
   const m = url.match(/\.(\d+)(?:\/|$)/);
   return m ? m[1] : null;
