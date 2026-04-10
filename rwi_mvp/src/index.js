@@ -84,6 +84,26 @@ function captureFromSnapshot(inputFile, outputFile) {
   return outputFile;
 }
 
+function buildPageUrls(baseUrl, pages = 5) {
+  const urls = [];
+  for (let i = 1; i <= pages; i++) {
+    if (i === 1) urls.push(baseUrl);
+    else urls.push(baseUrl.replace(/\/?$/, '') + `page-${i}`);
+  }
+  return urls;
+}
+
+function extractThreadUrlsFromIndex(htmlOrText) {
+  const matches = [...htmlOrText.matchAll(/https:\/\/forum\.replica-watch\.info\/threads\/[^"]+/g)].map(m => m[0]);
+  return [...new Set(matches.filter(u => !u.includes('/latest') && !u.includes('/unread') && !u.includes('/page-')) )];
+}
+
+function crawlPlan(indexTextPath, baseUrl) {
+  const indexText = fs.readFileSync(indexTextPath, 'utf8');
+  const threads = extractThreadUrlsFromIndex(indexText);
+  return { pages: buildPageUrls(baseUrl, 5), threads };
+}
+
 const cmd = process.argv[2];
 if (cmd === 'backfill' || !cmd) {
   backfillDemo();
@@ -110,6 +130,14 @@ if (cmd === 'backfill' || !cmd) {
   }
   ensureDirs();
   console.log(captureFromSnapshot(inputFile, outputFile));
+} else if (cmd === 'plan') {
+  const indexTextPath = process.argv[3];
+  const baseUrl = process.argv[4] || 'https://forum.replica-watch.info/forums/replica-genuine-watch-sales.9951900/?order=post_date&direction=desc';
+  if (!indexTextPath) {
+    console.error('Usage: node src/index.js plan <index-text-file> [baseUrl]');
+    process.exit(1);
+  }
+  console.log(JSON.stringify(crawlPlan(indexTextPath, baseUrl), null, 2));
 } else {
   console.error('Unknown command');
   process.exit(1);
