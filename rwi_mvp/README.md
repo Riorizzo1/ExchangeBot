@@ -24,3 +24,6 @@ For each watch thread:
 - `node src/index.js parse-thread <thread-url> <file>`
 - `node src/index.js today`
 - `node src/index.js plan <index-text-file>`
+
+## Import idea
+Use `openclaw browser snapshot --format aria` and save the output to a file, then point `parse-thread` at the matching thread export.

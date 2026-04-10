@@ -82,7 +82,7 @@ function backfillDemo() {
   if (fs.existsSync(rawFile)) {
     const text = fs.readFileSync(rawFile, 'utf8');
     const parsed = parseThreadText(text, sampleUrl);
-    db.threads.push(parsed);
+    upsertThread(db, parsed);
     saveDb(db);
     console.log(JSON.stringify(parsed, null, 2));
     return;
@@ -117,6 +117,12 @@ function crawlPlan(indexTextPath, baseUrl) {
   return { pages: buildPageUrls(baseUrl, 5), threads };
 }
 
+function upsertThread(db, parsed) {
+  const ix = db.threads.findIndex(t => t.threadId === parsed.threadId);
+  if (ix >= 0) db.threads[ix] = { ...db.threads[ix], ...parsed };
+  else db.threads.push(parsed);
+}
+
 const cmd = process.argv[2];
 if (cmd === 'backfill' || !cmd) {
   backfillDemo();
@@ -131,7 +137,7 @@ if (cmd === 'backfill' || !cmd) {
   const text = fs.readFileSync(file, 'utf8');
   const parsed = parseThreadText(text, url);
   const db = loadDb();
-  db.threads.push(parsed);
+  upsertThread(db, parsed);
   saveDb(db);
   console.log(JSON.stringify(parsed, null, 2));
 } else if (cmd === 'capture') {
