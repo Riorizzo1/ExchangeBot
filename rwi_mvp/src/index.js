@@ -70,6 +70,17 @@ function crawlAndSummarize() {
   };
 }
 
+function loadSnapshotText(filePath) {
+  return fs.readFileSync(filePath, 'utf8');
+}
+
+function ingestSnapshot(db, snapshotPath, url) {
+  const text = loadSnapshotText(snapshotPath);
+  const parsed = parseThreadText(text, url);
+  upsertThread(db, parsed);
+  return parsed;
+}
+
 function slugToId(url = '') {
   const m = url.match(/\.(\d+)(?:\/|$)/);
   return m ? m[1] : null;
@@ -194,6 +205,23 @@ if (cmd === 'backfill' || !cmd) {
 } else if (cmd === 'today') {
   const db = loadDb();
   console.log(JSON.stringify(summarizeToday(db), null, 2));
+} else if (cmd === 'delta') {
+  const db = loadDb();
+  console.log(JSON.stringify(listDeltaToday(db), null, 2));
+} else if (cmd === 'crawl-summary') {
+  console.log(JSON.stringify(crawlAndSummarize(), null, 2));
+} else if (cmd === 'ingest') {
+  const url = process.argv[3];
+  const snapshotPath = process.argv[4];
+  if (!url || !snapshotPath) {
+    console.error('Usage: node src/index.js ingest <thread-url> <snapshot-file>');
+    process.exit(1);
+  }
+  ensureDirs();
+  const db = loadDb();
+  const parsed = ingestSnapshot(db, snapshotPath, url);
+  saveDb(db);
+  console.log(JSON.stringify(parsed, null, 2));
 } else {
   console.error('Unknown command');
   process.exit(1);

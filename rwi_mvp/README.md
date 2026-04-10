@@ -17,6 +17,7 @@ For each watch thread:
 
 ## Commands
 - `node src/index.js config`
+- `node src/index.js ingest <thread-url> <snapshot-file>`
 - `node src/index.js parse-thread <thread-url> <file>`
 - `node src/index.js today`
 - `node src/index.js delta`
@@ -26,4 +27,4 @@ For each watch thread:
 - `node src/index.js save-snapshot <input-file> <output-file>`
 
 ## Import idea
-Use `openclaw browser snapshot --format aria` and save the output to a file, then point `parse-thread` at the matching thread export.
+Use `openclaw browser snapshot --format aria` and save the output to a file, then point `ingest` at the matching thread snapshot.
