@@ -36,6 +36,21 @@ function summarizeToday(db) {
   }));
 }
 
+function normalizeSnapshotFile(inputFile, outputFile) {
+  const text = fs.readFileSync(inputFile, 'utf8');
+  fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+  fs.writeFileSync(outputFile, text);
+  return outputFile;
+}
+
+function exportToday(db, format = 'json') {
+  const rows = summarizeToday(db);
+  if (format === 'text') {
+    return rows.map(r => `${r.title || ''} | ${r.askingPrice || ''} ${r.currency || ''} | ${r.threadTime || ''}`).join('\n');
+  }
+  return JSON.stringify(rows, null, 2);
+}
+
 function slugToId(url = '') {
   const m = url.match(/\.(\d+)(?:\/|$)/);
   return m ? m[1] : null;
