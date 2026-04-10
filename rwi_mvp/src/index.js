@@ -77,6 +77,13 @@ function backfillDemo() {
   console.log('Put a thread DOM export in data/raw/11039194.txt, then rerun parse.');
 }
 
+function captureFromSnapshot(inputFile, outputFile) {
+  const text = fs.readFileSync(inputFile, 'utf8');
+  fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+  fs.writeFileSync(outputFile, text);
+  return outputFile;
+}
+
 const cmd = process.argv[2];
 if (cmd === 'backfill' || !cmd) {
   backfillDemo();
@@ -94,6 +101,15 @@ if (cmd === 'backfill' || !cmd) {
   db.threads.push(parsed);
   saveDb(db);
   console.log(JSON.stringify(parsed, null, 2));
+} else if (cmd === 'capture') {
+  const inputFile = process.argv[3];
+  const outputFile = process.argv[4];
+  if (!inputFile || !outputFile) {
+    console.error('Usage: node src/index.js capture <input-file> <output-file>');
+    process.exit(1);
+  }
+  ensureDirs();
+  console.log(captureFromSnapshot(inputFile, outputFile));
 } else {
   console.error('Unknown command');
   process.exit(1);

@@ -7,12 +7,10 @@ Local MVP for parsing Replica Watch Info sales threads.
 - extracts a few structured fields into `data/rwi.json`
 - supports a simple `parse-thread` command
 
-## Next step
-Wire browser capture to save thread DOM/text into `data/raw/*.txt`, then run:
-
-```bash
-node src/index.js parse-thread <thread-url> <file>
-```
+## Flow
+1. use OpenClaw browser snapshot on a thread page
+2. save the snapshot text into `data/raw/<threadid>.txt`
+3. run `node src/index.js parse-thread <thread-url> <file>`
 
 ## Current parser fields
 - title
