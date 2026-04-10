@@ -62,6 +62,14 @@ function listDeltaToday(db) {
   return summarizeToday(db);
 }
 
+function crawlAndSummarize() {
+  const db = loadDb();
+  return {
+    config: crawlConfig(),
+    summary: summarizeToday(db),
+  };
+}
+
 function slugToId(url = '') {
   const m = url.match(/\.(\d+)(?:\/|$)/);
   return m ? m[1] : null;

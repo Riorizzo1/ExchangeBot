@@ -20,6 +20,7 @@ For each watch thread:
 - `node src/index.js parse-thread <thread-url> <file>`
 - `node src/index.js today`
 - `node src/index.js delta`
+- `node src/index.js crawl-summary`
 - `node src/index.js export text`
 - `node src/index.js plan <index-text-file>`
 - `node src/index.js save-snapshot <input-file> <output-file>`
