@@ -144,16 +144,21 @@ function captureFromSnapshot(inputFile, outputFile) {
 
 function buildPageUrls(baseUrl, pages = 5) {
   const urls = [];
+  const u = new URL(baseUrl);
   for (let i = 1; i <= pages; i++) {
-    if (i === 1) urls.push(baseUrl);
-    else urls.push(baseUrl.replace(/\/?$/, '') + `page-${i}`);
+    if (i === 1) {
+      urls.push(u.toString());
+    } else {
+      u.searchParams.set('page', String(i));
+      urls.push(u.toString());
+    }
   }
   return urls;
 }
 
 function extractThreadUrlsFromIndex(htmlOrText) {
-  const matches = [...htmlOrText.matchAll(/https:\/\/forum\.replica-watch\.info\/threads\/[^"]+/g)].map(m => m[0]);
-  return [...new Set(matches.filter(u => !u.includes('/latest') && !u.includes('/unread') && !u.includes('/page-')) )];
+  const matches = [...htmlOrText.matchAll(/https:\/\/forum\.replica-watch\.info\/threads\/[A-Za-z0-9%\-_.]+\.[0-9]+(?:\/|)/g)].map(m => m[0]);
+  return [...new Set(matches.filter(u => !u.includes('/latest') && !u.includes('/unread')) )];
 }
 
 function crawlPlan(indexTextPath, baseUrl) {
@@ -169,7 +174,9 @@ function upsertThread(db, parsed) {
 }
 
 const cmd = process.argv[2];
-if (cmd === 'backfill' || !cmd) {
+if (cmd === 'config') {
+  console.log(JSON.stringify(crawlConfig(), null, 2));
+} else if (cmd === 'backfill' || !cmd) {
   backfillDemo();
 } else if (cmd === 'parse-thread') {
   const url = process.argv[3];
