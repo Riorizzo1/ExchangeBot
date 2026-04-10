@@ -1,0 +1,11 @@
+{
+  "name": "rwi-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "backfill": "node src/index.js backfill",
+    "parse-thread": "node src/index.js parse-thread"
+  }
+}
