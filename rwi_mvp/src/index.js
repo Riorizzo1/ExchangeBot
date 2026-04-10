@@ -15,7 +15,7 @@ function ensureDirs() {
 
 function loadDb() {
   if (!fs.existsSync(dbPath)) {
-    return { threads: [], listings: [] };
+    return { baselineAt: null, threads: [], listings: [] };
   }
   return JSON.parse(fs.readFileSync(dbPath, 'utf8'));
 }
@@ -23,6 +23,17 @@ function loadDb() {
 function saveDb(db) {
   fs.mkdirSync(dataDir, { recursive: true });
   fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
+}
+
+function summarizeToday(db) {
+  const today = new Date().toISOString().slice(0, 10);
+  return db.threads.filter(t => (t.capturedAt || '').slice(0, 10) === today).map(t => ({
+    title: t.title,
+    askingPrice: t.askingPrice,
+    currency: t.currency,
+    threadTime: t.threadTime,
+    threadUrl: t.threadUrl,
+  }));
 }
 
 function slugToId(url = '') {
@@ -46,6 +57,7 @@ function parseThreadText(text, url) {
   const condition = extractValue(text, 'Item Condition?');
   const payment = extractValue(text, 'Accepted Payment Methods?');
   const shipping = extractValue(text, 'Shipping Costs?');
+  const threadTime = (text.match(/Start date\s*([^\n]+)/i) || text.match(/Yesterday at [^\n]+/i) || text.match(/Today at [^\n]+/i) || [null, null])[1];
   return {
     threadId: id,
     threadUrl: url,
@@ -56,6 +68,7 @@ function parseThreadText(text, url) {
     condition,
     payment,
     shipping,
+    threadTime,
     rawPath: path.join('raw', `${id}.txt`),
     capturedAt: new Date().toISOString(),
   };
@@ -138,6 +151,9 @@ if (cmd === 'backfill' || !cmd) {
     process.exit(1);
   }
   console.log(JSON.stringify(crawlPlan(indexTextPath, baseUrl), null, 2));
+} else if (cmd === 'today') {
+  const db = loadDb();
+  console.log(JSON.stringify(summarizeToday(db), null, 2));
 } else {
   console.error('Unknown command');
   process.exit(1);
