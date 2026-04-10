@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node src/index.js",
     "backfill": "node src/index.js backfill",
-    "parse-thread": "node src/index.js parse-thread"
+    "parse-thread": "node src/index.js parse-thread",
+    "today": "node src/index.js today",
+    "export": "node src/index.js export",
+    "plan": "node src/index.js plan",
+    "save-snapshot": "node src/capture-snapshot.js"
   }
 }
