@@ -7,6 +7,7 @@ from pathlib import Path
 OUT_DIR = Path('/Users/bobby/.openclaw/workspace/reddit_bst/data/dom_harvest')
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 MERGED_OUT = Path('/Users/bobby/.openclaw/workspace/reddit_bst/data/dom_harvest_merged.json')
+STATE_OUT = Path('/Users/bobby/.openclaw/workspace/reddit_bst/data/dom_harvest_state.json')
 
 PRICE_RE = re.compile(r'\$([\d,]+)')
 TF_RE = re.compile(r'^(elite|high|mid|low)(.+)$')
@@ -111,16 +112,44 @@ def unique_key(r):
     return (r['section'], r['title'], r.get('parent_title'), r.get('url'), tuple(r['prices']), r['seller'], r['posted'])
 
 
-def main():
+def load_existing():
     merged = {}
     captures = []
-    table_names = {0: 'for_sale', 1: 'unknown', 2: 'sold'}
+    if MERGED_OUT.exists():
+        payload = json.loads(MERGED_OUT.read_text())
+        for row in payload.get('rows', []):
+            merged[unique_key(row)] = row
+        captures = payload.get('captures', [])
+    return merged, captures
 
-    for step in range(12):
+
+def next_capture_index():
+    nums = []
+    for path in OUT_DIR.glob('capture_*.json'):
+        try:
+            nums.append(int(path.stem.split('_')[-1]))
+        except ValueError:
+            pass
+    return (max(nums) + 1) if nums else 1
+
+
+def choose_primary_next(buttons):
+    next_buttons = [b for b in buttons if b['className'] == 'pgbtn' and b['text'] == '› Next' and not b['disabled']]
+    return next_buttons[0] if next_buttons else None
+
+
+def main():
+    merged, captures = load_existing()
+    table_names = {0: 'for_sale', 1: 'unknown', 2: 'sold'}
+    start_idx = next_capture_index()
+    stagnant_steps = 0
+
+    for capture_num in range(start_idx, start_idx + 20):
         payload = eval_json(DOM_EXTRACT_JS)
-        capture_path = OUT_DIR / f'capture_{step+1:02d}.json'
+        capture_path = OUT_DIR / f'capture_{capture_num:02d}.json'
         capture_path.write_text(json.dumps(payload, indent=2))
 
+        before = len(merged)
         capture_count = 0
         for table in payload['tables']:
             section = table_names.get(table['tableIndex'], f"table_{table['tableIndex']}")
@@ -130,21 +159,32 @@ def main():
                     continue
                 merged[unique_key(norm)] = norm
                 capture_count += 1
+        added = len(merged) - before
 
-        captures.append({
+        capture_entry = {
             'file': capture_path.name,
             'rows_seen': capture_count,
+            'rows_added': added,
             'button_window': [b for b in payload['buttons'] if b['className'] == 'pgbtn'],
-        })
+        }
+        captures.append(capture_entry)
+        MERGED_OUT.write_text(json.dumps({'captures': captures, 'rows': list(merged.values())}, indent=2))
+        STATE_OUT.write_text(json.dumps({'last_capture': capture_path.name, 'total_rows': len(merged), 'last_rows_added': added}, indent=2))
 
-        next_buttons = [b for b in payload['buttons'] if b['className'] == 'pgbtn' and b['text'] == '› Next' and not b['disabled']]
-        if not next_buttons:
+        primary_next = choose_primary_next(payload['buttons'])
+        if not primary_next:
             break
-        click_button(next_buttons[0]['i'])
+        if added == 0:
+            stagnant_steps += 1
+        else:
+            stagnant_steps = 0
+        if stagnant_steps >= 3:
+            break
+
+        click_button(primary_next['i'])
         wait()
 
-    MERGED_OUT.write_text(json.dumps({'captures': captures, 'rows': list(merged.values())}, indent=2))
-    print(json.dumps({'captures': len(captures), 'merged_rows': len(merged), 'out': str(MERGED_OUT)}, indent=2))
+    print(json.dumps({'captures': len(captures), 'merged_rows': len(merged), 'out': str(MERGED_OUT), 'state': str(STATE_OUT)}, indent=2))
 
 
 if __name__ == '__main__':

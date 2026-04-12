@@ -1,0 +1,1043 @@
+- document:
+  - heading "RepWatch" [ref=e1] [level=1]
+  - text: 905 listings shown
+  - paragraph: r/BSTRepWatch · 833 for sale · 0 pending · 71 sold · 1 unknown
+  - paragraph
+  - textbox "Refine search further…" [ref=e2]
+  - combobox [ref=e3]:
+    - option "Newest first" [ref=e4]
+    - 'option "Price: low → high" [selected]'
+    - 'option "Price: high → low"'
+    - option "Factory tier" [ref=e5]
+  - text: Status
+  - button "All" [ref=e6]
+  - button "For Sale" [ref=e7]
+  - button "Pending" [ref=e8]
+  - button "Sold" [ref=e9]
+  - text: Price
+  - button "All prices" [ref=e10]
+  - button "Under $200" [ref=e11]
+  - button "$200–400" [ref=e12]
+  - button "$400–600" [ref=e13]
+  - button "$600–1000" [ref=e14]
+  - button "$1000+" [ref=e15]
+  - text: Time
+  - button "All time" [ref=e16]
+  - button "Last hour" [ref=e17]
+  - button "Last 24h" [ref=e18]
+  - button "3 days" [ref=e19]
+  - button "7 days" [ref=e20]
+  - text: For Sale (833)
+  - table:
+    - rowgroup:
+      - row "Post / Photos Price Status Factory Seller Posted":
+        - columnheader "Post / Photos" [ref=e21]
+        - columnheader "Price" [ref=e22]
+        - columnheader "Status" [ref=e23]
+        - columnheader "Factory" [ref=e24]
+        - columnheader "Seller" [ref=e25]
+        - columnheader "Posted" [ref=e26]
+    - rowgroup:
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/ +3 more $300 For Sale mid AR u/Acceptable-Royal-600 1d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/ +3 more" [ref=e27]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e28]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1si24qg/wts_usa_daytonasap_15500submarinernttd/
+          - text: ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/
+          - link [ref=e29]:
+            - /url: https://preview.redd.it/e8sg4pf12gug1.jpg?width=1284&format=pjpg&auto=webp&s=7881c8a7ace00bbaea5a1d6a86f6f0fbd2d0e1ec
+            - img
+          - link [ref=e30] [nth=1]:
+            - /url: https://preview.redd.it/uhn6gnf12gug1.jpg?width=1200&format=pjpg&auto=webp&s=668117e1f61ef0453710f88117e82e85b9381f7a
+            - img
+          - link [ref=e31] [nth=2]:
+            - /url: https://preview.redd.it/i1dm2of12gug1.jpg?width=1284&format=pjpg&auto=webp&s=113844f178ec30d677db392acb75e988a92e53c8
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e32]:
+          - strong: $300
+        - cell "For Sale" [ref=e33]
+        - cell "mid AR" [ref=e34]
+        - cell "u/Acceptable-Royal-600" [ref=e35]
+        - cell "1d ago" [ref=e36]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M +3 more $300 For Sale mid AR u/Acceptable-Royal-600 2d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M +3 more" [ref=e37]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e38] [nth=1]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sh6aqh/wts_usa_rcf_daydate_ombrevsf_daytonasvsf_cookie/
+          - text: ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M
+          - link [ref=e39] [nth=3]:
+            - /url: https://preview.redd.it/pa2x1zqo49ug1.jpg?width=1200&format=pjpg&auto=webp&s=54ba892df850e471bff8dbce4aaef4f7fd2594cc
+            - img
+          - link [ref=e40] [nth=4]:
+            - /url: https://preview.redd.it/iivmlyqo49ug1.jpg?width=1200&format=pjpg&auto=webp&s=5b49fff27e441e9c17ed96ce7a1a92b0cde50a23
+            - img
+          - link [ref=e41] [nth=5]:
+            - /url: https://preview.redd.it/1gntcrqo49ug1.jpg?width=1200&format=pjpg&auto=webp&s=4511cf43909e6b4f26f5442da188ac6da3ce3534
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e42] [nth=1]:
+          - strong: $300
+        - cell "For Sale" [ref=e43] [nth=1]
+        - cell "mid AR" [ref=e44] [nth=1]
+        - cell "u/Acceptable-Royal-600" [ref=e45] [nth=1]
+        - cell "2d ago" [ref=e46]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da +3 more $300 For Sale mid AR u/Acceptable-Royal-600 2d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da +3 more" [ref=e47]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e48] [nth=2]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sgaal9/wts_usa_rcf_bluesy_subrcf_daydate_meteoritevsf/
+          - text: ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da
+          - link [ref=e49] [nth=6]:
+            - /url: https://preview.redd.it/2okgby8762ug1.jpg?width=1284&format=pjpg&auto=webp&s=10ae664fbc69484ff4906a09af150ce3b6b52965
+            - img
+          - link [ref=e50] [nth=7]:
+            - /url: https://preview.redd.it/0zqtcr8762ug1.jpg?width=1200&format=pjpg&auto=webp&s=8952399156e0e939c69af8e374663170cee7d18f
+            - img
+          - link [ref=e51] [nth=8]:
+            - /url: https://preview.redd.it/urjh7r8762ug1.jpg?width=1284&format=pjpg&auto=webp&s=1e14b07806293844df9457c9e900a83ad52e8417
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e52] [nth=2]:
+          - strong: $300
+        - cell "For Sale" [ref=e53] [nth=2]
+        - cell "mid AR" [ref=e54] [nth=2]
+        - cell "u/Acceptable-Royal-600" [ref=e55] [nth=2]
+        - cell "2d ago" [ref=e56] [nth=1]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF DayDate Ombrè/VSF Daytona’s/VSF Wimbled +3 more $300 For Sale mid AR u/Acceptable-Royal-600 4d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF DayDate Ombrè/VSF Daytona’s/VSF Wimbled +3 more" [ref=e57]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e58] [nth=3]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sfbc34/wts_usa_rcf_daydate_ombrèvsf_daytonasvsf/
+          - text: ↳ [WTS] [USA] RCF DayDate Ombrè/VSF Daytona’s/VSF Wimbled
+          - link [ref=e59] [nth=9]:
+            - /url: https://preview.redd.it/lh14n3umkutg1.jpg?width=1284&format=pjpg&auto=webp&s=272c909888ac445e3a971c661220fdf1db4bd5e4
+            - img
+          - link [ref=e60] [nth=10]:
+            - /url: https://preview.redd.it/ykktr3umkutg1.jpg?width=3000&format=pjpg&auto=webp&s=7495e21e959e79cf4597d9b1f10a6bc233beb27f
+            - img
+          - link [ref=e61] [nth=11]:
+            - /url: https://preview.redd.it/ymasd5umkutg1.jpg?width=1277&format=pjpg&auto=webp&s=4d7c47f3b7bc74fe06a88268e8aa833a72121c32
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e62] [nth=3]:
+          - strong: $300
+        - cell "For Sale" [ref=e63] [nth=3]
+        - cell "mid AR" [ref=e64] [nth=3]
+        - cell "u/Acceptable-Royal-600" [ref=e65] [nth=3]
+        - cell "4d ago" [ref=e66]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF DayDate Ombrè’s/VSF Daytona blk Panda/A +3 more $300 For Sale mid AR u/Acceptable-Royal-600 4d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] RCF DayDate Ombrè’s/VSF Daytona blk Panda/A +3 more" [ref=e67]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e68] [nth=4]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1seh1dc/wts_usa_rcf_daydate_ombrèsvsf_daytona_blk/
+          - text: ↳ [WTS] [USA] RCF DayDate Ombrè’s/VSF Daytona blk Panda/A
+          - link [ref=e69] [nth=12]:
+            - /url: https://preview.redd.it/z4bevpon0otg1.jpg?width=1284&format=pjpg&auto=webp&s=85de95c57b4af1a94084f588a162a9b886e8337d
+            - img
+          - link [ref=e70] [nth=13]:
+            - /url: https://preview.redd.it/bgb7vqon0otg1.jpg?width=1284&format=pjpg&auto=webp&s=ed0875e832fdc4cf0355f3d11ef9955de7d22acf
+            - img
+          - link [ref=e71] [nth=14]:
+            - /url: https://preview.redd.it/8zvuguon0otg1.jpg?width=1284&format=pjpg&auto=webp&s=54c3ad94a2cc3cf4c7cdde5263ab8aba98c7aaa7
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e72] [nth=4]:
+          - strong: $300
+        - cell "For Sale" [ref=e73] [nth=4]
+        - cell "mid AR" [ref=e74] [nth=4]
+        - cell "u/Acceptable-Royal-600" [ref=e75] [nth=4]
+        - cell "4d ago" [ref=e76] [nth=1]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more $300 For Sale mid AR u/Acceptable-Royal-600 6d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more" [ref=e77]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e78] [nth=5]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sdic9c/wts_usa_vsf_cookievsf_nttdvsf_spritevsf/
+          - text: ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/
+          - link [ref=e79] [nth=15]:
+            - /url: https://preview.redd.it/8wdrx7nqggtg1.jpg?width=1284&format=pjpg&auto=webp&s=a09665421be983617c6b5e4231f0224566752669
+            - img
+          - link [ref=e80] [nth=16]:
+            - /url: https://preview.redd.it/vylh8anqggtg1.jpg?width=1273&format=pjpg&auto=webp&s=745cc1a6c99f7fcce345445c750cec52e23eb391
+            - img
+          - link [ref=e81] [nth=17]:
+            - /url: https://preview.redd.it/qz8t07nqggtg1.jpg?width=1200&format=pjpg&auto=webp&s=19f5a0a831845b29cd1867e991be20a387d81141
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e82] [nth=5]:
+          - strong: $300
+        - cell "For Sale" [ref=e83] [nth=5]
+        - cell "mid AR" [ref=e84] [nth=5]
+        - cell "u/Acceptable-Royal-600" [ref=e85] [nth=5]
+        - cell "6d ago" [ref=e86]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more $300 For Sale mid AR u/Acceptable-Royal-600 7d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more" [ref=e87] [nth=1]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e88] [nth=6]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1scnaua/wts_usa_vsf_cookievsf_nttdvsf_spritevsf/
+          - text: ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/
+          - link [ref=e89] [nth=18]:
+            - /url: https://preview.redd.it/ikdmshg279tg1.jpg?width=1200&format=pjpg&auto=webp&s=fbe37751b46ceecb77e13eac78e27527827db038
+            - img
+          - link [ref=e90] [nth=19]:
+            - /url: https://preview.redd.it/mkei6kg279tg1.jpg?width=1200&format=pjpg&auto=webp&s=d5cf4ec4b23ecfcef633ced392dc305ebd4c6295
+            - img
+          - link [ref=e91] [nth=20]:
+            - /url: https://preview.redd.it/qfzfrjg279tg1.jpg?width=1273&format=pjpg&auto=webp&s=dc69c65608688005487afbbbb8597d2c2efec403
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e92] [nth=6]:
+          - strong: $300
+        - cell "For Sale" [ref=e93] [nth=6]
+        - cell "mid AR" [ref=e94] [nth=6]
+        - cell "u/Acceptable-Royal-600" [ref=e95] [nth=6]
+        - cell "7d ago" [ref=e96]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more $300 For Sale mid AR u/Acceptable-Royal-600 8d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more" [ref=e97] [nth=2]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$300 -brand new" [ref=e98] [nth=7]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sbtqq5/wts_usa_vsf_cookievsf_nttdvsf_spritevsf/
+          - text: ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/
+          - link [ref=e99] [nth=21]:
+            - /url: https://preview.redd.it/staid3gib2tg1.jpg?width=1200&format=pjpg&auto=webp&s=237469c13f060455d471ec4421a580adf3619965
+            - img
+          - link [ref=e100] [nth=22]:
+            - /url: https://preview.redd.it/ckhlo5gib2tg1.jpg?width=1273&format=pjpg&auto=webp&s=d0530fd1ce30080d30025b03483f5b0afc8035a6
+            - img
+          - link [ref=e101] [nth=23]:
+            - /url: https://preview.redd.it/xs7gz7gib2tg1.jpg?width=1284&format=pjpg&auto=webp&s=1cc9cfb3737dda7588894427ef2346604ccb38ed
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e102] [nth=7]:
+          - strong: $300
+        - cell "For Sale" [ref=e103] [nth=7]
+        - cell "mid AR" [ref=e104] [nth=7]
+        - cell "u/Acceptable-Royal-600" [ref=e105] [nth=7]
+        - cell "8d ago" [ref=e106]
+      - 'row "[WTS][CONUS] VSF DeVille ✅ Seller Code: 0331 +3 more $300 For Sale elite VSF u/Ok-Werewolf-2419 9d ago"':
+        - 'cell "[WTS][CONUS] VSF DeVille ✅ Seller Code: 0331 +3 more"':
+          - 'link "[WTS][CONUS] VSF DeVille ✅ Seller Code: 0331"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sa310t/wtsconus_vsf_deville_seller_code_0331/
+          - link [ref=e107] [nth=24]:
+            - /url: https://preview.redd.it/zblosha9eosg1.jpg?width=3024&format=pjpg&auto=webp&s=b41b76409c99f782c557fc37aa6b548179793d73
+            - img
+          - link [ref=e108] [nth=25]:
+            - /url: https://preview.redd.it/4y1k3ka9eosg1.jpg?width=3024&format=pjpg&auto=webp&s=e021d7d8159bb5303e103bf21c1fe8aedc9b0612
+            - img
+          - link [ref=e109] [nth=26]:
+            - /url: https://preview.redd.it/3e79ifa9eosg1.jpg?width=3024&format=pjpg&auto=webp&s=10f46bf6582924820f7571380b53b897b74ca0e2
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e110] [nth=8]:
+          - strong: $300
+        - cell "For Sale" [ref=e111] [nth=8]
+        - cell "elite VSF" [ref=e112]
+        - cell "u/Ok-Werewolf-2419" [ref=e113]
+        - cell "9d ago" [ref=e114]
+      - 'row "Vintage Submariner (VR3135) - $300 ↳ (WTS) Various Watches. [CONUS] ✅ Seller Code: MOD +3 more $300 For Sale high VR u/Efficient_Try1458 13d ago"':
+        - 'cell "Vintage Submariner (VR3135) - $300 ↳ (WTS) Various Watches. [CONUS] ✅ Seller Code: MOD +3 more"':
+          - link "Vintage Submariner (VR3135) - $300" [ref=e115]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s72d5k/wts_various_watches_conus_seller_code_mod/
+          - text: "↳ (WTS) Various Watches. [CONUS] ✅ Seller Code: MOD"
+          - link [ref=e116] [nth=27]:
+            - /url: https://preview.redd.it/ioq148iry0sg1.jpg?width=3024&format=pjpg&auto=webp&s=6b2c9e9a66127d622cedadf825d52af89fe3d657
+            - img
+          - link [ref=e117] [nth=28]:
+            - /url: https://preview.redd.it/herdq1iry0sg1.jpg?width=3024&format=pjpg&auto=webp&s=a64e3d6cf6a4bd35ba62dda44d83b4e2f68267da
+            - img
+          - link [ref=e118] [nth=29]:
+            - /url: https://preview.redd.it/yjfojyhry0sg1.jpg?width=3024&format=pjpg&auto=webp&s=0a77ea145e9a0250d5a3a99027a4c5df3e55a945
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e119] [nth=9]:
+          - strong: $300
+        - cell "For Sale" [ref=e120] [nth=9]
+        - cell "high VR" [ref=e121]
+        - cell "u/Efficient_Try1458" [ref=e122]
+        - cell "13d ago" [ref=e123]
+      - 'row "Vintage Submariner - $300 shipped ↳ (WTS) Various Watches! [CONUS] ✅ Seller Code: MOD +3 more $300 For Sale mid AR u/Efficient_Try1458 15d ago"':
+        - 'cell "Vintage Submariner - $300 shipped ↳ (WTS) Various Watches! [CONUS] ✅ Seller Code: MOD +3 more"':
+          - link "Vintage Submariner - $300 shipped" [ref=e124]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s5jl3f/wts_various_watches_conus_seller_code_mod/
+          - text: "↳ (WTS) Various Watches! [CONUS] ✅ Seller Code: MOD"
+          - link [ref=e125] [nth=30]:
+            - /url: https://preview.redd.it/mzlj4yps4org1.jpg?width=3024&format=pjpg&auto=webp&s=6de89c0a962c55fc79ec7dd86c58325266b9eb07
+            - img
+          - link [ref=e126] [nth=31]:
+            - /url: https://preview.redd.it/hdfl0eqs4org1.jpg?width=3024&format=pjpg&auto=webp&s=610cccb928dd10c46509690564e952a950590805
+            - img
+          - link [ref=e127] [nth=32]:
+            - /url: https://preview.redd.it/9bo1ryps4org1.jpg?width=3024&format=pjpg&auto=webp&s=a3d506e778eb460392e6ca1c001db4bb328546af
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e128] [nth=10]:
+          - strong: $300
+        - cell "For Sale" [ref=e129] [nth=10]
+        - cell "mid AR" [ref=e130] [nth=8]
+        - cell "u/Efficient_Try1458" [ref=e131] [nth=1]
+        - cell "15d ago" [ref=e132]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$310 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more $310 For Sale mid AR u/Acceptable-Royal-600 9d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$310 -brand new ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/ +3 more" [ref=e133]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$310 -brand new" [ref=e134]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sawzkf/wts_usa_vsf_cookievsf_nttdvsf_spritevsf/
+          - text: ↳ [WTS] [USA] VSF Cookie/VSF NTTD/VSF Sprite/VSF Batgirl/
+          - link [ref=e135] [nth=33]:
+            - /url: https://preview.redd.it/rkhcs1qz0vsg1.jpg?width=1200&format=pjpg&auto=webp&s=a5b1fdc45a802a80db625368ce6f7cd19a9f1866
+            - img
+          - link [ref=e136] [nth=34]:
+            - /url: https://preview.redd.it/s72e11qz0vsg1.jpg?width=1200&format=pjpg&auto=webp&s=d1b288a5ead6b5d65505d71b99e41a7e39283f0c
+            - img
+          - link [ref=e137] [nth=35]:
+            - /url: https://preview.redd.it/eflx70qz0vsg1.jpg?width=1200&format=pjpg&auto=webp&s=071cf02ad35e0b7de7f4601877cb9ed49e832974
+            - img
+          - text: +3 more
+        - cell "$310" [ref=e138]:
+          - strong: $310
+        - cell "For Sale" [ref=e139] [nth=11]
+        - cell "mid AR" [ref=e140] [nth=9]
+        - cell "u/Acceptable-Royal-600" [ref=e141] [nth=8]
+        - cell "9d ago" [ref=e142] [nth=1]
+      - row "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$310 -brand new ↳ [WTS] [USA] VSF Daytona Tiffany/VSF Cookie/VSF Sprite/V +3 more $310 For Sale mid AR u/Acceptable-Royal-600 11d ago":
+        - cell "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$310 -brand new ↳ [WTS] [USA] VSF Daytona Tiffany/VSF Cookie/VSF Sprite/V +3 more" [ref=e143]:
+          - link "AF Cartier Santos 37.4mm x 27.3mm, size small, Swiss Ronda quartz movement=$310 -brand new" [ref=e144] [nth=1]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s94cly/wts_usa_vsf_daytona_tiffanyvsf_cookievsf/
+          - text: ↳ [WTS] [USA] VSF Daytona Tiffany/VSF Cookie/VSF Sprite/V
+          - link [ref=e145] [nth=36]:
+            - /url: https://preview.redd.it/39d031ztxgsg1.jpg?width=1284&format=pjpg&auto=webp&s=dab1e9d865935fc682b17e3e8708614c9c6e0fef
+            - img
+          - link [ref=e146] [nth=37]:
+            - /url: https://preview.redd.it/nbk5l5ztxgsg1.jpg?width=1284&format=pjpg&auto=webp&s=2f3fce207e54fa47c81ad5d8f89ebd0b036b5611
+            - img
+          - link [ref=e147] [nth=38]:
+            - /url: https://preview.redd.it/j5wf8fztxgsg1.jpg?width=1284&format=pjpg&auto=webp&s=b7aed93de8bfcf4e4af0e084dec8907a93214d5f
+            - img
+          - text: +3 more
+        - cell "$310" [ref=e148] [nth=1]:
+          - strong: $310
+        - cell "For Sale" [ref=e149] [nth=12]
+        - cell "mid AR" [ref=e150] [nth=10]
+        - cell "u/Acceptable-Royal-600" [ref=e151] [nth=9]
+        - cell "11d ago" [ref=e152]
+      - row "2. VSF Omega DeVille Blue $320 ↳ [WTS][CONUS] VSF DeVille, VSF Seamaster, titanium, ZF T +3 more $320 For Sale elite VSF u/Ok-Werewolf-2419 10d ago":
+        - cell "2. VSF Omega DeVille Blue $320 ↳ [WTS][CONUS] VSF DeVille, VSF Seamaster, titanium, ZF T +3 more" [ref=e153]:
+          - link "2. VSF Omega DeVille Blue $320" [ref=e154]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sa0cjk/wtsconus_vsf_deville_vsf_seamaster_titanium_zf/
+          - text: ↳ [WTS][CONUS] VSF DeVille, VSF Seamaster, titanium, ZF T
+          - link [ref=e155] [nth=39]:
+            - /url: https://preview.redd.it/ong370ehtnsg1.jpg?width=3024&format=pjpg&auto=webp&s=8acf351636537b68fa2ccf420ffc287f6149e8bc
+            - img
+          - link [ref=e156] [nth=40]:
+            - /url: https://preview.redd.it/9110ddehtnsg1.jpg?width=3024&format=pjpg&auto=webp&s=e6a26b10b92c8327d7e23a311902fe1c2cc154f1
+            - img
+          - link [ref=e157] [nth=41]:
+            - /url: https://preview.redd.it/6hkvt2ehtnsg1.jpg?width=3024&format=pjpg&auto=webp&s=043536c1e354dcc7b11edc7424bb88819867581d
+            - img
+          - text: +3 more
+        - cell "$320" [ref=e158]:
+          - strong: $320
+        - cell "For Sale" [ref=e159] [nth=13]
+        - cell "elite VSF" [ref=e160] [nth=1]
+        - cell "u/Ok-Werewolf-2419" [ref=e161] [nth=1]
+        - cell "10d ago" [ref=e162]
+      - row "TWS datejust 41mm blue dial used $320 ↳ [WTS] [CONUS] RCF daydate 41, VSF Submariner bluesy 41 +3 more $320 For Sale elite TW u/Specialist-Energy129 14d ago":
+        - cell "TWS datejust 41mm blue dial used $320 ↳ [WTS] [CONUS] RCF daydate 41, VSF Submariner bluesy 41 +3 more" [ref=e163]:
+          - link "TWS datejust 41mm blue dial used $320" [ref=e164]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s6c4ee/wts_conus_rcf_daydate_41_vsf_submariner_bluesy_41/
+          - text: ↳ [WTS] [CONUS] RCF daydate 41, VSF Submariner bluesy 41
+          - link [ref=e165] [nth=42]:
+            - /url: https://preview.redd.it/uqtanhmzpurg1.jpg?width=3024&format=pjpg&auto=webp&s=1b883bf1f730ea0364b2241b75bdc275323fda2a
+            - img
+          - link [ref=e166] [nth=43]:
+            - /url: https://preview.redd.it/knznonmzpurg1.jpg?width=3024&format=pjpg&auto=webp&s=eacf0403cc5759a27297a835747f19c5b74461b1
+            - img
+          - link [ref=e167] [nth=44]:
+            - /url: https://preview.redd.it/ockpsqmzpurg1.jpg?width=5630&format=pjpg&auto=webp&s=e76304376747c89ab01ca17d19095588e91dd680
+            - img
+          - text: +3 more
+        - cell "$320" [ref=e168] [nth=1]:
+          - strong: $320
+        - cell "For Sale" [ref=e169] [nth=14]
+        - cell "elite TW" [ref=e170]
+        - cell "u/Specialist-Energy129" [ref=e171]
+        - cell "14d ago" [ref=e172]
+      - row "TWS datejust 41mm blue dial used $320 ↳ [WTS] [CONUS] RCF daydate 41, VSF Submariner bluesy 41 $320 For Sale elite TW u/Specialist-Energy129 14d ago":
+        - cell "TWS datejust 41mm blue dial used $320 ↳ [WTS] [CONUS] RCF daydate 41, VSF Submariner bluesy 41" [ref=e173]:
+          - link "TWS datejust 41mm blue dial used $320" [ref=e174] [nth=1]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s6c4ee/wts_conus_rcf_daydate_41_vsf_submariner_bluesy_41/
+          - text: ↳ [WTS] [CONUS] RCF daydate 41, VSF Submariner bluesy 41
+        - cell "$320" [ref=e175] [nth=2]:
+          - strong: $320
+        - cell "For Sale" [ref=e176] [nth=15]
+        - cell "elite TW" [ref=e177] [nth=1]
+        - cell "u/Specialist-Energy129" [ref=e178] [nth=1]
+        - cell "14d ago" [ref=e179] [nth=1]
+      - row "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /VSF Daytona’s/VSF Submariner/VSF NTTD/ VSF +3 more $350 For Sale mid AR u/Acceptable-Royal-600 48m ago":
+        - cell "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /VSF Daytona’s/VSF Submariner/VSF NTTD/ VSF +3 more" [ref=e180]:
+          - link "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350" [ref=e181]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sixwxd/wts_usa_vsf_daytonasvsf_submarinervsf_nttd_vsf/
+          - text: ↳ [WTS] [USA] /VSF Daytona’s/VSF Submariner/VSF NTTD/ VSF
+          - link [ref=e182] [nth=45]:
+            - /url: https://preview.redd.it/cgmi9pmb8nug1.jpg?width=1200&format=pjpg&auto=webp&s=04d5207335ecf1cb9066a8111bf2d4638dfa0498
+            - img
+          - link [ref=e183] [nth=46]:
+            - /url: https://preview.redd.it/5wflurmb8nug1.jpg?width=1284&format=pjpg&auto=webp&s=cada3c96cacac19b591981a6f5243c7d6236ce90
+            - img
+          - link [ref=e184] [nth=47]:
+            - /url: https://preview.redd.it/clnegnmb8nug1.jpg?width=1200&format=pjpg&auto=webp&s=933fc3840dea5a5253ae43597672600c73013df7
+            - img
+          - text: +3 more
+        - cell "$350" [ref=e185]:
+          - strong: $350
+        - cell "For Sale" [ref=e186] [nth=16]
+        - cell "mid AR" [ref=e187] [nth=11]
+        - cell "u/Acceptable-Royal-600" [ref=e188] [nth=10]
+        - cell "48m ago" [ref=e189]
+      - row "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /VSF Daytona’s/VSF Submariner/VSF NTTD/ VSF $350 For Sale mid AR u/Acceptable-Royal-600 48m ago":
+        - cell "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /VSF Daytona’s/VSF Submariner/VSF NTTD/ VSF" [ref=e190]:
+          - link "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350" [ref=e191]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sixwxd/wts_usa_vsf_daytonasvsf_submarinervsf_nttd_vsf/
+          - text: ↳ [WTS] [USA] /VSF Daytona’s/VSF Submariner/VSF NTTD/ VSF
+        - cell "$350" [ref=e192] [nth=1]:
+          - strong: $350
+        - cell "For Sale" [ref=e193] [nth=17]
+        - cell "mid AR" [ref=e194] [nth=12]
+        - cell "u/Acceptable-Royal-600" [ref=e195] [nth=11]
+        - cell "48m ago" [ref=e196] [nth=1]
+      - row "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/ $350 For Sale mid AR u/Acceptable-Royal-600 1d ago":
+        - cell "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/" [ref=e197]:
+          - link "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350" [ref=e198] [nth=1]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1si24qg/wts_usa_daytonasap_15500submarinernttd/
+          - text: ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/
+        - cell "$350" [ref=e199] [nth=2]:
+          - strong: $350
+        - cell "For Sale" [ref=e200] [nth=18]
+        - cell "mid AR" [ref=e201] [nth=13]
+        - cell "u/Acceptable-Royal-600" [ref=e202] [nth=12]
+        - cell "1d ago" [ref=e203] [nth=1]
+      - row "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/ $350 For Sale mid AR u/Acceptable-Royal-600 1d ago":
+        - cell "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/" [ref=e204]:
+          - link "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350" [ref=e205] [nth=1]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1si24qg/wts_usa_daytonasap_15500submarinernttd/
+          - text: ↳ [WTS] [USA] /Daytona’s/AP 15500/Submariner/NTTD/ Pepsi/
+        - cell "$350" [ref=e206] [nth=3]:
+          - strong: $350
+        - cell "For Sale" [ref=e207] [nth=19]
+        - cell "mid AR" [ref=e208] [nth=14]
+        - cell "u/Acceptable-Royal-600" [ref=e209] [nth=13]
+        - cell "1d ago" [ref=e210] [nth=2]
+      - row "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M $350 For Sale mid AR u/Acceptable-Royal-600 2d ago":
+        - cell "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M" [ref=e211]:
+          - link "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350" [ref=e212] [nth=2]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sh6aqh/wts_usa_rcf_daydate_ombrevsf_daytonasvsf_cookie/
+          - text: ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M
+        - cell "$350" [ref=e213] [nth=4]:
+          - strong: $350
+        - cell "For Sale" [ref=e214] [nth=20]
+        - cell "mid AR" [ref=e215] [nth=15]
+        - cell "u/Acceptable-Royal-600" [ref=e216] [nth=14]
+        - cell "2d ago" [ref=e217] [nth=2]
+      - row "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M $350 For Sale mid AR u/Acceptable-Royal-600 2d ago":
+        - cell "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M" [ref=e218]:
+          - link "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350" [ref=e219] [nth=2]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sh6aqh/wts_usa_rcf_daydate_ombrevsf_daytonasvsf_cookie/
+          - text: ↳ [WTS] [USA] RCF DayDate OmbreVSF Daytona’s/VSF Cookie M
+        - cell "$350" [ref=e220] [nth=5]:
+          - strong: $350
+        - cell "For Sale" [ref=e221] [nth=21]
+        - cell "mid AR" [ref=e222] [nth=16]
+        - cell "u/Acceptable-Royal-600" [ref=e223] [nth=15]
+        - cell "2d ago" [ref=e224] [nth=3]
+      - row "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da $350 For Sale mid AR u/Acceptable-Royal-600 2d ago":
+        - cell "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da" [ref=e225]:
+          - link "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350" [ref=e226] [nth=3]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sgaal9/wts_usa_rcf_bluesy_subrcf_daydate_meteoritevsf/
+          - text: ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da
+        - cell "$350" [ref=e227] [nth=6]:
+          - strong: $350
+        - cell "For Sale" [ref=e228] [nth=22]
+        - cell "mid AR" [ref=e229] [nth=17]
+        - cell "u/Acceptable-Royal-600" [ref=e230] [nth=16]
+        - cell "2d ago" [ref=e231] [nth=4]
+      - row "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da $350 For Sale mid AR u/Acceptable-Royal-600 2d ago":
+        - cell "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da" [ref=e232]:
+          - link "AF Cartier Panthère small, 22mm, silver, quartz, matching warranty card=$350" [ref=e233] [nth=3]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sgaal9/wts_usa_rcf_bluesy_subrcf_daydate_meteoritevsf/
+          - text: ↳ [WTS] [USA] RCF Bluesy Sub/RCF DayDate Meteorite/VSF Da
+        - cell "$350" [ref=e234] [nth=7]:
+          - strong: $350
+        - cell "For Sale" [ref=e235] [nth=23]
+        - cell "mid AR" [ref=e236] [nth=18]
+        - cell "u/Acceptable-Royal-600" [ref=e237] [nth=17]
+        - cell "2d ago" [ref=e238] [nth=5]
+      - row "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF DayDate Ombrè/VSF Daytona’s/VSF Wimbled $350 For Sale mid AR u/Acceptable-Royal-600 4d ago":
+        - cell "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350 ↳ [WTS] [USA] RCF DayDate Ombrè/VSF Daytona’s/VSF Wimbled" [ref=e239]:
+          - link "AF Cartier Panthère medium, 27mm, silver, quartz, matching warranty card=$350" [ref=e240] [nth=4]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sfbc34/wts_usa_rcf_daydate_ombrèvsf_daytonasvsf/
+          - text: ↳ [WTS] [USA] RCF DayDate Ombrè/VSF Daytona’s/VSF Wimbled
+        - cell "$350" [ref=e241] [nth=8]:
+          - strong: $350
+        - cell "For Sale" [ref=e242] [nth=24]
+        - cell "mid AR" [ref=e243] [nth=19]
+        - cell "u/Acceptable-Royal-600" [ref=e244] [nth=18]
+        - cell "4d ago" [ref=e245] [nth=2]
+  - button "‹ Prev" [ref=e246]
+  - button "1" [ref=e247]
+  - button "2" [ref=e248]
+  - button "3" [ref=e249]
+  - button "4" [ref=e250]
+  - button "5" [ref=e251]
+  - button "› Next" [ref=e252]
+  - text: Page 2 of 34 · 25 per page Unknown Status (1)
+  - table:
+    - rowgroup:
+      - row "Post / Photos Price Status Factory Seller Posted":
+        - columnheader "Post / Photos" [ref=e253] [nth=1]
+        - columnheader "Price" [ref=e254] [nth=1]
+        - columnheader "Status" [ref=e255] [nth=1]
+        - columnheader "Factory" [ref=e256] [nth=1]
+        - columnheader "Seller" [ref=e257] [nth=1]
+        - columnheader "Posted" [ref=e258] [nth=1]
+    - rowgroup:
+      - 'row "[WST] [UK] ZF Pelagos 39mm Titanium, Mint Condition, £250, ✅ Seller Code: 1343 +3 more — Unknown elite ZF u/allwatchesguy76 1d ago"':
+        - 'cell "[WST] [UK] ZF Pelagos 39mm Titanium, Mint Condition, £250, ✅ Seller Code: 1343 +3 more"':
+          - 'link "[WST] [UK] ZF Pelagos 39mm Titanium, Mint Condition, £250, ✅ Seller Code: 1343"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1shf780/wst_uk_zf_pelagos_39mm_titanium_mint_condition/
+          - link [ref=e259] [nth=48]:
+            - /url: https://preview.redd.it/kprw28isabug1.jpg?width=2250&format=pjpg&auto=webp&s=df36558a9dbe0544e760ee913913453949895915
+            - img
+          - link [ref=e260] [nth=49]:
+            - /url: https://preview.redd.it/ypqjngatabug1.jpg?width=4240&format=pjpg&auto=webp&s=80f029f52a6b2a7da3aa9987145f7be0f8480228
+            - img
+          - link [ref=e261] [nth=50]:
+            - /url: https://preview.redd.it/dfi1bwqtabug1.jpg?width=4240&format=pjpg&auto=webp&s=94ff83045a300338ca65ec73d47ea4345ab652bf
+            - img
+          - text: +3 more
+        - cell "—" [ref=e262]
+        - cell "Unknown" [ref=e263]
+        - cell "elite ZF" [ref=e264]
+        - cell "u/allwatchesguy76" [ref=e265]
+        - cell "1d ago" [ref=e266] [nth=3]
+  - text: Sold / Traded (71)
+  - table:
+    - rowgroup:
+      - row "Post / Photos Price Status Factory Seller Posted":
+        - columnheader "Post / Photos" [ref=e267] [nth=2]
+        - columnheader "Price" [ref=e268] [nth=2]
+        - columnheader "Status" [ref=e269] [nth=2]
+        - columnheader "Factory" [ref=e270] [nth=2]
+        - columnheader "Seller" [ref=e271] [nth=2]
+        - columnheader "Posted" [ref=e272] [nth=2]
+    - rowgroup:
+      - row "[WTS][CONUS] VSF Sub with Date 41mm, VF Datejust 36mm Green, MGF Reverso Duoface ✅ Seller Code:… +3 more $15 Sold elite VSF u/Naman_Mehrotra 3d ago":
+        - cell "[WTS][CONUS] VSF Sub with Date 41mm, VF Datejust 36mm Green, MGF Reverso Duoface ✅ Seller Code:… +3 more" [ref=e273]:
+          - link "[WTS][CONUS] VSF Sub with Date 41mm, VF Datejust 36mm Green, MGF Reverso Duoface ✅ Seller Code:…" [ref=e274]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sg1wmi/wtsconus_vsf_sub_with_date_41mm_vf_datejust_36mm/
+          - link [ref=e275] [nth=51]:
+            - /url: https://preview.redd.it/h0xeopz5j0ug1.jpg?width=3024&format=pjpg&auto=webp&s=fc4395bb0c847ce56ab732f2b058891880a1a1d7
+            - img
+          - link [ref=e276] [nth=52]:
+            - /url: https://preview.redd.it/jjfzwoz5j0ug1.jpg?width=3024&format=pjpg&auto=webp&s=133544f8be274168b80eae7c20e7b2ae3da17f35
+            - img
+          - link [ref=e277] [nth=53]:
+            - /url: https://preview.redd.it/sno18pz5j0ug1.jpg?width=3024&format=pjpg&auto=webp&s=20f2d01768c704563d5e4eb5a600d96ded897a21
+            - img
+          - text: +3 more
+        - cell "$15" [ref=e278]:
+          - strong: $15
+        - cell "Sold" [ref=e279]
+        - cell "elite VSF" [ref=e280] [nth=2]
+        - cell "u/Naman_Mehrotra" [ref=e281]
+        - cell "3d ago" [ref=e282]
+      - 'row "[WTS][CONUS] ZF BB54 Black Dial, VSF Constellation 38mm, & PPF Historiques 222✅ Seller Code: 09… +3 more $15, $410, $400 Sold elite VSF u/Naman_Mehrotra 13d ago"':
+        - 'cell "[WTS][CONUS] ZF BB54 Black Dial, VSF Constellation 38mm, & PPF Historiques 222✅ Seller Code: 09… +3 more"':
+          - 'link "[WTS][CONUS] ZF BB54 Black Dial, VSF Constellation 38mm, & PPF Historiques 222✅ Seller Code: 09…"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s6khlw/wtsconus_zf_bb54_black_dial_vsf_constellation/
+          - link [ref=e283] [nth=54]:
+            - /url: https://preview.redd.it/zfx2t9xmlwrg1.jpg?width=3024&format=pjpg&auto=webp&s=f8787eb1cbabdb043d05ab2146e560fe279e6d67
+            - img
+          - link [ref=e284] [nth=55]:
+            - /url: https://preview.redd.it/g0j8k9xmlwrg1.jpg?width=3024&format=pjpg&auto=webp&s=6a261dcc69e8ad4e6425aa9a176a9f02ce5a5096
+            - img
+          - link [ref=e285] [nth=56]:
+            - /url: https://preview.redd.it/qh4xr8xmlwrg1.jpg?width=3024&format=pjpg&auto=webp&s=db6aa6a35bc67a877fca2db4924d2074b2d3346b
+            - img
+          - text: +3 more
+        - cell "$15, $410, $400" [ref=e286]:
+          - strong: $15
+          - text: ","
+          - strong: $410
+          - text: ","
+          - strong: $400
+        - cell "Sold" [ref=e287] [nth=1]
+        - cell "elite VSF" [ref=e288] [nth=3]
+        - cell "u/Naman_Mehrotra" [ref=e289] [nth=1]
+        - cell "13d ago" [ref=e290] [nth=1]
+      - 'row "[WTS] [(CONUS)] APSF JLC MUT, TWF 6119G, and 3x Metal moonswitch builds ✅ Seller Code: 0146 +3 more $425, $250, $135, $145, $25, $40, $50, $35 Sold elite TWF u/OortCloud69420 12d ago"':
+        - 'cell "[WTS] [(CONUS)] APSF JLC MUT, TWF 6119G, and 3x Metal moonswitch builds ✅ Seller Code: 0146 +3 more"':
+          - 'link "[WTS] [(CONUS)] APSF JLC MUT, TWF 6119G, and 3x Metal moonswitch builds ✅ Seller Code: 0146"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s7y606/wts_conus_apsf_jlc_mut_twf_6119g_and_3x_metal/
+          - link [ref=e291] [nth=57]:
+            - /url: https://preview.redd.it/6lchjaesw7sg1.jpg?width=3000&format=pjpg&auto=webp&s=ee5f9fcb370d30bbba6b64f05413f2b6771d9163
+            - img
+          - link [ref=e292] [nth=58]:
+            - /url: https://preview.redd.it/43sjvqhnw7sg1.jpg?width=3000&format=pjpg&auto=webp&s=33eda35863c32613884a7d1b17dbaa6bf1311f5e
+            - img
+          - link [ref=e293] [nth=59]:
+            - /url: https://preview.redd.it/g90oz7w418sg1.jpg?width=3000&format=pjpg&auto=webp&s=4bfbcfa0d926a081a6e9f42593cc9dc737ba512e
+            - img
+          - text: +3 more
+        - cell "$425, $250, $135, $145, $25, $40, $50, $35" [ref=e294]:
+          - strong: $425
+          - text: ","
+          - strong: $250
+          - text: ","
+          - strong: $135
+          - text: ","
+          - strong: $145
+          - text: ","
+          - strong: $25
+          - text: ","
+          - strong: $40
+          - text: ","
+          - strong: $50
+          - text: ","
+          - strong: $35
+        - cell "Sold" [ref=e295] [nth=2]
+        - cell "elite TWF" [ref=e296]
+        - cell "u/OortCloud69420" [ref=e297]
+        - cell "12d ago" [ref=e298]
+      - 'row "✅ Seller Code: 1339 [WTS][USA] New VSF Submariner 126610 $550 +3 more $550, $550, $550, $35 Sold elite VSF u/gerg1991 2d ago"':
+        - 'cell "✅ Seller Code: 1339 [WTS][USA] New VSF Submariner 126610 $550 +3 more"':
+          - 'link "✅ Seller Code: 1339 [WTS][USA] New VSF Submariner 126610 $550"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sgfitj/seller_code_1339_wtsusa_new_vsf_submariner_126610/
+          - link [ref=e299] [nth=60]:
+            - /url: https://preview.redd.it/9bhl8rlpd3ug1.jpg?width=2055&format=pjpg&auto=webp&s=fc2845166be0301a776a22354f0bedefb033b23b
+            - img
+          - link [ref=e300] [nth=61]:
+            - /url: https://preview.redd.it/zt9r1plpd3ug1.jpg?width=3024&format=pjpg&auto=webp&s=75af5890536f49479474648dcaa7a983f2b58b79
+            - img
+          - link [ref=e301] [nth=62]:
+            - /url: https://preview.redd.it/ec5kcolpd3ug1.jpg?width=2165&format=pjpg&auto=webp&s=47ba9ec882c43aeff10d298bdcb8eed4945a4488
+            - img
+          - text: +3 more
+        - cell "$550, $550, $550, $35" [ref=e302]:
+          - strong: $550
+          - text: ","
+          - strong: $550
+          - text: ","
+          - strong: $550
+          - text: ","
+          - strong: $35
+        - cell "Sold" [ref=e303] [nth=3]
+        - cell "elite VSF" [ref=e304] [nth=4]
+        - cell "u/gerg1991" [ref=e305]
+        - cell "2d ago" [ref=e306] [nth=6]
+      - 'row "[WTS] [USA] VSF Submariner - $550 - ✅ Seller Code: 1339 +3 more $550, $550, $550, $35 Sold elite VSF u/gerg1991 3d ago"':
+        - 'cell "[WTS] [USA] VSF Submariner - $550 - ✅ Seller Code: 1339 +3 more"':
+          - 'link "[WTS] [USA] VSF Submariner - $550 - ✅ Seller Code: 1339"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sfierf/wts_usa_vsf_submariner_550_seller_code_1339/
+          - link [ref=e307] [nth=63]:
+            - /url: https://preview.redd.it/cjrz1bf75wtg1.jpg?width=3024&format=pjpg&auto=webp&s=55ed771f3eb7fb173306ebb87acbb5fdb5659f0e
+            - img
+          - link [ref=e308] [nth=64]:
+            - /url: https://preview.redd.it/dd7h0hf75wtg1.jpg?width=2055&format=pjpg&auto=webp&s=7a48022b499e5970aa907783d89ea5db9352ab2b
+            - img
+          - link [ref=e309] [nth=65]:
+            - /url: https://preview.redd.it/lll9yaf75wtg1.jpg?width=3024&format=pjpg&auto=webp&s=c717c23d042cf3e8b2c4f9ad549b80ca13154cec
+            - img
+          - text: +3 more
+        - cell "$550, $550, $550, $35" [ref=e310] [nth=1]:
+          - strong: $550
+          - text: ","
+          - strong: $550
+          - text: ","
+          - strong: $550
+          - text: ","
+          - strong: $35
+        - cell "Sold" [ref=e311] [nth=4]
+        - cell "elite VSF" [ref=e312] [nth=5]
+        - cell "u/gerg1991" [ref=e313] [nth=1]
+        - cell "3d ago" [ref=e314] [nth=1]
+      - 'row "[WTS] [CONUS] VSF DJ 41mm Black, ZF AP 15450 Extra Links, ✅ Seller Code: 0614 $50 Sold elite VSF u/lostinthesauce212 1d ago"':
+        - 'cell "[WTS] [CONUS] VSF DJ 41mm Black, ZF AP 15450 Extra Links, ✅ Seller Code: 0614"':
+          - 'link "[WTS] [CONUS] VSF DJ 41mm Black, ZF AP 15450 Extra Links, ✅ Seller Code: 0614"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sh9mbz/wts_conus_vsf_dj_41mm_black_zf_ap_15450_extra/
+          - link [ref=e315] [nth=66]:
+            - /url: https://preview.redd.it/xy0fz2o2v9ug1.jpg?width=3024&format=pjpg&auto=webp&s=dc14b93b75938b78273b1fc164fb9addd43624df
+            - img
+          - link [ref=e316] [nth=67]:
+            - /url: https://preview.redd.it/rgthlwpqu9ug1.jpg?width=3651&format=pjpg&auto=webp&s=0b7ebf5360c14d150e6d904d02ca78d33dca91ea
+            - img
+        - cell "$50" [ref=e317]:
+          - strong: $50
+        - cell "Sold" [ref=e318] [nth=5]
+        - cell "elite VSF" [ref=e319] [nth=6]
+        - cell "u/lostinthesauce212" [ref=e320]
+        - cell "1d ago" [ref=e321] [nth=4]
+      - 'row "[WTS][CONUS] New CF Clean Factory Submariner Bracelet 20mm ✅ Seller Code: 0331 +3 more $125 Sold elite CLEAN u/Ok-Werewolf-2419 9d ago"':
+        - 'cell "[WTS][CONUS] New CF Clean Factory Submariner Bracelet 20mm ✅ Seller Code: 0331 +3 more"':
+          - 'link "[WTS][CONUS] New CF Clean Factory Submariner Bracelet 20mm ✅ Seller Code: 0331"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sa330h/wtsconus_new_cf_clean_factory_submariner_bracelet/
+          - link [ref=e322] [nth=68]:
+            - /url: https://preview.redd.it/t8gi54epeosg1.jpg?width=3024&format=pjpg&auto=webp&s=2870136a797baab8b74a3d9fcd89301697f9067e
+            - img
+          - link [ref=e323] [nth=69]:
+            - /url: https://preview.redd.it/0x7kh6epeosg1.jpg?width=3024&format=pjpg&auto=webp&s=e752920144c7b4ab5cb5165f0c482383008824e5
+            - img
+          - link [ref=e324] [nth=70]:
+            - /url: https://preview.redd.it/78gsu3epeosg1.jpg?width=3024&format=pjpg&auto=webp&s=d10b413fcf0d626380de0dcd86c0e386680075ba
+            - img
+          - text: +3 more
+        - cell "$125" [ref=e325]:
+          - strong: $125
+        - cell "Sold" [ref=e326] [nth=6]
+        - cell "elite CLEAN" [ref=e327]
+        - cell "u/Ok-Werewolf-2419" [ref=e328] [nth=2]
+        - cell "9d ago" [ref=e329] [nth=2]
+      - 'row "[WTS] [USA] VSF GMT2 A9A Jubilee Bracelet ✅ Seller Code: 1042 +3 more $170 Sold elite VSF u/Acceptable-Royal-600 7d ago"':
+        - 'cell "[WTS] [USA] VSF GMT2 A9A Jubilee Bracelet ✅ Seller Code: 1042 +3 more"':
+          - 'link "[WTS] [USA] VSF GMT2 A9A Jubilee Bracelet ✅ Seller Code: 1042"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sbxkj6/wts_usa_vsf_gmt2_a9a_jubilee_bracelet_seller_code/
+          - link [ref=e330] [nth=71]:
+            - /url: https://preview.redd.it/4jd62g8373tg1.jpg?width=3024&format=pjpg&auto=webp&s=d925e9692043a970aef2ae1f499eb041fb5def1c
+            - img
+          - link [ref=e331] [nth=72]:
+            - /url: https://preview.redd.it/8dgh9j8373tg1.jpg?width=3024&format=pjpg&auto=webp&s=77dfdbbdb676620c458e4ab5c739604e96dd139c
+            - img
+          - link [ref=e332] [nth=73]:
+            - /url: https://preview.redd.it/d0fcng8373tg1.jpg?width=3024&format=pjpg&auto=webp&s=00d0fd0b295cd53da09531888792ffc447703c8f
+            - img
+          - text: +3 more
+        - cell "$170" [ref=e333]:
+          - strong: $170
+        - cell "Sold" [ref=e334] [nth=7]
+        - cell "elite VSF" [ref=e335] [nth=7]
+        - cell "u/Acceptable-Royal-600" [ref=e336] [nth=19]
+        - cell "7d ago" [ref=e337] [nth=1]
+      - 'row "[WTS][US] BP 16710 “Pepsi” on Jubilee ✅ Seller Code: 1212 $220 Sold high BP u/QuadsiusPrime 10d ago"':
+        - 'cell "[WTS][US] BP 16710 “Pepsi” on Jubilee ✅ Seller Code: 1212"':
+          - 'link "[WTS][US] BP 16710 “Pepsi” on Jubilee ✅ Seller Code: 1212"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s9lbr2/wtsus_bp_16710_pepsi_on_jubilee_seller_code_1212/
+          - link [ref=e338] [nth=74]:
+            - /url: https://preview.redd.it/ggd4l8ld4lsg1.jpg?width=3024&format=pjpg&auto=webp&s=f0ccc1bb8bc6054ccb67298c40d5135ceb9d38be
+            - img
+          - link [ref=e339] [nth=75]:
+            - /url: https://preview.redd.it/u9wnaald4lsg1.jpg?width=3024&format=pjpg&auto=webp&s=73eb77b50382986d0931f1087f77966ba52fa971
+            - img
+          - link [ref=e340] [nth=76]:
+            - /url: https://preview.redd.it/y8eaz7ld4lsg1.jpg?width=4032&format=pjpg&auto=webp&s=5b9d4ca65e85d338c549850ffd09aeb391652646
+            - img
+        - cell "$220" [ref=e341]:
+          - strong: $220
+        - cell "Sold" [ref=e342] [nth=8]
+        - cell "high BP" [ref=e343]
+        - cell "u/QuadsiusPrime" [ref=e344]
+        - cell "10d ago" [ref=e345] [nth=1]
+      - 'row "[WTS] [UK] [WW] APSF Blue Dial 41mm £220, $250✅ Seller code: 1278 +3 more $250 Sold high SF u/No_Delay6530 16d ago"':
+        - 'cell "[WTS] [UK] [WW] APSF Blue Dial 41mm £220, $250✅ Seller code: 1278 +3 more"':
+          - 'link "[WTS] [UK] [WW] APSF Blue Dial 41mm £220, $250✅ Seller code: 1278"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s4ib6n/wts_uk_ww_apsf_blue_dial_41mm_220_250_seller_code/
+          - link [ref=e346] [nth=77]:
+            - /url: https://preview.redd.it/w42qwycu4grg1.jpg?width=4284&format=pjpg&auto=webp&s=ea4b19616a125513d0064d8b25d8749cb2d57a68
+            - img
+          - link [ref=e347] [nth=78]:
+            - /url: https://preview.redd.it/52f2txcu4grg1.jpg?width=4284&format=pjpg&auto=webp&s=43116a955c506223b225e1e0ada6a6978cc54e50
+            - img
+          - link [ref=e348] [nth=79]:
+            - /url: https://preview.redd.it/zynxcycu4grg1.jpg?width=4284&format=pjpg&auto=webp&s=1b3cb70b50c35bb4ed36fa6e9e092277225ec052
+            - img
+          - text: +3 more
+        - cell "$250" [ref=e349]:
+          - strong: $250
+        - cell "Sold" [ref=e350] [nth=9]
+        - cell "high SF" [ref=e351]
+        - cell "u/No_Delay6530" [ref=e352]
+        - cell "16d ago" [ref=e353]
+      - 'row "[WTS] [USA] EWE Submariner Cookie Monster ✅ Seller Code: 0076 +2 more $290 Sold high OM u/Bagro171 10d ago"':
+        - 'cell "[WTS] [USA] EWE Submariner Cookie Monster ✅ Seller Code: 0076 +2 more"':
+          - 'link "[WTS] [USA] EWE Submariner Cookie Monster ✅ Seller Code: 0076"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s9tzfy/wts_usa_ewe_submariner_cookie_monster_seller_code/
+          - link [ref=e354] [nth=80]:
+            - /url: https://preview.redd.it/85b5ts9vmmsg1.jpg?width=1888&format=pjpg&auto=webp&s=53d5c247f44b16668fc3b5e879d11597442e4f01
+            - img
+          - link [ref=e355] [nth=81]:
+            - /url: https://preview.redd.it/ddyhxt9vmmsg1.jpg?width=1735&format=pjpg&auto=webp&s=66bbfbbe5fbb6a9cc7b2c40c2fba7def97e215ef
+            - img
+          - link [ref=e356] [nth=82]:
+            - /url: https://preview.redd.it/ho1egr9vmmsg1.jpg?width=1447&format=pjpg&auto=webp&s=9e8adbe7614fd4b857ac4e1ef233bb3e94fb7c28
+            - img
+          - text: +2 more
+        - cell "$290" [ref=e357]:
+          - strong: $290
+        - cell "Sold" [ref=e358] [nth=10]
+        - cell "high OM" [ref=e359]
+        - cell "u/Bagro171" [ref=e360]
+        - cell "10d ago" [ref=e361] [nth=2]
+      - 'row "[WTS][USA] Royal Oak Offshore Diver 15703 - ✅ Seller Code: 1358 +2 more $300 Sold elite ZF u/tangerine1999 5d ago"':
+        - 'cell "[WTS][USA] Royal Oak Offshore Diver 15703 - ✅ Seller Code: 1358 +2 more"':
+          - 'link "[WTS][USA] Royal Oak Offshore Diver 15703 - ✅ Seller Code: 1358"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sedbvq/wtsusa_royal_oak_offshore_diver_15703_seller_code/
+          - link [ref=e362] [nth=83]:
+            - /url: https://preview.redd.it/axt71nzb9ntg1.jpg?width=3024&format=pjpg&auto=webp&s=5a83b036f01869de2ce3bc56d17047b0c659afa1
+            - img
+          - link [ref=e363] [nth=84]:
+            - /url: https://preview.redd.it/tfrp9ozb9ntg1.jpg?width=3024&format=pjpg&auto=webp&s=7fee91513d2f9816b4cce85fa00ddbf8876556f2
+            - img
+          - link [ref=e364] [nth=85]:
+            - /url: https://preview.redd.it/fvf25pzb9ntg1.jpg?width=3024&format=pjpg&auto=webp&s=11a90d34be6c2faa39d0a90a744898ffa5c276d6
+            - img
+          - text: +2 more
+        - cell "$300" [ref=e365] [nth=11]:
+          - strong: $300
+        - cell "Sold" [ref=e366] [nth=11]
+        - cell "elite ZF" [ref=e367] [nth=1]
+        - cell "u/tangerine1999" [ref=e368]
+        - cell "5d ago" [ref=e369]
+      - 'row "[WTS][CONUS] BLSF Breitling Navitimer 41 Green Dial ✅ Seller Code: 0124 +3 more $300 Sold high OM u/Finding_Happyness 7d ago"':
+        - 'cell "[WTS][CONUS] BLSF Breitling Navitimer 41 Green Dial ✅ Seller Code: 0124 +3 more"':
+          - 'link "[WTS][CONUS] BLSF Breitling Navitimer 41 Green Dial ✅ Seller Code: 0124"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sbudeo/wtsconus_blsf_breitling_navitimer_41_green_dial/
+          - link [ref=e370] [nth=86]:
+            - /url: https://preview.redd.it/xemv035fg2tg1.jpg?width=3000&format=pjpg&auto=webp&s=c4a96471c37a74c6fcfc44e81eeed75292cf5aa6
+            - img
+          - link [ref=e371] [nth=87]:
+            - /url: https://preview.redd.it/8rvzmn7fg2tg1.jpg?width=3000&format=pjpg&auto=webp&s=ad5f870087033baa89b0e6579c8a403196707630
+            - img
+          - link [ref=e372] [nth=88]:
+            - /url: https://preview.redd.it/us496l9fg2tg1.jpg?width=3000&format=pjpg&auto=webp&s=e7364a8bc74de573fcd4c333dfeddefbbff62607
+            - img
+          - text: +3 more
+        - cell "$300" [ref=e373] [nth=12]:
+          - strong: $300
+        - cell "Sold" [ref=e374] [nth=12]
+        - cell "high OM" [ref=e375] [nth=1]
+        - cell "u/Finding_Happyness" [ref=e376]
+        - cell "7d ago" [ref=e377] [nth=2]
+      - row "3. VSF Panerai PAM01386 with clone movement, 40mm, brand new with stickers. $310 shipped. ↳ [WTS] [US] GF Breitling SuperOcean, OF Tag Heuer Carrer +3 more $310 Sold elite VSF u/InternationalResult7 14d ago":
+        - cell "3. VSF Panerai PAM01386 with clone movement, 40mm, brand new with stickers. $310 shipped. ↳ [WTS] [US] GF Breitling SuperOcean, OF Tag Heuer Carrer +3 more" [ref=e378]:
+          - link "3. VSF Panerai PAM01386 with clone movement, 40mm, brand new with stickers. $310 shipped." [ref=e379]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s643ru/wts_us_gf_breitling_superocean_of_tag_heuer/
+          - text: ↳ [WTS] [US] GF Breitling SuperOcean, OF Tag Heuer Carrer
+          - link [ref=e380] [nth=89]:
+            - /url: https://preview.redd.it/5wsdenu46trg1.jpg?width=4284&format=pjpg&auto=webp&s=c93dfca6f9df8b236f80e7997752900e27c09531
+            - img
+          - link [ref=e381] [nth=90]:
+            - /url: https://preview.redd.it/q5arcmu46trg1.jpg?width=5241&format=pjpg&auto=webp&s=dd7cdef4817d22514877cf2a01e4e61d4e7b31fb
+            - img
+          - link [ref=e382] [nth=91]:
+            - /url: https://preview.redd.it/u9yc3su46trg1.jpg?width=3024&format=pjpg&auto=webp&s=27d2470119715d9ded63978d26fb5759b9c66f0c
+            - img
+          - text: +3 more
+        - cell "$310" [ref=e383] [nth=2]:
+          - strong: $310
+        - cell "Sold" [ref=e384] [nth=13]
+        - cell "elite VSF" [ref=e385] [nth=8]
+        - cell "u/InternationalResult7" [ref=e386]
+        - cell "14d ago" [ref=e387] [nth=2]
+      - 'row "[WTS][US] VSF Sub Date 41 126610 \"Youth\" ✅ Seller Code: 0124 +3 more $325 Sold elite VSF u/Finding_Happyness 17d ago"':
+        - 'cell "[WTS][US] VSF Sub Date 41 126610 \"Youth\" ✅ Seller Code: 0124 +3 more"':
+          - 'link "[WTS][US] VSF Sub Date 41 126610 \"Youth\" ✅ Seller Code: 0124"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s2wdd1/wtsus_vsf_sub_date_41_126610_youth_seller_code/
+          - link [ref=e388] [nth=92]:
+            - /url: https://preview.redd.it/7669t0g5b3rg1.jpg?width=3000&format=pjpg&auto=webp&s=7d76fac149e09fc17343956efaf54fb29bc5c445
+            - img
+          - link [ref=e389] [nth=93]:
+            - /url: https://preview.redd.it/bnejqtd5b3rg1.jpg?width=3000&format=pjpg&auto=webp&s=677cc07fa0fa6fd8417174952aa197b320b80a3e
+            - img
+          - link [ref=e390] [nth=94]:
+            - /url: https://preview.redd.it/11z2hr55b3rg1.jpg?width=3000&format=pjpg&auto=webp&s=07672da45e90d436517a399b9a1dbc60f77cb1b8
+            - img
+          - text: +3 more
+        - cell "$325" [ref=e391]:
+          - strong: $325
+        - cell "Sold" [ref=e392] [nth=14]
+        - cell "elite VSF" [ref=e393] [nth=9]
+        - cell "u/Finding_Happyness" [ref=e394] [nth=1]
+        - cell "17d ago" [ref=e395]
+      - 'row "[WTS] [US] GF Breitling SuperOcean Heritage II (New) ✅ Seller Code: 0630 +3 more $370 Sold high OM u/InternationalResult7 11d ago"':
+        - 'cell "[WTS] [US] GF Breitling SuperOcean Heritage II (New) ✅ Seller Code: 0630 +3 more"':
+          - 'link "[WTS] [US] GF Breitling SuperOcean Heritage II (New) ✅ Seller Code: 0630"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s8ky6b/wts_us_gf_breitling_superocean_heritage_ii_new/
+          - link [ref=e396] [nth=95]:
+            - /url: https://preview.redd.it/4n5mn13oadsg1.jpg?width=3024&format=pjpg&auto=webp&s=56b13b75da6ef630002c4ad1bdb8c6f7a658bc3e
+            - img
+          - link [ref=e397] [nth=96]:
+            - /url: https://preview.redd.it/fs9gdz2oadsg1.jpg?width=3056&format=pjpg&auto=webp&s=1f797e1a2bedc403a9f437bcae496d12218693aa
+            - img
+          - link [ref=e398] [nth=97]:
+            - /url: https://preview.redd.it/mmlyl13oadsg1.jpg?width=3024&format=pjpg&auto=webp&s=e89d206a34a2d57b754fd8fbf5783aa7202c4fcd
+            - img
+          - text: +3 more
+        - cell "$370" [ref=e399]:
+          - strong: $370
+        - cell "Sold" [ref=e400] [nth=15]
+        - cell "high OM" [ref=e401] [nth=2]
+        - cell "u/InternationalResult7" [ref=e402] [nth=1]
+        - cell "11d ago" [ref=e403] [nth=1]
+      - row "1. GF Breitling Superocean Heritage II. Brand new, unstickered, 42mm white dial. $370 shipped. ↳ [WTS] [US] GF Breitling SuperOcean, OF Tag Heuer Carrer $370 Sold high GF u/InternationalResult7 14d ago":
+        - cell "1. GF Breitling Superocean Heritage II. Brand new, unstickered, 42mm white dial. $370 shipped. ↳ [WTS] [US] GF Breitling SuperOcean, OF Tag Heuer Carrer" [ref=e404]:
+          - link "1. GF Breitling Superocean Heritage II. Brand new, unstickered, 42mm white dial. $370 shipped." [ref=e405]:
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s643ru/wts_us_gf_breitling_superocean_of_tag_heuer/
+          - text: ↳ [WTS] [US] GF Breitling SuperOcean, OF Tag Heuer Carrer
+        - cell "$370" [ref=e406] [nth=1]:
+          - strong: $370
+        - cell "Sold" [ref=e407] [nth=16]
+        - cell "high GF" [ref=e408]
+        - cell "u/InternationalResult7" [ref=e409] [nth=2]
+        - cell "14d ago" [ref=e410] [nth=3]
+      - 'row "[WTS][US] ZF Rolex Sky-Dweller Green Dial ✅ Seller Code: 0124 +3 more $375 Sold elite ZF u/Finding_Happyness 7d ago"':
+        - 'cell "[WTS][US] ZF Rolex Sky-Dweller Green Dial ✅ Seller Code: 0124 +3 more"':
+          - 'link "[WTS][US] ZF Rolex Sky-Dweller Green Dial ✅ Seller Code: 0124"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sbu8jm/wtsus_zf_rolex_skydweller_green_dial_seller_code/
+          - link [ref=e411] [nth=98]:
+            - /url: https://preview.redd.it/kzyqtcgdf2tg1.jpg?width=3000&format=pjpg&auto=webp&s=c85b44c946d60b37167d0aa03657f17595be7200
+            - img
+          - link [ref=e412] [nth=99]:
+            - /url: https://preview.redd.it/v7c7b1idf2tg1.jpg?width=3000&format=pjpg&auto=webp&s=8f34d0523989b851bfcd82bc2f7f3c8eb73d5497
+            - img
+          - link [ref=e413] [nth=100]:
+            - /url: https://preview.redd.it/p141tfldf2tg1.jpg?width=3000&format=pjpg&auto=webp&s=f1e3a0a8897bff62380402ef8096e1156240a2be
+            - img
+          - text: +3 more
+        - cell "$375" [ref=e414]:
+          - strong: $375
+        - cell "Sold" [ref=e415] [nth=17]
+        - cell "elite ZF" [ref=e416] [nth=2]
+        - cell "u/Finding_Happyness" [ref=e417] [nth=2]
+        - cell "7d ago" [ref=e418] [nth=3]
+      - 'row "[WTS] [US] *New* GF Breitling and OF Tag Heuer ✅ Seller Code: 0630 +3 more $390, $450 Sold elite TW u/InternationalResult7 16d ago"':
+        - 'cell "[WTS] [US] *New* GF Breitling and OF Tag Heuer ✅ Seller Code: 0630 +3 more"':
+          - 'link "[WTS] [US] *New* GF Breitling and OF Tag Heuer ✅ Seller Code: 0630"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s42pwo/wts_us_new_gf_breitling_and_of_tag_heuer_seller/
+          - link [ref=e419] [nth=101]:
+            - /url: https://preview.redd.it/utl1n72bzcrg1.jpg?width=4284&format=pjpg&auto=webp&s=0168a739aee82fbc8885e913bad15baf699f83a3
+            - img
+          - link [ref=e420] [nth=102]:
+            - /url: https://preview.redd.it/6h0k3d2bzcrg1.jpg?width=4284&format=pjpg&auto=webp&s=7235190e45517c4ff6ef32234dea04f60eeda1a5
+            - img
+          - link [ref=e421] [nth=103]:
+            - /url: https://preview.redd.it/gqxeq82bzcrg1.jpg?width=4284&format=pjpg&auto=webp&s=cdbc986c581d5c8026373a6250f3f3cc211aae89
+            - img
+          - text: +3 more
+        - cell "$390, $450" [ref=e422]:
+          - strong: $390
+          - text: ","
+          - strong: $450
+        - cell "Sold" [ref=e423] [nth=18]
+        - cell "elite TW" [ref=e424] [nth=2]
+        - cell "u/InternationalResult7" [ref=e425] [nth=3]
+        - cell "16d ago" [ref=e426] [nth=1]
+      - 'row "[WTS][US] Noob Rolex Sky-Dweller Black Dial ✅ Seller Code: 0124 +3 more $400 Sold high NOOB u/Finding_Happyness 7d ago"':
+        - 'cell "[WTS][US] Noob Rolex Sky-Dweller Black Dial ✅ Seller Code: 0124 +3 more"':
+          - 'link "[WTS][US] Noob Rolex Sky-Dweller Black Dial ✅ Seller Code: 0124"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1sbv025/wtsus_noob_rolex_skydweller_black_dial_seller/
+          - link [ref=e427] [nth=104]:
+            - /url: https://preview.redd.it/4tyjr0vll2tg1.jpg?width=3000&format=pjpg&auto=webp&s=51e5f41d74ba3ec20ef83572a00b339f6adbf217
+            - img
+          - link [ref=e428] [nth=105]:
+            - /url: https://preview.redd.it/jpmxi54ml2tg1.jpg?width=3000&format=pjpg&auto=webp&s=0dfed2ccca9a0f6db94eeec65310cf499c9fb0c1
+            - img
+          - link [ref=e429] [nth=106]:
+            - /url: https://preview.redd.it/zzq2pa2ml2tg1.jpg?width=3000&format=pjpg&auto=webp&s=9828d67b7b8aa596f8aace4a6ecf423fb75c1818
+            - img
+          - text: +3 more
+        - cell "$400" [ref=e430]:
+          - strong: $400
+        - cell "Sold" [ref=e431] [nth=19]
+        - cell "high NOOB" [ref=e432]
+        - cell "u/Finding_Happyness" [ref=e433] [nth=3]
+        - cell "7d ago" [ref=e434] [nth=4]
+      - 'row "[WTS][CONUS] ZF BB54 Black Dial - New & Stickered - $400 shipped with 2 day✅ Seller Code: 0941 $400 Sold elite ZF u/Naman_Mehrotra 11d ago"':
+        - 'cell "[WTS][CONUS] ZF BB54 Black Dial - New & Stickered - $400 shipped with 2 day✅ Seller Code: 0941"':
+          - 'link "[WTS][CONUS] ZF BB54 Black Dial - New & Stickered - $400 shipped with 2 day✅ Seller Code: 0941"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s89n1q/wtsconus_zf_bb54_black_dial_new_stickered_400/
+          - link [ref=e435] [nth=107]:
+            - /url: https://preview.redd.it/1n4sna6s9asg1.jpg?width=3024&format=pjpg&auto=webp&s=25dd51938f48259c0d781d3e8be0559cd2cb3f0d
+            - img
+          - link [ref=e436] [nth=108]:
+            - /url: https://preview.redd.it/xuhhn96s9asg1.jpg?width=4284&format=pjpg&auto=webp&s=105120f2ee7694699b07a423a6f06acc7030826c
+            - img
+          - link [ref=e437] [nth=109]:
+            - /url: https://preview.redd.it/borbk96s9asg1.jpg?width=3024&format=pjpg&auto=webp&s=f97556fb51da54d0459cdb1677d0380da8526734
+            - img
+        - cell "$400" [ref=e438] [nth=1]:
+          - strong: $400
+        - cell "Sold" [ref=e439] [nth=20]
+        - cell "elite ZF" [ref=e440] [nth=3]
+        - cell "u/Naman_Mehrotra" [ref=e441] [nth=2]
+        - cell "11d ago" [ref=e442] [nth=2]
+      - 'row "[WTS][CONUS] MXF Vacheron Constantin VC Historiques 222 Gray Dial ✅ Seller Code: 0124 +3 more $425 Sold high XF u/Finding_Happyness 15d ago"':
+        - 'cell "[WTS][CONUS] MXF Vacheron Constantin VC Historiques 222 Gray Dial ✅ Seller Code: 0124 +3 more"':
+          - 'link "[WTS][CONUS] MXF Vacheron Constantin VC Historiques 222 Gray Dial ✅ Seller Code: 0124"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s5kocn/wtsconus_mxf_vacheron_constantin_vc_historiques/
+          - link [ref=e443] [nth=110]:
+            - /url: https://preview.redd.it/ubb17rexcorg1.jpg?width=3000&format=pjpg&auto=webp&s=65f4793f372a5649dfcefad9c7b256d3b69684a8
+            - img
+          - link [ref=e444] [nth=111]:
+            - /url: https://preview.redd.it/eacgze1xcorg1.jpg?width=3000&format=pjpg&auto=webp&s=0c6b2470fb355ba18166af8da4a719c907c7847d
+            - img
+          - link [ref=e445] [nth=112]:
+            - /url: https://preview.redd.it/g2tu9ncxcorg1.jpg?width=3000&format=pjpg&auto=webp&s=c7465902928f53f9852fe5c079721f8c024babb7
+            - img
+          - text: +3 more
+        - cell "$425" [ref=e446]:
+          - strong: $425
+        - cell "Sold" [ref=e447] [nth=21]
+        - cell "high XF" [ref=e448]
+        - cell "u/Finding_Happyness" [ref=e449] [nth=4]
+        - cell "15d ago" [ref=e450] [nth=1]
+      - 'row "[WTS] [CONUS] ZF Tudor GMT Fully Serviced: $425 ✅ Seller Code: 0456 $425 Sold elite ZF u/Salty_Assistant1219 17d ago"':
+        - 'cell "[WTS] [CONUS] ZF Tudor GMT Fully Serviced: $425 ✅ Seller Code: 0456"':
+          - 'link "[WTS] [CONUS] ZF Tudor GMT Fully Serviced: $425 ✅ Seller Code: 0456"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s3rj1q/wts_conus_zf_tudor_gmt_fully_serviced_425_seller/
+          - link [ref=e451] [nth=113]:
+            - /url: https://preview.redd.it/e2nh1q193arg1.jpg?width=3024&format=pjpg&auto=webp&s=f00e02fb7cf8541835f720aae46146639137cc15
+            - img
+          - link [ref=e452] [nth=114]:
+            - /url: https://preview.redd.it/6tiodt193arg1.jpg?width=3024&format=pjpg&auto=webp&s=3ea72fe0111cee3cf69ff46b6d1d70d5cbac9237
+            - img
+        - cell "$425" [ref=e453] [nth=1]:
+          - strong: $425
+        - cell "Sold" [ref=e454] [nth=22]
+        - cell "elite ZF" [ref=e455] [nth=4]
+        - cell "u/Salty_Assistant1219" [ref=e456]
+        - cell "17d ago" [ref=e457] [nth=1]
+      - 'row "[WTS][CONUS] BLSF Breitling Chronomat GMT 40mm Blue Dial ✅ Seller Code: 0124 +3 more $425 Sold high OM u/Finding_Happyness 18d ago"':
+        - 'cell "[WTS][CONUS] BLSF Breitling Chronomat GMT 40mm Blue Dial ✅ Seller Code: 0124 +3 more"':
+          - 'link "[WTS][CONUS] BLSF Breitling Chronomat GMT 40mm Blue Dial ✅ Seller Code: 0124"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s2lyl0/wtsconus_blsf_breitling_chronomat_gmt_40mm_blue/
+          - link [ref=e458] [nth=115]:
+            - /url: https://preview.redd.it/prmcdcksc1rg1.jpg?width=3000&format=pjpg&auto=webp&s=b389bf3fb71ad045ad75951de2791ab687b2e997
+            - img
+          - link [ref=e459] [nth=116]:
+            - /url: https://preview.redd.it/9gmad6isc1rg1.jpg?width=3000&format=pjpg&auto=webp&s=7b19d9988a9e07857bc70ee3048a7f71b0e724fb
+            - img
+          - link [ref=e460] [nth=117]:
+            - /url: https://preview.redd.it/vw344lqsc1rg1.jpg?width=3000&format=pjpg&auto=webp&s=f0f2ada0769a2f317ad6eb314948007f22602f91
+            - img
+          - text: +3 more
+        - cell "$425" [ref=e461] [nth=2]:
+          - strong: $425
+        - cell "Sold" [ref=e462] [nth=23]
+        - cell "high OM" [ref=e463] [nth=3]
+        - cell "u/Finding_Happyness" [ref=e464] [nth=5]
+        - cell "18d ago" [ref=e465]
+      - 'row "{WTS}{US} New VSF Datejust 41 V2 ✅ seller code: 0310 +3 more $435 Sold elite VSF u/Imaginary_Mind_1536 12d ago"':
+        - 'cell "{WTS}{US} New VSF Datejust 41 V2 ✅ seller code: 0310 +3 more"':
+          - 'link "{WTS}{US} New VSF Datejust 41 V2 ✅ seller code: 0310"':
+            - /url: https://www.reddit.com/r/BSTRepWatch/comments/1s81ndq/wtsus_new_vsf_datejust_41_v2_seller_code_0310/
+          - link [ref=e466] [nth=118]:
+            - /url: https://preview.redd.it/n4z55cr3o8sg1.jpg?width=3024&format=pjpg&auto=webp&s=c439967d2e1469ccec6dffb2bd679c70f8a079ef
+            - img
+          - link [ref=e467] [nth=119]:
+            - /url: https://preview.redd.it/c0tmoir3o8sg1.jpg?width=3024&format=pjpg&auto=webp&s=9599142f2cf673d919ba1aba1afe120eaaf60013
+            - img
+          - link [ref=e468] [nth=120]:
+            - /url: https://preview.redd.it/yhx92cr3o8sg1.jpg?width=3024&format=pjpg&auto=webp&s=e150adde4c91602f06b9803f9f0b0851ed714e10
+            - img
+          - text: +3 more
+        - cell "$435" [ref=e469]:
+          - strong: $435
+        - cell "Sold" [ref=e470] [nth=24]
+        - cell "elite VSF" [ref=e471] [nth=10]
+        - cell "u/Imaginary_Mind_1536" [ref=e472]
+        - cell "12d ago" [ref=e473] [nth=1]
+  - button "‹ Prev" [ref=e474] [nth=1] [disabled]
+  - button "1" [ref=e475] [nth=1]
+  - button "2" [ref=e476] [nth=1]
+  - button "3" [ref=e477] [nth=1]
+  - button "› Next" [ref=e478] [nth=1]
+  - text: Page 1 of 3 · 25 per page
+MEDIA:~/.openclaw/media/browser/cdd9a242-5021-47c6-b19b-28bf3eaf35e2.png

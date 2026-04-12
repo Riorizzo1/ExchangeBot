@@ -1,36 +1,53 @@
 # reddit_bst
 
-MVP workspace for Reddit BST capture via Bobby's `List Sales` bookmarklet.
+Reddit BST capture workspace.
 
-## Current approach
+## Normal aggregate scan workflow
 
-Reddit source access is coming from the bookmarklet output page, not direct scraping.
+This workspace now supports a mixed capture strategy across the currently useful BST subreddits.
 
-Workflow:
-1. Run the `List Sales` bookmarklet in a logged-in Reddit session.
-2. Choose page count (1 page = ~100 posts).
-3. The bookmarklet opens a blob page with split listing rows and pagination.
-4. Capture the blob page snapshot from the managed browser.
-5. Parse those rows locally.
-6. Save a clean baseline, then compute deltas on future runs.
+Included subreddits:
+- `r/BSTRepWatch` (existing blob/bookmarklet snapshot flow)
+- `r/repwatchbuysell` (bookmarklet flow)
+- `r/repwatchbuyselltrade` (bookmarklet flow)
+- `r/WatchExchangeBST` (direct authenticated browser JSON pull)
+- `r/TheRepTimeBST` (direct authenticated browser JSON pull)
+
+Why mixed mode:
+- Some subreddits work reliably with the `List Sales` bookmarklet and split sub-listing output.
+- Some subreddits are more stable via direct authenticated `new.json` fetches from the managed Reddit browser session.
+
+## Scripts
+
+- `run_all_subreddit_scans.mjs`
+  - runs the aggregate scan across the supported subreddits
+  - uses bookmarklet mode where it works best
+  - uses direct browser JSON mode where page/browser wait flow is flaky
+- `run_multi_subreddit_capture.mjs`
+  - older bookmarklet-focused multi-subreddit runner
+- `run_direct_browser_json_pull.mjs <subreddit> [limit]`
+  - direct authenticated browser fetch for one subreddit
+- `scripts/parse_direct_reddit_json.py`
+  - parses direct browser JSON captures into normalized rows
+- `scripts/build_aggregate_today_summary.py <label=file> ...`
+  - builds today-active summaries split into watches vs accessories
+- `scripts/parse_blob_snapshot.py`
+  - parser for the legacy BSTRepWatch blob snapshot text format
+
+## Business rules
+
+- Treat listings under `$170` as accessory / bracelet / side-item by default, not full watch listings.
+- Today-active reports should keep `available` and `pending`, and drop sold items.
+- Large Telegram outputs should be chunked.
 
 ## Files
 
-- `repwatch_blob_page1.txt` - current captured browser snapshot of the bookmarklet blob page
-- `data/current_from_blob.json` - parsed row output from the blob snapshot
-- `scripts/parse_blob_snapshot.py` - parser for the snapshot text format
+- `captures/` - saved raw capture outputs from aggregate scans
+- `repwatch_blob_page1.txt` - current captured browser snapshot of the BSTRepWatch blob page
+- `data/current_from_blob.json` - parsed row output from the BSTRepWatch blob snapshot
 
 ## Notes
 
-- The current parser is built around the browser snapshot text structure, not raw Reddit JSON.
-- It already extracts split rows with:
-  - title
-  - url
-  - prices
-  - status
-  - tier
-  - factory
-  - seller
-  - posted
-  - sub-listing flag
-- Next step is multi-page capture plus baseline/delta files.
+- Bookmarklet captures preserve richer split listing rows for multi-item posts.
+- Direct browser JSON pulls are the fallback when Reddit/browser timing makes the bookmarklet flow unreliable.
+- If a subreddit starts failing in bookmarklet mode, prefer moving it into the direct browser JSON path instead of fighting the gateway.
