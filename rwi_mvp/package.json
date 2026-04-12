@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
+    "crawl": "node src/run-crawl.js",
+    "delta": "node delta_compare.mjs",
+    "crawl:delta": "node src/run-crawl.js && node delta_compare.mjs",
+    "bookmarklet": "node run_bookmarklet_extractor.mjs",
     "backfill": "node src/index.js backfill",
     "parse-thread": "node src/index.js parse-thread",
     "today": "node src/index.js today",
