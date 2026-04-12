@@ -3,11 +3,12 @@
 RWI sales monitoring using the Replica Search bookmarklet logic as the source of truth.
 
 ## Current architecture
-- open the RWI sales forum sorted by first-post descending
+- start the managed browser and navigate to the RWI sales forum sorted by first-post descending
 - run the bookmarklet-derived extractor in the managed browser
 - collect structured listing rows directly from the index DOM
 - save the current pull to `data/rwi.json`
 - compare against `data/rwi.previous.json` for delta
+- stop the managed browser after the delta run so the next run starts fresh
 
 This replaces the older brittle thread-by-thread crawler for current/latest ordering.
 
@@ -18,7 +19,7 @@ This replaces the older brittle thread-by-thread crawler for current/latest orde
 - `node run_bookmarklet_extractor.mjs`
 - `node src/run-crawl.js`
 - `node delta_compare.mjs`
-- `node src/run-crawl.js && node delta_compare.mjs`
+- `node run_fresh_delta.mjs`
 - `npm run crawl:delta`
 
 ## Files
@@ -33,3 +34,7 @@ This replaces the older brittle thread-by-thread crawler for current/latest orde
 - compare current `threadId` values against the previous baseline
 - keep `FOR SALE` and `PENDING`
 - exclude `SOLD`
+
+## Fresh-browser behavior
+- `run_bookmarklet_extractor.mjs` now starts the managed browser and navigates to the source page before extraction
+- `run_fresh_delta.mjs` is the canonical hourly path: run crawl, run delta, then stop the managed browser in a finally block
