@@ -1,10 +1,18 @@
 async function extractRwiListings({ pages = 3, enrichPrices = true } = {}) {
-  function parsePrice(text) {
+  function parsePrice(text, { requireCurrency = false } = {}) {
     if (!text) return null;
-    const match = String(text).match(/(?:USD\s*|US\$\s*|\$\s*|€\s*|EUR\s*|£\s*|GBP\s*)?([0-9][0-9,]*(?:\.[0-9]{1,2})?)/i);
-    if (!match) return null;
-    const value = Number(match[1].replace(/,/g, ''));
-    return Number.isFinite(value) && value > 20 && value < 200000 ? value : null;
+    const raw = String(text);
+    const patterns = requireCurrency
+      ? [/(?:USD\s*|US\$\s*|\$\s*|€\s*|EUR\s*|£\s*|GBP\s*)([0-9][0-9,]*(?:\.[0-9]{1,2})?)/i,
+         /([0-9][0-9,]*(?:\.[0-9]{1,2})?)\s*(?:USD|EUR|GBP|dollars?|euros?|pounds?)/i]
+      : [/(?:USD\s*|US\$\s*|\$\s*|€\s*|EUR\s*|£\s*|GBP\s*)?([0-9][0-9,]*(?:\.[0-9]{1,2})?)/i];
+    for (const re of patterns) {
+      const match = raw.match(re);
+      if (!match) continue;
+      const value = Number(match[1].replace(/,/g, ''));
+      if (Number.isFinite(value) && value > 20 && value < 200000) return value;
+    }
+    return null;
   }
 
   function parseCurrency(text) {
@@ -28,14 +36,15 @@ async function extractRwiListings({ pages = 3, enrichPrices = true } = {}) {
         if (dt && dd) map[dt.textContent.trim()] = dd.textContent.trim();
       }
       const body = doc.querySelector('article.message .bbWrapper, article.message .message-body')?.textContent?.trim() || '';
-      const askingRaw = map['Asking Price?'] || map['Price'] || body;
+      const askingField = map['Asking Price?'] || map['Price'] || '';
       const shippingRaw = map['Shipping Costs?'] || '';
-      const askingPrice = parsePrice(askingRaw);
+      const askingPrice = askingField ? parsePrice(askingField) : parsePrice(body, { requireCurrency: true });
+      const currency = parseCurrency(askingField || body);
       return {
         ...row,
-        askingPrice: askingPrice != null ? `${parseCurrency(askingRaw) === 'EUR' ? '€' : parseCurrency(askingRaw) === 'GBP' ? '£' : '$'}${askingPrice}` : null,
+        askingPrice: askingPrice != null ? `${currency === 'EUR' ? '€' : currency === 'GBP' ? '£' : '$'}${askingPrice}` : null,
         priceValue: askingPrice,
-        currency: parseCurrency(askingRaw),
+        currency,
         shipping: shippingRaw || null,
       };
     } catch {
