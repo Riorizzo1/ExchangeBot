@@ -13,16 +13,58 @@ async function postJson(url, body) {
 }
 
 let currentEntries = [];
+let allFoods = [];
+let suggestionFoods = [];
+let selectedSuggestionIndex = -1;
+let selectedLibraryFood = null;
 let editingIndex = null;
+let pendingFoodDraft = null;
 let lastUpdatedAt = null;
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function setCollapsed(card, collapsed) {
+  if (!card) return;
+  card.classList.toggle('collapsed', collapsed);
+  const toggle = card.querySelector('.collapse-toggle');
+  if (toggle) {
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+    const icon = toggle.querySelector('.collapse-icon');
+    if (icon) icon.textContent = collapsed ? '+' : '−';
+  }
+}
+
+function ensureLookupSectionOpen() {
+  setCollapsed(document.getElementById('lookupHelpCard'), false);
+}
+
+function openSavedFoodsModal() {
+  const modal = document.getElementById('savedFoodsModal');
+  modal.classList.remove('hidden');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeSavedFoodsModal() {
+  const modal = document.getElementById('savedFoodsModal');
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden', 'true');
+}
 
 async function refreshAll() {
   const today = await getJson('/api/today');
   currentEntries = today.day.entries || [];
   lastUpdatedAt = today.updatedAt || null;
   renderDay(today);
-  const foods = await getJson('/api/foods/personal');
-  renderFoods(foods.foods || []);
+  const foods = await getJson('/api/foods/all');
+  allFoods = foods.foods || [];
+  renderFoods(allFoods);
 }
 
 async function pollForUpdates() {
@@ -54,14 +96,19 @@ function renderDay(payload) {
   document.getElementById('entries').innerHTML = entries.slice().reverse().map((e, reverseIndex, arr) => {
     const index = arr.length - 1 - reverseIndex;
     return `
-      <div class="entry">
-        <div class="time">${e.timestamp}</div>
-        <div class="text">${e.text}</div>
-        <div class="macros">${Math.round(e.calories)} kcal, C ${e.carbs_g}g, F ${e.fat_g}g, P ${e.protein_g}g${e.source ? `, via ${e.source}` : ''}</div>
-        <div class="actions">
-          <button class="edit-btn" data-index="${index}">Edit</button>
-          <button class="save-btn" data-index="${index}">Save as food</button>
-          <button class="delete-btn" data-index="${index}">Delete</button>
+      <div class="entry compact-entry">
+        <div class="entry-topline">
+          <div>
+            <div class="text">${escapeHtml(e.text)}</div>
+            <div class="time">${escapeHtml(e.timestamp)}</div>
+          </div>
+          <div class="entry-calories">${Math.round(e.calories)} kcal</div>
+        </div>
+        <div class="macros">C ${e.carbs_g}g • F ${e.fat_g}g • P ${e.protein_g}g${e.source ? ` • via ${escapeHtml(e.source)}` : ''}</div>
+        <div class="actions compact-actions">
+          <button class="edit-btn ghost-btn" data-index="${index}">Edit</button>
+          <button class="save-btn ghost-btn" data-index="${index}">Save food</button>
+          <button class="delete-btn ghost-btn danger-btn" data-index="${index}">Delete</button>
         </div>
       </div>
     `;
@@ -92,11 +139,16 @@ function bindEntryActions() {
       const index = Number(btn.dataset.index);
       const e = currentEntries[index];
       if (!e) return;
-      const name = prompt('Save food as:', e.text);
-      if (!name) return;
-      const serving = prompt('Serving label:', '1 serving') || '1 serving';
-      await postJson('/api/foods/save', { name, aliases: [e.text], serving, calories: e.calories, carbs_g: e.carbs_g, fat_g: e.fat_g, protein_g: e.protein_g, confidence: 'exact' });
-      await refreshAll();
+      openFoodEditor({
+        name: e.text,
+        serving: '1 serving',
+        aliases: [e.text],
+        calories: e.calories,
+        carbs_g: e.carbs_g,
+        fat_g: e.fat_g,
+        protein_g: e.protein_g,
+        confidence: 'exact'
+      });
     });
   });
 
@@ -111,30 +163,50 @@ function bindEntryActions() {
 }
 
 function renderFoods(foods) {
-  document.getElementById('foods').innerHTML = foods.map((f) => `
-    <div class="entry">
-      <div class="text">${f.name}</div>
-      <div class="macros">${Math.round(f.calories)} kcal, C ${f.carbs_g}g, F ${f.fat_g}g, P ${f.protein_g}g, ${f.serving}</div>
+  const q = document.getElementById('foodLibrarySearch')?.value?.trim().toLowerCase() || '';
+  const filtered = !q ? foods : foods.filter((f) => {
+    const hay = [f.name, ...(f.aliases || [])].join(' ').toLowerCase();
+    return hay.includes(q);
+  });
+  document.getElementById('foods').innerHTML = filtered.map((f) => `
+    <div class="entry compact-entry selectable-food">
+      <div class="entry-topline">
+        <div class="text">${escapeHtml(f.name)}</div>
+        <div class="entry-calories">${Math.round(f.calories)} kcal</div>
+      </div>
+      <div class="macros">C ${f.carbs_g}g • F ${f.fat_g}g • P ${f.protein_g}g • ${escapeHtml(f.serving)}${f.source ? ` • via ${escapeHtml(f.source)}` : ''}</div>
     </div>
   `).join('');
 }
 
+function applySuggestion(food) {
+  document.getElementById('foodInput').value = food.name;
+  suggestionFoods = [];
+  selectedSuggestionIndex = -1;
+  document.getElementById('suggestions').innerHTML = '';
+  document.getElementById('addResult').textContent = `Ready to add ${food.name}.`;
+}
+
 function renderSuggestions(foods) {
+  suggestionFoods = foods;
   const box = document.getElementById('suggestions');
   if (!foods.length) {
     box.innerHTML = '';
+    selectedSuggestionIndex = -1;
     return;
   }
-  box.innerHTML = foods.map((f) => `
-    <div class="suggestion" data-name="${String(f.name).replaceAll('"', '&quot;')}">
-      <div class="title">${f.name}</div>
-      <div class="meta">${Math.round(f.calories)} kcal, C ${f.carbs_g}g, F ${f.fat_g}g, P ${f.protein_g}g, ${f.serving}</div>
+  box.innerHTML = foods.map((f, idx) => `
+    <div class="suggestion compact-entry ${idx === selectedSuggestionIndex ? 'active' : ''}" data-index="${idx}" data-name="${escapeHtml(f.name)}">
+      <div class="entry-topline">
+        <div class="title">${escapeHtml(f.name)}</div>
+        <div class="entry-calories">${Math.round(f.calories)} kcal</div>
+      </div>
+      <div class="meta">C ${f.carbs_g}g • F ${f.fat_g}g • P ${f.protein_g}g • ${escapeHtml(f.serving)}${f.source ? ` • via ${escapeHtml(f.source)}` : ''}</div>
     </div>
   `).join('');
   box.querySelectorAll('.suggestion').forEach(el => {
     el.addEventListener('click', () => {
-      document.getElementById('foodInput').value = el.dataset.name;
-      box.innerHTML = '';
+      applySuggestion(foods[Number(el.dataset.index)]);
     });
   });
 }
@@ -143,24 +215,44 @@ async function searchFoods() {
   const q = document.getElementById('foodInput').value.trim();
   if (!q || q.length < 2) return renderSuggestions([]);
   const data = await getJson(`/api/foods/search?q=${encodeURIComponent(q)}`);
-  renderSuggestions(data.foods || []);
+  const foods = data.foods || [];
+  if (selectedSuggestionIndex < 0 && foods.length) selectedSuggestionIndex = 0;
+  if (selectedSuggestionIndex >= foods.length) selectedSuggestionIndex = foods.length - 1;
+  renderSuggestions(foods);
 }
 
-async function addFood() {
+async function addFood(prefilledText = null, multiplier = 1) {
   const input = document.getElementById('foodInput');
-  const text = input.value.trim();
+  const text = (prefilledText ?? input.value).trim();
   if (!text) return;
-  const data = await postJson('/api/add', { text });
-  renderDay(data);
-  input.value = '';
-  renderSuggestions([]);
-  if (data.warning) alert(data.warning);
-  await refreshAll();
+  const addBtn = document.getElementById('addBtn');
+  const resultBox = document.getElementById('addResult');
+  addBtn.disabled = true;
+  addBtn.textContent = 'Adding...';
+  resultBox.textContent = '';
+  try {
+    const data = await postJson('/api/add', { text, multiplier });
+    renderDay(data);
+    input.value = '';
+    renderSuggestions([]);
+    if (data.warning) {
+      resultBox.textContent = data.warning;
+    } else if (data.addContext?.matched) {
+      resultBox.textContent = `Added using ${data.addContext.name} from ${data.addContext.source}.`;
+    } else {
+      resultBox.textContent = multiplier !== 1 ? `Added ${multiplier}x ${text}.` : 'Added.';
+    }
+    await refreshAll();
+  } finally {
+    addBtn.disabled = false;
+    addBtn.textContent = 'Add';
+  }
 }
 
 async function renderCard() {
   const state = document.getElementById('renderState');
-  state.textContent = 'Rendering...';
+  setCollapsed(document.getElementById('macroCard'), false);
+  state.textContent = 'Rendering macro image...';
   const data = await postJson('/api/render', {});
   if (!data.url) {
     state.textContent = data.error || 'Render failed';
@@ -169,7 +261,26 @@ async function renderCard() {
   const img = document.getElementById('renderImg');
   img.src = `${data.url}?t=${Date.now()}`;
   img.style.display = 'block';
-  state.textContent = 'Rendered';
+  state.textContent = 'Macro image rendered';
+}
+
+function openFoodEditor(draft) {
+  pendingFoodDraft = draft;
+  ensureLookupSectionOpen();
+  document.getElementById('foodEditorCard').style.display = 'block';
+  document.getElementById('foodName').value = draft.name || '';
+  document.getElementById('foodServing').value = draft.serving || '1 serving';
+  document.getElementById('foodAliases').value = (draft.aliases || []).join(', ');
+  document.getElementById('foodCalories').value = draft.calories ?? 0;
+  document.getElementById('foodCarbs').value = draft.carbs_g ?? 0;
+  document.getElementById('foodFat').value = draft.fat_g ?? 0;
+  document.getElementById('foodProtein').value = draft.protein_g ?? 0;
+  document.getElementById('foodEditorCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeFoodEditor() {
+  pendingFoodDraft = null;
+  document.getElementById('foodEditorCard').style.display = 'none';
 }
 
 async function lookupFood() {
@@ -178,29 +289,32 @@ async function lookupFood() {
   if (!text) return;
   const box = document.getElementById('lookupResult');
   box.textContent = 'Looking up product nutrition...';
+  ensureLookupSectionOpen();
   const data = await postJson('/api/foods/lookup', { text });
   if (!data.found) {
     box.textContent = 'No reliable branded nutrition match found yet.';
     return;
   }
+  const sourceBits = [
+    data.cached ? 'cache hit' : 'fresh lookup',
+    data.sourceUrl ? `<a href="${escapeHtml(data.sourceUrl)}" target="_blank">source</a>` : ''
+  ].filter(Boolean).join(' • ');
   box.innerHTML = `Found: ${data.calories ?? '?'} kcal, C ${data.carbs_g ?? '?'}g, F ${data.fat_g ?? '?'}g, P ${data.protein_g ?? '?'}g` +
-    (data.sourceUrl ? ` <a href="${data.sourceUrl}" target="_blank">source</a>` : '') +
-    ` <button id="saveLookupBtn">Save</button>`;
+    (sourceBits ? ` <span class="lookup-meta">(${sourceBits})</span>` : '') +
+    ` <button id="saveLookupBtn" class="ghost-btn inline-btn">Review & save</button>`;
   const saveBtn = document.getElementById('saveLookupBtn');
   if (saveBtn) {
-    saveBtn.addEventListener('click', async () => {
-      await postJson('/api/foods/save', {
+    saveBtn.addEventListener('click', () => {
+      openFoodEditor({
         name: text,
         aliases: [text],
-        serving: '1 serving',
+        serving: data.serving || '1 serving',
         calories: data.calories || 0,
         carbs_g: data.carbs_g || 0,
         fat_g: data.fat_g || 0,
         protein_g: data.protein_g || 0,
         confidence: 'strong'
       });
-      box.textContent = 'Saved to personal foods.';
-      await refreshAll();
     });
   }
 }
@@ -225,15 +339,101 @@ document.getElementById('cancelEditBtn').addEventListener('click', () => {
   document.getElementById('editorCard').style.display = 'none';
 });
 
+document.getElementById('saveFoodBtn').addEventListener('click', async () => {
+  if (!pendingFoodDraft) return;
+  const aliases = document.getElementById('foodAliases').value
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+  await postJson('/api/foods/save', {
+    name: document.getElementById('foodName').value.trim(),
+    serving: document.getElementById('foodServing').value.trim() || '1 serving',
+    aliases,
+    calories: Number(document.getElementById('foodCalories').value),
+    carbs_g: Number(document.getElementById('foodCarbs').value),
+    fat_g: Number(document.getElementById('foodFat').value),
+    protein_g: Number(document.getElementById('foodProtein').value),
+    confidence: pendingFoodDraft.confidence || 'exact'
+  });
+  document.getElementById('lookupResult').textContent = 'Saved to personal foods.';
+  closeFoodEditor();
+  await refreshAll();
+});
+
+document.getElementById('cancelFoodBtn').addEventListener('click', () => {
+  closeFoodEditor();
+});
+
 document.getElementById('lookupBtn').addEventListener('click', lookupFood);
-document.getElementById('addBtn').addEventListener('click', addFood);
+document.getElementById('addBtn').addEventListener('click', () => addFood());
+document.querySelectorAll('.quick-add-btn').forEach(btn => {
+  btn.addEventListener('click', () => addFood(btn.dataset.text || ''));
+});
 document.getElementById('foodInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') addFood();
+  if (e.key === 'ArrowDown' && suggestionFoods.length) {
+    e.preventDefault();
+    selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, suggestionFoods.length - 1);
+    renderSuggestions(suggestionFoods);
+    return;
+  }
+  if (e.key === 'ArrowUp' && suggestionFoods.length) {
+    e.preventDefault();
+    selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, 0);
+    renderSuggestions(suggestionFoods);
+    return;
+  }
+  if (e.key === 'Enter') {
+    if (suggestionFoods.length && selectedSuggestionIndex >= 0) {
+      e.preventDefault();
+      applySuggestion(suggestionFoods[selectedSuggestionIndex]);
+      return;
+    }
+    addFood();
+  }
 });
 document.getElementById('foodInput').addEventListener('input', () => {
   searchFoods();
 });
+document.getElementById('foodLibrarySearch').addEventListener('input', () => {
+  renderFoods(allFoods);
+});
+
+document.getElementById('foods').addEventListener('click', (e) => {
+  const card = e.target.closest('.entry');
+  if (!card) return;
+  const name = card.querySelector('.text')?.textContent?.trim();
+  if (!name) return;
+  selectedLibraryFood = name;
+  document.getElementById('foodInput').value = name;
+  document.getElementById('foodInput').focus();
+  document.getElementById('addResult').textContent = `Loaded ${name}. Tap Add to log it.`;
+  document.getElementById('libraryQuickAdd').style.display = 'flex';
+  closeSavedFoodsModal();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+document.querySelectorAll('.library-multiplier-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!selectedLibraryFood) return;
+    addFood(selectedLibraryFood, Number(btn.dataset.multiplier || 1));
+  });
+});
 document.getElementById('renderBtn').addEventListener('click', renderCard);
+document.getElementById('savedFoodsBtn').addEventListener('click', openSavedFoodsModal);
+document.getElementById('closeSavedFoodsBtn').addEventListener('click', closeSavedFoodsModal);
+document.querySelectorAll('[data-close-modal="true"]').forEach(el => {
+  el.addEventListener('click', closeSavedFoodsModal);
+});
+document.querySelectorAll('.collapse-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.collapsible-card');
+    const collapsed = !card.classList.contains('collapsed');
+    setCollapsed(card, collapsed);
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeSavedFoodsModal();
+});
 
 refreshAll();
 setInterval(pollForUpdates, 10000);

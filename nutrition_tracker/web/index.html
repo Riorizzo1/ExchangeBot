@@ -11,43 +11,84 @@
       <header>
         <div>
           <h1>Nutrition Tracker</h1>
-          <p class="sub">Quick-add desktop logger</p>
+          <p class="sub">Fast mobile logging, less clutter</p>
         </div>
-        <button id="renderBtn">Render modern card</button>
+        <div class="header-actions">
+          <button id="savedFoodsBtn" class="ghost-btn">Saved foods</button>
+          <button id="renderBtn">Render macro image</button>
+        </div>
       </header>
 
       <section class="card add-card">
         <label for="foodInput">Add food</label>
-        <div class="row">
+        <div class="add-stack">
           <input id="foodInput" placeholder="e.g. 2 slices cheese pizza" autocomplete="off" />
-          <button id="lookupBtn">Lookup</button>
-          <button id="addBtn">Add</button>
+          <div class="row action-row">
+            <button id="lookupBtn" class="ghost-btn">Lookup</button>
+            <button id="addBtn">Add</button>
+          </div>
         </div>
-        <div id="suggestions" class="entries"></div>
+        <div class="quick-actions compact-quick-actions">
+          <button class="ghost-btn quick-add-btn" data-text="Core Elite protein shake">Core Elite</button>
+          <button class="ghost-btn quick-add-btn" data-text="Ratio vanilla yogurt">Ratio yogurt</button>
+          <button class="ghost-btn quick-add-btn" data-text="2 slices cheese pizza">2 pizza slices</button>
+        </div>
+        <div id="suggestions" class="entries compact-list"></div>
         <div id="lookupResult" class="hint"></div>
-        <p class="hint">Uses the current nutrition tracker data and render pipeline underneath.</p>
+        <div id="addResult" class="hint"></div>
       </section>
 
-      <section class="grid">
+      <section class="grid mobile-priority dashboard-grid">
         <div class="card">
           <h2>Today</h2>
           <div id="totals" class="totals"></div>
         </div>
-        <div class="card">
-          <h2>Modern card</h2>
-          <div id="renderState" class="hint">Not rendered yet</div>
-          <img id="renderImg" class="render" style="display:none" />
+        <div class="card collapsible-card collapsed" id="macroCard">
+          <button class="collapse-toggle" data-target="macroContent" aria-expanded="false">
+            <span>Macro image</span>
+            <span class="collapse-icon">+</span>
+          </button>
+          <div id="macroContent" class="collapse-body">
+            <div id="renderState" class="hint">Not rendered yet</div>
+            <img id="renderImg" class="render" style="display:none" />
+          </div>
         </div>
       </section>
 
       <section class="card">
-        <h2>Entries</h2>
-        <div id="entries" class="entries"></div>
+        <div class="section-head">
+          <h2>Entries</h2>
+          <div class="hint">Tap edit only when needed</div>
+        </div>
+        <div id="entries" class="entries compact-list"></div>
       </section>
 
-      <section class="card">
-        <h2>Personal foods</h2>
-        <div id="foods" class="entries"></div>
+      <section class="card collapsible-card collapsed" id="lookupHelpCard">
+        <button class="collapse-toggle" data-target="lookupHelpBody" aria-expanded="false">
+          <span>Lookup and save food</span>
+          <span class="collapse-icon">+</span>
+        </button>
+        <div id="lookupHelpBody" class="collapse-body">
+          <p class="hint">Suggestions come from saved foods and cache. Lookup is for branded or harder-to-match items.</p>
+          <div id="foodEditorCard" style="display:none">
+            <h2>Save food</h2>
+            <div class="entries">
+              <input id="foodName" placeholder="Food name" />
+              <input id="foodServing" placeholder="Serving, e.g. 1 bottle" />
+              <input id="foodAliases" placeholder="Aliases, comma separated" />
+              <div class="row">
+                <input id="foodCalories" placeholder="Calories" />
+                <input id="foodCarbs" placeholder="Carbs" />
+                <input id="foodFat" placeholder="Fat" />
+                <input id="foodProtein" placeholder="Protein" />
+              </div>
+              <div class="row">
+                <button id="saveFoodBtn">Save food</button>
+                <button id="cancelFoodBtn" class="ghost-btn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="card" id="editorCard" style="display:none">
@@ -62,11 +103,30 @@
           </div>
           <div class="row">
             <button id="saveEditBtn">Save edit</button>
-            <button id="cancelEditBtn">Cancel</button>
+            <button id="cancelEditBtn" class="ghost-btn">Cancel</button>
           </div>
         </div>
       </section>
     </div>
+
+    <div id="savedFoodsModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="modal-panel">
+        <div class="modal-head">
+          <h2>Saved foods</h2>
+          <button id="closeSavedFoodsBtn" class="ghost-btn">Close</button>
+        </div>
+        <input id="foodLibrarySearch" placeholder="Filter saved foods" />
+        <div class="hint">Tap a food to load it, or use the quick quantity buttons.</div>
+        <div id="libraryQuickAdd" class="quick-actions" style="display:none">
+          <button class="ghost-btn library-multiplier-btn" data-multiplier="0.5">Add 0.5x</button>
+          <button class="ghost-btn library-multiplier-btn" data-multiplier="1">Add 1x</button>
+          <button class="ghost-btn library-multiplier-btn" data-multiplier="2">Add 2x</button>
+        </div>
+        <div id="foods" class="entries compact-list"></div>
+      </div>
+    </div>
+
     <script src="/app.js" type="module"></script>
   </body>
 </html>
