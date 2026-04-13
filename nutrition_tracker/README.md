@@ -1,30 +1,40 @@
 # Nutrition Tracker
 
-Daily intake logger with persistent storage, per-day summaries, and a local desktop app shell.
+Local-first nutrition tracker with shared data between chat logging and the web/desktop app.
 
-## Targets
-- Carbs: 200g
-- Fat: 70g
-- Protein: 150g
-- Calories: 1910 kcal
+## Run web app
 
-## Files
-- `data/nutrition.json` persistent intake database
-- `data/foods_personal.json` Bobby-specific food memory and exact matches
-- `data/foods_cache.json` resolved fallback cache
-- `data/foods_seed.json` starter local food catalog
-- `daily/YYYY-MM-DD.md` daily running log
-- `server.mjs` local desktop-friendly app server
-- `web/` app UI
+```bash
+cd ~/.openclaw/workspace/nutrition_tracker
+node server.mjs
+```
 
-## Food lookup order
-1. personal food memory
-2. cached food matches
-3. seeded starter catalog
-4. rough fallback estimate
+Open:
+- local machine: `http://127.0.0.1:4312`
+- LAN testing: run with `HOST=0.0.0.0 node server.mjs`
 
-## Usage
-- Add intake entries by message or prompt
-- System estimates calories/macros and updates the current day log
-- Daily log resets automatically by date
-- Start the local app with `node server.mjs` and open `http://127.0.0.1:4312`
+## Desktop app
+
+```bash
+cd ~/.openclaw/workspace/nutrition_tracker
+npm install
+npm run desktop
+```
+
+This starts the local server and opens a desktop window.
+
+## Build standalone macOS app
+
+```bash
+cd ~/.openclaw/workspace/nutrition_tracker
+npm install
+npm run dist
+```
+
+Expected output goes under `dist/`.
+
+## Shared sync model
+
+- Chat logging and app logging both write to `data/nutrition.json`
+- App-created entries are tagged with source metadata
+- The app polls for file updates, so chat-added entries should appear automatically

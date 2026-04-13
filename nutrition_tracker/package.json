@@ -3,7 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "electron-main.mjs",
   "scripts": {
-    "start": "node server.mjs"
+    "start": "node server.mjs",
+    "desktop": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "ai.openclaw.nutritiontracker",
+    "productName": "Nutrition Tracker",
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.healthcare-fitness"
+    },
+    "files": [
+      "server.mjs",
+      "electron-main.mjs",
+      "web/**/*",
+      "data/**/*",
+      "daily/**/*",
+      "renders/**/*",
+      "nutrition_tracker.py",
+      "render_today_modern.py"
+    ]
   }
 }

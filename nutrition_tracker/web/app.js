@@ -14,13 +14,26 @@ async function postJson(url, body) {
 
 let currentEntries = [];
 let editingIndex = null;
+let lastUpdatedAt = null;
 
 async function refreshAll() {
   const today = await getJson('/api/today');
   currentEntries = today.day.entries || [];
+  lastUpdatedAt = today.updatedAt || null;
   renderDay(today);
   const foods = await getJson('/api/foods/personal');
   renderFoods(foods.foods || []);
+}
+
+async function pollForUpdates() {
+  try {
+    const today = await getJson('/api/today');
+    if (lastUpdatedAt != null && today.updatedAt && today.updatedAt !== lastUpdatedAt) {
+      currentEntries = today.day.entries || [];
+      lastUpdatedAt = today.updatedAt;
+      renderDay(today);
+    }
+  } catch {}
 }
 
 function metric(label, value) {
@@ -44,7 +57,7 @@ function renderDay(payload) {
       <div class="entry">
         <div class="time">${e.timestamp}</div>
         <div class="text">${e.text}</div>
-        <div class="macros">${Math.round(e.calories)} kcal, C ${e.carbs_g}g, F ${e.fat_g}g, P ${e.protein_g}g</div>
+        <div class="macros">${Math.round(e.calories)} kcal, C ${e.carbs_g}g, F ${e.fat_g}g, P ${e.protein_g}g${e.source ? `, via ${e.source}` : ''}</div>
         <div class="actions">
           <button class="edit-btn" data-index="${index}">Edit</button>
           <button class="save-btn" data-index="${index}">Save as food</button>
@@ -223,3 +236,4 @@ document.getElementById('foodInput').addEventListener('input', () => {
 document.getElementById('renderBtn').addEventListener('click', renderCard);
 
 refreshAll();
+setInterval(pollForUpdates, 10000);

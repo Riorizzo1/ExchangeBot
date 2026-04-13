@@ -90,6 +90,7 @@ class Entry:
     carbs_g: float
     fat_g: float
     protein_g: float
+    source: str = 'chat'
 
 
 def ensure():
@@ -240,12 +241,12 @@ def render_day_image(day_key: str, day: Dict[str, Any]) -> Path:
     return path
 
 
-def add(text: str) -> str:
+def add(text: str, source: str = 'chat') -> str:
     db = load_db()
     day = today_key()
     db['days'].setdefault(day, {'entries': [], 'totals': {'calories': 0.0, 'carbs_g': 0.0, 'fat_g': 0.0, 'protein_g': 0.0}})
     est = estimate(text)
-    entry = Entry(today_stamp(), text, **est)
+    entry = Entry(today_stamp(), text, **est, source=source)
     db['days'][day]['entries'].append(asdict(entry))
     for k in db['days'][day]['totals']:
         db['days'][day]['totals'][k] += est[k]
@@ -316,7 +317,14 @@ if __name__ == '__main__':
         raise SystemExit(1)
     cmd = sys.argv[1]
     if cmd == 'add':
-        print(add(' '.join(sys.argv[2:])))
+        args = sys.argv[2:]
+        source = 'chat'
+        if '--source' in args:
+            i = args.index('--source')
+            if i + 1 < len(args):
+                source = args[i + 1]
+                del args[i:i+2]
+        print(add(' '.join(args), source=source))
     elif cmd == 'propose':
         print(propose(' '.join(sys.argv[2:])))
     elif cmd == 'confirm':

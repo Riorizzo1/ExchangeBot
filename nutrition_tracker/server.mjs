@@ -30,11 +30,12 @@ function getToday() {
   return {
     date: key,
     day: db.days[key] || { entries: [], totals: { calories: 0, carbs_g: 0, fat_g: 0, protein_g: 0 } },
+    updatedAt: fs.statSync(dataPath).mtimeMs,
   };
 }
 
 function addFood(text) {
-  execFileSync('python3', [path.join(__dirname, 'nutrition_tracker.py'), 'add', text], {
+  execFileSync('python3', [path.join(__dirname, 'nutrition_tracker.py'), 'add', text, '--source', 'app'], {
     cwd: __dirname,
     encoding: 'utf8',
     maxBuffer: 5 * 1024 * 1024,
@@ -115,6 +116,7 @@ function updateEntry(index, payload) {
     carbs_g: Number(payload.carbs_g ?? prev.carbs_g),
     fat_g: Number(payload.fat_g ?? prev.fat_g),
     protein_g: Number(payload.protein_g ?? prev.protein_g),
+    source: payload.source ?? prev.source ?? 'app',
   };
   day.entries[index] = next;
   for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
