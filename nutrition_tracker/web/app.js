@@ -113,6 +113,7 @@ function renderDay(payload) {
       <span class="hero-pill">${escapeHtml(dateText)}</span>
       <span class="hero-pill">${entryCount} ${entryCount === 1 ? 'entry' : 'entries'}</span>
       <span class="hero-pill">${Math.round(totals.calories || 0)} kcal</span>
+      ${entryCount === 0 ? '<span class="hero-pill hero-pill-muted">Fresh day</span>' : ''}
     `;
   }
   document.getElementById('totals').innerHTML = [
@@ -124,7 +125,26 @@ function renderDay(payload) {
 
   const entries = day.entries || [];
   renderRecentQuickAdds(entries);
-  document.getElementById('entries').innerHTML = entries.slice().reverse().map((e, reverseIndex, arr) => {
+  const entriesEl = document.getElementById('entries');
+  if (!entries.length) {
+    entriesEl.innerHTML = `
+      <div class="empty-state premium-empty-state">
+        <div class="empty-art">
+          <div class="empty-orbit empty-orbit-1"></div>
+          <div class="empty-orbit empty-orbit-2"></div>
+          <div class="empty-core">0</div>
+        </div>
+        <div class="empty-copy">
+          <div class="section-kicker">Ready when you are</div>
+          <h3>No entries yet today</h3>
+          <p class="hint">Start with a quick add, use a recent item, or pull something from your saved foods library. Your dashboard will build up as you log.</p>
+        </div>
+      </div>
+    `;
+    bindEntryActions();
+    return;
+  }
+  entriesEl.innerHTML = entries.slice().reverse().map((e, reverseIndex, arr) => {
     const index = arr.length - 1 - reverseIndex;
     return `
       <div class="entry compact-entry premium-entry">
