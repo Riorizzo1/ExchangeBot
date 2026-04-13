@@ -1,6 +1,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -146,6 +147,39 @@ function renderTodayModern() {
   return path.join(renderPath, `${todayKey()}_modern.jpg`);
 }
 
+function brandedLookup(text) {
+  const tmpDir = path.join(__dirname, '..', '.firecrawl');
+  fs.mkdirSync(tmpDir, { recursive: true });
+  const slug = String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const out = path.join(tmpDir, `${slug || 'lookup'}.json`);
+  execFileSync('firecrawl', ['search', `${text} nutrition facts`, '--limit', '5', '--scrape', '-o', out, '--json'], {
+    cwd: path.join(__dirname, '..'),
+    encoding: 'utf8',
+    maxBuffer: 20 * 1024 * 1024,
+  });
+  const obj = readJson(out);
+  const pages = (((obj || {}).data || {}).web) || [];
+  const joined = pages.map(p => `${p.title || ''}\n${p.description || ''}\n${p.markdown || ''}`).join('\n');
+  const num = (re, fallback = null) => {
+    const m = joined.match(re);
+    return m ? Number(m[1]) : fallback;
+  };
+  const calories = num(/(\d+)\s*(?:calories|kcal)/i, null);
+  const protein = num(/(\d+)\s*g\s*protein/i, null);
+  const carbs = num(/(\d+)\s*g\s*(?:total\s+)?carb/i, null);
+  const fat = num(/(\d+)\s*g\s*(?:total\s+)?fat/i, null);
+  return {
+    name: text,
+    calories,
+    carbs_g: carbs,
+    fat_g: fat,
+    protein_g: protein,
+    sourceUrl: pages[0]?.url || null,
+    sourceTitle: pages[0]?.title || null,
+    found: [calories, carbs, fat, protein].some(v => v != null)
+  };
+}
+
 function sendJson(res, status, payload) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
   res.end(JSON.stringify(payload));
@@ -207,6 +241,20 @@ const server = http.createServer(async (req, res) => {
         const parsed = JSON.parse(body || '{}');
         if (!parsed.name) return sendJson(res, 400, { error: 'name required' });
         return sendJson(res, 200, { ok: true, food: savePersonalFood(parsed) });
+      } catch (err) {
+        return sendJson(res, 500, { error: String(err.message || err) });
+      }
+    });
+    return;
+  }
+  if (req.method === 'POST' && url.pathname === '/api/foods/lookup') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body || '{}');
+        if (!parsed.text) return sendJson(res, 400, { error: 'text required' });
+        return sendJson(res, 200, brandedLookup(String(parsed.text)));
       } catch (err) {
         return sendJson(res, 500, { error: String(err.message || err) });
       }

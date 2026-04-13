@@ -159,6 +159,39 @@ async function renderCard() {
   state.textContent = 'Rendered';
 }
 
+async function lookupFood() {
+  const input = document.getElementById('foodInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const box = document.getElementById('lookupResult');
+  box.textContent = 'Looking up product nutrition...';
+  const data = await postJson('/api/foods/lookup', { text });
+  if (!data.found) {
+    box.textContent = 'No reliable branded nutrition match found yet.';
+    return;
+  }
+  box.innerHTML = `Found: ${data.calories ?? '?'} kcal, C ${data.carbs_g ?? '?'}g, F ${data.fat_g ?? '?'}g, P ${data.protein_g ?? '?'}g` +
+    (data.sourceUrl ? ` <a href="${data.sourceUrl}" target="_blank">source</a>` : '') +
+    ` <button id="saveLookupBtn">Save</button>`;
+  const saveBtn = document.getElementById('saveLookupBtn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', async () => {
+      await postJson('/api/foods/save', {
+        name: text,
+        aliases: [text],
+        serving: '1 serving',
+        calories: data.calories || 0,
+        carbs_g: data.carbs_g || 0,
+        fat_g: data.fat_g || 0,
+        protein_g: data.protein_g || 0,
+        confidence: 'strong'
+      });
+      box.textContent = 'Saved to personal foods.';
+      await refreshAll();
+    });
+  }
+}
+
 document.getElementById('saveEditBtn').addEventListener('click', async () => {
   if (editingIndex == null) return;
   await postJson('/api/entry/update', {
@@ -179,6 +212,7 @@ document.getElementById('cancelEditBtn').addEventListener('click', () => {
   document.getElementById('editorCard').style.display = 'none';
 });
 
+document.getElementById('lookupBtn').addEventListener('click', lookupFood);
 document.getElementById('addBtn').addEventListener('click', addFood);
 document.getElementById('foodInput').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') addFood();
