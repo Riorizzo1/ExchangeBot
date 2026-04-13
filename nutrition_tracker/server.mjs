@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, 'data', 'nutrition.json');
+const personalFoodsPath = path.join(__dirname, 'data', 'foods_personal.json');
 const dailyDir = path.join(__dirname, 'daily');
 const renderPath = path.join(__dirname, 'renders');
 
@@ -37,6 +38,58 @@ function addFood(text) {
     encoding: 'utf8',
     maxBuffer: 5 * 1024 * 1024,
   });
+  return getToday();
+}
+
+function getPersonalFoods() {
+  const obj = readJson(personalFoodsPath);
+  return obj.foods || [];
+}
+
+function savePersonalFood(payload) {
+  const obj = readJson(personalFoodsPath);
+  obj.foods = obj.foods || [];
+  const item = {
+    id: payload.id || String(payload.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+    name: payload.name,
+    aliases: payload.aliases || [],
+    serving: payload.serving || '1 serving',
+    calories: Number(payload.calories || 0),
+    carbs_g: Number(payload.carbs_g || 0),
+    fat_g: Number(payload.fat_g || 0),
+    protein_g: Number(payload.protein_g || 0),
+    source: 'personal',
+    confidence: payload.confidence || 'exact'
+  };
+  const idx = obj.foods.findIndex(f => f.id === item.id || f.name.toLowerCase() === item.name.toLowerCase());
+  if (idx >= 0) obj.foods[idx] = item;
+  else obj.foods.unshift(item);
+  fs.writeFileSync(personalFoodsPath, JSON.stringify(obj, null, 2));
+  return item;
+}
+
+function updateEntry(index, payload) {
+  const db = readJson(dataPath);
+  const key = todayKey();
+  const day = db.days[key];
+  if (!day || !day.entries[index]) throw new Error('entry not found');
+  const prev = day.entries[index];
+  for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
+    day.totals[k] -= Number(prev[k] || 0);
+  }
+  const next = {
+    ...prev,
+    text: payload.text ?? prev.text,
+    calories: Number(payload.calories ?? prev.calories),
+    carbs_g: Number(payload.carbs_g ?? prev.carbs_g),
+    fat_g: Number(payload.fat_g ?? prev.fat_g),
+    protein_g: Number(payload.protein_g ?? prev.protein_g),
+  };
+  day.entries[index] = next;
+  for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
+    day.totals[k] += Number(next[k] || 0);
+  }
+  fs.writeFileSync(dataPath, JSON.stringify(db, null, 2));
   return getToday();
 }
 
@@ -74,6 +127,9 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && url.pathname === '/api/today') {
     return sendJson(res, 200, getToday());
   }
+  if (req.method === 'GET' && url.pathname === '/api/foods/personal') {
+    return sendJson(res, 200, { foods: getPersonalFoods() });
+  }
   if (req.method === 'POST' && url.pathname === '/api/add') {
     let body = '';
     req.on('data', chunk => body += chunk);
@@ -95,6 +151,33 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       return sendJson(res, 500, { error: String(err.message || err) });
     }
+  }
+  if (req.method === 'POST' && url.pathname === '/api/foods/save') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body || '{}');
+        if (!parsed.name) return sendJson(res, 400, { error: 'name required' });
+        return sendJson(res, 200, { ok: true, food: savePersonalFood(parsed) });
+      } catch (err) {
+        return sendJson(res, 500, { error: String(err.message || err) });
+      }
+    });
+    return;
+  }
+  if (req.method === 'POST' && url.pathname === '/api/entry/update') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body || '{}');
+        return sendJson(res, 200, updateEntry(Number(parsed.index), parsed));
+      } catch (err) {
+        return sendJson(res, 500, { error: String(err.message || err) });
+      }
+    });
+    return;
   }
   if (req.method === 'GET' && url.pathname.startsWith('/render/')) {
     const file = path.join(renderPath, path.basename(url.pathname));
