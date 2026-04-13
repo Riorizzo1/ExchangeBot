@@ -206,8 +206,7 @@ def main():
 
     CURRENT.write_text(json.dumps(current, indent=2))
     DELTA.write_text(json.dumps(delta, indent=2))
-    if not PREVIOUS.exists():
-        PREVIOUS.write_text(json.dumps(current, indent=2))
+    PREVIOUS.write_text(json.dumps(current, indent=2))
 
     print(json.dumps({
         'current_count': len(current),
