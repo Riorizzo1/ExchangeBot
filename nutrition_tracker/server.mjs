@@ -46,6 +46,33 @@ function getPersonalFoods() {
   return obj.foods || [];
 }
 
+function getAllFoods() {
+  const files = ['foods_personal.json', 'foods_cache.json', 'foods_seed.json']
+    .map(name => path.join(__dirname, 'data', name))
+    .filter(file => fs.existsSync(file));
+  return files.flatMap(file => {
+    try {
+      const obj = readJson(file);
+      return obj.foods || [];
+    } catch {
+      return [];
+    }
+  });
+}
+
+function searchFoods(query) {
+  const q = String(query || '').trim().toLowerCase();
+  if (!q) return [];
+  const scored = [];
+  for (const food of getAllFoods()) {
+    const hay = [food.name, ...(food.aliases || [])].join(' ').toLowerCase();
+    if (!hay.includes(q)) continue;
+    const score = hay.startsWith(q) ? 1000 : q.split(/\s+/).filter(tok => hay.includes(tok)).length * 10;
+    scored.push({ ...food, score });
+  }
+  return scored.sort((a, b) => b.score - a.score || a.name.localeCompare(b.name)).slice(0, 12);
+}
+
 function savePersonalFood(payload) {
   const obj = readJson(personalFoodsPath);
   obj.foods = obj.foods || [];
@@ -129,6 +156,9 @@ const server = http.createServer(async (req, res) => {
   }
   if (req.method === 'GET' && url.pathname === '/api/foods/personal') {
     return sendJson(res, 200, { foods: getPersonalFoods() });
+  }
+  if (req.method === 'GET' && url.pathname === '/api/foods/search') {
+    return sendJson(res, 200, { foods: searchFoods(url.searchParams.get('q') || '') });
   }
   if (req.method === 'POST' && url.pathname === '/api/add') {
     let body = '';

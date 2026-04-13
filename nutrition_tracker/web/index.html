@@ -19,9 +19,10 @@
       <section class="card add-card">
         <label for="foodInput">Add food</label>
         <div class="row">
-          <input id="foodInput" placeholder="e.g. 2 slices cheese pizza" />
+          <input id="foodInput" placeholder="e.g. 2 slices cheese pizza" autocomplete="off" />
           <button id="addBtn">Add</button>
         </div>
+        <div id="suggestions" class="entries"></div>
         <p class="hint">Uses the current nutrition tracker data and render pipeline underneath.</p>
       </section>
 

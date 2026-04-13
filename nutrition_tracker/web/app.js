@@ -58,6 +58,33 @@ function renderFoods(foods) {
   `).join('');
 }
 
+function renderSuggestions(foods) {
+  const box = document.getElementById('suggestions');
+  if (!foods.length) {
+    box.innerHTML = '';
+    return;
+  }
+  box.innerHTML = foods.map((f) => `
+    <div class="suggestion" data-name="${String(f.name).replaceAll('"', '&quot;')}">
+      <div class="title">${f.name}</div>
+      <div class="meta">${Math.round(f.calories)} kcal, C ${f.carbs_g}g, F ${f.fat_g}g, P ${f.protein_g}g, ${f.serving}</div>
+    </div>
+  `).join('');
+  box.querySelectorAll('.suggestion').forEach(el => {
+    el.addEventListener('click', () => {
+      document.getElementById('foodInput').value = el.dataset.name;
+      box.innerHTML = '';
+    });
+  });
+}
+
+async function searchFoods() {
+  const q = document.getElementById('foodInput').value.trim();
+  if (!q || q.length < 2) return renderSuggestions([]);
+  const data = await getJson(`/api/foods/search?q=${encodeURIComponent(q)}`);
+  renderSuggestions(data.foods || []);
+}
+
 async function addFood() {
   const input = document.getElementById('foodInput');
   const text = input.value.trim();
@@ -65,6 +92,7 @@ async function addFood() {
   const data = await postJson('/api/add', { text });
   renderDay(data);
   input.value = '';
+  renderSuggestions([]);
   await refreshAll();
 }
 
@@ -104,6 +132,9 @@ window.editEntry = async function(index, text, calories, carbs_g, fat_g, protein
 document.getElementById('addBtn').addEventListener('click', addFood);
 document.getElementById('foodInput').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') addFood();
+});
+document.getElementById('foodInput').addEventListener('input', () => {
+  searchFoods();
 });
 document.getElementById('renderBtn').addEventListener('click', renderCard);
 

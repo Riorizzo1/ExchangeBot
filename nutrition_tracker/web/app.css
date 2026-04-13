@@ -77,6 +77,15 @@ button {
 .entry .macros { color: var(--muted); font-size: 14px; }
 .entry .actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
 .entry .actions button { padding: 8px 10px; border-radius: 10px; font-size: 13px; }
+.suggestion {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+}
+.suggestion .title { font-weight: 700; margin-bottom: 4px; }
+.suggestion .meta { color: var(--muted); font-size: 13px; }
 .render {
   width: 100%;
   border-radius: 14px;
