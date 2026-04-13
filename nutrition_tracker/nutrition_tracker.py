@@ -33,6 +33,7 @@ COMMON = {
     'banana': {'calories': 105, 'protein_g': 1.3, 'fat_g': 0.4, 'carbs_g': 27},
     'protein shake': {'calories': 120, 'protein_g': 24, 'fat_g': 2, 'carbs_g': 3},
     'greek yogurt': {'calories': 100, 'protein_g': 17, 'fat_g': 0, 'carbs_g': 6},
+    'yogurt': {'calories': 100, 'protein_g': 17, 'fat_g': 0, 'carbs_g': 6},
     'oatmeal': {'calories': 150, 'protein_g': 5, 'fat_g': 3, 'carbs_g': 27},
     'apple': {'calories': 95, 'protein_g': 0.5, 'fat_g': 0.3, 'carbs_g': 25},
     'salmon': {'calories': 208, 'protein_g': 22, 'fat_g': 13, 'carbs_g': 0},
@@ -146,6 +147,10 @@ def estimate(text: str) -> Dict[str, float]:
         totals['carbs_g'] += qty * 10
         totals['fat_g'] += qty * 3
         totals['protein_g'] += qty * 5
+    if not matched and not nums:
+        exact = COMMON.get(t.strip())
+        if exact:
+            return {k: float(v) for k, v in exact.items()}
     return totals
 
 

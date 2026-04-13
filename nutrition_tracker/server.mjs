@@ -38,7 +38,10 @@ function addFood(text) {
     encoding: 'utf8',
     maxBuffer: 5 * 1024 * 1024,
   });
-  return getToday();
+  const after = getToday();
+  const entry = after.day.entries[after.day.entries.length - 1];
+  const zero = entry && Number(entry.calories) === 0 && Number(entry.carbs_g) === 0 && Number(entry.fat_g) === 0 && Number(entry.protein_g) === 0;
+  return { ...after, warning: zero ? 'No nutrition match found for this item yet.' : null };
 }
 
 function getPersonalFoods() {
@@ -116,6 +119,20 @@ function updateEntry(index, payload) {
   for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
     day.totals[k] += Number(next[k] || 0);
   }
+  fs.writeFileSync(dataPath, JSON.stringify(db, null, 2));
+  return getToday();
+}
+
+function deleteEntry(index) {
+  const db = readJson(dataPath);
+  const key = todayKey();
+  const day = db.days[key];
+  if (!day || !day.entries[index]) throw new Error('entry not found');
+  const prev = day.entries[index];
+  for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
+    day.totals[k] -= Number(prev[k] || 0);
+  }
+  day.entries.splice(index, 1);
   fs.writeFileSync(dataPath, JSON.stringify(db, null, 2));
   return getToday();
 }
@@ -209,6 +226,19 @@ const server = http.createServer(async (req, res) => {
     });
     return;
   }
+  if (req.method === 'POST' && url.pathname === '/api/entry/delete') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body || '{}');
+        return sendJson(res, 200, deleteEntry(Number(parsed.index)));
+      } catch (err) {
+        return sendJson(res, 500, { error: String(err.message || err) });
+      }
+    });
+    return;
+  }
   if (req.method === 'GET' && url.pathname.startsWith('/render/')) {
     const file = path.join(renderPath, path.basename(url.pathname));
     if (!fs.existsSync(file)) return sendJson(res, 404, { error: 'not found' });
@@ -224,6 +254,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 const port = process.env.PORT || 4312;
-server.listen(port, () => {
-  console.log(`Nutrition app running at http://127.0.0.1:${port}`);
+const host = process.env.HOST || '0.0.0.0';
+server.listen(port, host, () => {
+  console.log(`Nutrition app running at http://${host}:${port}`);
 });

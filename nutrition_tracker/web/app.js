@@ -12,8 +12,11 @@ async function postJson(url, body) {
   return res.json();
 }
 
+let currentEntries = [];
+
 async function refreshAll() {
   const today = await getJson('/api/today');
+  currentEntries = today.day.entries || [];
   renderDay(today);
   const foods = await getJson('/api/foods/personal');
   renderFoods(foods.foods || []);
@@ -33,7 +36,8 @@ function renderDay(payload) {
     metric('Fat', `${Math.round(totals.fat_g || 0)}g`),
   ].join('');
 
-  document.getElementById('entries').innerHTML = (day.entries || []).slice().reverse().map((e, reverseIndex, arr) => {
+  const entries = day.entries || [];
+  document.getElementById('entries').innerHTML = entries.slice().reverse().map((e, reverseIndex, arr) => {
     const index = arr.length - 1 - reverseIndex;
     return `
       <div class="entry">
@@ -41,12 +45,55 @@ function renderDay(payload) {
         <div class="text">${e.text}</div>
         <div class="macros">${Math.round(e.calories)} kcal, C ${e.carbs_g}g, F ${e.fat_g}g, P ${e.protein_g}g</div>
         <div class="actions">
-          <button onclick="editEntry(${index}, ${JSON.stringify(e.text)}, ${e.calories}, ${e.carbs_g}, ${e.fat_g}, ${e.protein_g})">Edit</button>
-          <button onclick="saveFood(${JSON.stringify(e.text)}, ${e.calories}, ${e.carbs_g}, ${e.fat_g}, ${e.protein_g})">Save as food</button>
+          <button class="edit-btn" data-index="${index}">Edit</button>
+          <button class="save-btn" data-index="${index}">Save as food</button>
+          <button class="delete-btn" data-index="${index}">Delete</button>
         </div>
       </div>
     `;
   }).join('');
+
+  bindEntryActions();
+}
+
+function bindEntryActions() {
+  document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const index = Number(btn.dataset.index);
+      const e = currentEntries[index];
+      if (!e) return;
+      const newText = prompt('Edit text:', e.text);
+      if (newText == null || newText === '') return;
+      const cals = Number(prompt('Calories:', e.calories));
+      const carbs = Number(prompt('Carbs:', e.carbs_g));
+      const fat = Number(prompt('Fat:', e.fat_g));
+      const protein = Number(prompt('Protein:', e.protein_g));
+      await postJson('/api/entry/update', { index, text: newText, calories: cals, carbs_g: carbs, fat_g: fat, protein_g: protein });
+      await refreshAll();
+    });
+  });
+
+  document.querySelectorAll('.save-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const index = Number(btn.dataset.index);
+      const e = currentEntries[index];
+      if (!e) return;
+      const name = prompt('Save food as:', e.text);
+      if (!name) return;
+      const serving = prompt('Serving label:', '1 serving') || '1 serving';
+      await postJson('/api/foods/save', { name, aliases: [e.text], serving, calories: e.calories, carbs_g: e.carbs_g, fat_g: e.fat_g, protein_g: e.protein_g, confidence: 'exact' });
+      await refreshAll();
+    });
+  });
+
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const index = Number(btn.dataset.index);
+      if (!confirm('Delete this entry?')) return;
+      await postJson('/api/entry/delete', { index });
+      await refreshAll();
+    });
+  });
 }
 
 function renderFoods(foods) {
@@ -93,6 +140,7 @@ async function addFood() {
   renderDay(data);
   input.value = '';
   renderSuggestions([]);
+  if (data.warning) alert(data.warning);
   await refreshAll();
 }
 
@@ -109,25 +157,6 @@ async function renderCard() {
   img.style.display = 'block';
   state.textContent = 'Rendered';
 }
-
-window.saveFood = async function(text, calories, carbs_g, fat_g, protein_g) {
-  const name = prompt('Save food as:', text);
-  if (!name) return;
-  const serving = prompt('Serving label:', '1 serving') || '1 serving';
-  await postJson('/api/foods/save', { name, aliases: [text], serving, calories, carbs_g, fat_g, protein_g, confidence: 'exact' });
-  await refreshAll();
-};
-
-window.editEntry = async function(index, text, calories, carbs_g, fat_g, protein_g) {
-  const newText = prompt('Edit text:', text);
-  if (!newText) return;
-  const cals = Number(prompt('Calories:', calories));
-  const carbs = Number(prompt('Carbs:', carbs_g));
-  const fat = Number(prompt('Fat:', fat_g));
-  const protein = Number(prompt('Protein:', protein_g));
-  await postJson('/api/entry/update', { index, text: newText, calories: cals, carbs_g: carbs, fat_g: fat, protein_g: protein });
-  await refreshAll();
-};
 
 document.getElementById('addBtn').addEventListener('click', addFood);
 document.getElementById('foodInput').addEventListener('keydown', (e) => {
