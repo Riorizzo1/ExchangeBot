@@ -8,18 +8,21 @@
   </head>
   <body>
     <div class="app">
-      <header>
-        <div>
+      <header class="hero card">
+        <div class="hero-copy">
+          <div class="eyebrow">Daily nutrition</div>
           <h1>Nutrition Tracker</h1>
-          <p class="sub">Fast mobile logging, less clutter</p>
+          <p class="sub">A cleaner daily dashboard for fast logging, smarter reuse, and a better read on your day.</p>
+          <div id="heroMeta" class="hero-meta"></div>
         </div>
-        <div class="header-actions">
+        <div class="header-actions hero-actions">
           <button id="savedFoodsBtn" class="ghost-btn">Saved foods</button>
           <button id="renderBtn">Render macro image</button>
         </div>
       </header>
 
-      <section class="card add-card">
+      <section class="card add-card premium-panel">
+        <div class="section-kicker">Quick log</div>
         <label for="foodInput">Add food</label>
         <div class="add-stack">
           <input id="foodInput" placeholder="e.g. 2 slices cheese pizza" autocomplete="off" />
@@ -35,13 +38,22 @@
       </section>
 
       <section class="grid mobile-priority dashboard-grid">
-        <div class="card">
-          <h2>Today</h2>
+        <div class="card premium-panel">
+          <div class="section-kicker">Dashboard</div>
+          <div class="section-head premium-head">
+            <div>
+              <h2>Today</h2>
+              <div class="hint">Current daily totals</div>
+            </div>
+          </div>
           <div id="totals" class="totals"></div>
         </div>
-        <div class="card collapsible-card collapsed" id="macroCard">
+        <div class="card collapsible-card collapsed premium-panel" id="macroCard">
           <button class="collapse-toggle" data-target="macroContent" aria-expanded="false">
-            <span>Macro image</span>
+            <span>
+              <span class="section-kicker">Export</span>
+              <span class="collapse-title">Macro image</span>
+            </span>
             <span class="collapse-icon">+</span>
           </button>
           <div id="macroContent" class="collapse-body">
@@ -51,17 +63,23 @@
         </div>
       </section>
 
-      <section class="card">
-        <div class="section-head">
-          <h2>Entries</h2>
+      <section class="card premium-panel">
+        <div class="section-head premium-head entries-head">
+          <div>
+            <div class="section-kicker">Journal</div>
+            <h2>Entries</h2>
+          </div>
           <div class="hint">Tap edit only when needed</div>
         </div>
         <div id="entries" class="entries compact-list"></div>
       </section>
 
-      <section class="card collapsible-card collapsed" id="lookupHelpCard">
+      <section class="card collapsible-card collapsed premium-panel" id="lookupHelpCard">
         <button class="collapse-toggle" data-target="lookupHelpBody" aria-expanded="false">
-          <span>Lookup and save food</span>
+          <span>
+            <span class="section-kicker">Tools</span>
+            <span class="collapse-title">Lookup and save food</span>
+          </span>
           <span class="collapse-icon">+</span>
         </button>
         <div id="lookupHelpBody" class="collapse-body">
@@ -87,7 +105,8 @@
         </div>
       </section>
 
-      <section class="card" id="editorCard" style="display:none">
+      <section class="card premium-panel" id="editorCard" style="display:none">
+        <div class="section-kicker">Editor</div>
         <h2>Edit entry</h2>
         <div class="entries">
           <input id="editText" placeholder="Entry text" />
@@ -109,7 +128,10 @@
       <div class="modal-backdrop" data-close-modal="true"></div>
       <div class="modal-panel">
         <div class="modal-head">
-          <h2>Saved foods</h2>
+          <div>
+            <div class="section-kicker">Library</div>
+            <h2>Saved foods</h2>
+          </div>
           <button id="closeSavedFoodsBtn" class="ghost-btn">Close</button>
         </div>
         <input id="foodLibrarySearch" placeholder="Filter saved foods" />

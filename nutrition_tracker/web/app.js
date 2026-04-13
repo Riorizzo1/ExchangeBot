@@ -105,6 +105,16 @@ function renderRecentQuickAdds(entries) {
 function renderDay(payload) {
   const day = payload.day;
   const totals = day.totals || {};
+  const heroMeta = document.getElementById('heroMeta');
+  if (heroMeta) {
+    const entryCount = (day.entries || []).length;
+    const dateText = day.date || 'Today';
+    heroMeta.innerHTML = `
+      <span class="hero-pill">${escapeHtml(dateText)}</span>
+      <span class="hero-pill">${entryCount} ${entryCount === 1 ? 'entry' : 'entries'}</span>
+      <span class="hero-pill">${Math.round(totals.calories || 0)} kcal</span>
+    `;
+  }
   document.getElementById('totals').innerHTML = [
     metric('Calories', Math.round(totals.calories || 0), 'calories'),
     metric('Protein', `${Math.round(totals.protein_g || 0)}g`, 'protein'),
@@ -117,16 +127,20 @@ function renderDay(payload) {
   document.getElementById('entries').innerHTML = entries.slice().reverse().map((e, reverseIndex, arr) => {
     const index = arr.length - 1 - reverseIndex;
     return `
-      <div class="entry compact-entry">
+      <div class="entry compact-entry premium-entry">
         <div class="entry-topline">
           <div>
             <div class="text">${escapeHtml(e.text)}</div>
-            <div class="time">${escapeHtml(e.timestamp)}</div>
+            <div class="time">${escapeHtml(e.timestamp)}${e.source ? ` • via ${escapeHtml(e.source)}` : ''}</div>
           </div>
           <div class="entry-calories">${Math.round(e.calories)} kcal</div>
         </div>
-        <div class="macros">C ${e.carbs_g}g • F ${e.fat_g}g • P ${e.protein_g}g${e.source ? ` • via ${escapeHtml(e.source)}` : ''}</div>
-        <div class="actions compact-actions">
+        <div class="macro-chips">
+          <span class="macro-chip macro-chip-carbs">C ${e.carbs_g}g</span>
+          <span class="macro-chip macro-chip-fat">F ${e.fat_g}g</span>
+          <span class="macro-chip macro-chip-protein">P ${e.protein_g}g</span>
+        </div>
+        <div class="actions compact-actions quiet-actions">
           <button class="edit-btn ghost-btn" data-index="${index}">Edit</button>
           <button class="save-btn ghost-btn" data-index="${index}">Save food</button>
           <button class="delete-btn ghost-btn danger-btn" data-index="${index}">Delete</button>
@@ -190,12 +204,19 @@ function renderFoods(foods) {
     return hay.includes(q);
   });
   document.getElementById('foods').innerHTML = filtered.map((f) => `
-    <div class="entry compact-entry selectable-food">
+    <div class="entry compact-entry selectable-food premium-entry">
       <div class="entry-topline">
-        <div class="text">${escapeHtml(f.name)}</div>
+        <div>
+          <div class="text">${escapeHtml(f.name)}</div>
+          <div class="time">${escapeHtml(f.serving)}${f.source ? ` • via ${escapeHtml(f.source)}` : ''}</div>
+        </div>
         <div class="entry-calories">${Math.round(f.calories)} kcal</div>
       </div>
-      <div class="macros">C ${f.carbs_g}g • F ${f.fat_g}g • P ${f.protein_g}g • ${escapeHtml(f.serving)}${f.source ? ` • via ${escapeHtml(f.source)}` : ''}</div>
+      <div class="macro-chips">
+        <span class="macro-chip macro-chip-carbs">C ${f.carbs_g}g</span>
+        <span class="macro-chip macro-chip-fat">F ${f.fat_g}g</span>
+        <span class="macro-chip macro-chip-protein">P ${f.protein_g}g</span>
+      </div>
     </div>
   `).join('');
 }
@@ -217,12 +238,19 @@ function renderSuggestions(foods) {
     return;
   }
   box.innerHTML = foods.map((f, idx) => `
-    <div class="suggestion compact-entry ${idx === selectedSuggestionIndex ? 'active' : ''}" data-index="${idx}" data-name="${escapeHtml(f.name)}">
+    <div class="suggestion compact-entry premium-entry ${idx === selectedSuggestionIndex ? 'active' : ''}" data-index="${idx}" data-name="${escapeHtml(f.name)}">
       <div class="entry-topline">
-        <div class="title">${escapeHtml(f.name)}</div>
+        <div>
+          <div class="title">${escapeHtml(f.name)}</div>
+          <div class="time">${escapeHtml(f.serving)}${f.source ? ` • via ${escapeHtml(f.source)}` : ''}</div>
+        </div>
         <div class="entry-calories">${Math.round(f.calories)} kcal</div>
       </div>
-      <div class="meta">C ${f.carbs_g}g • F ${f.fat_g}g • P ${f.protein_g}g • ${escapeHtml(f.serving)}${f.source ? ` • via ${escapeHtml(f.source)}` : ''}</div>
+      <div class="macro-chips">
+        <span class="macro-chip macro-chip-carbs">C ${f.carbs_g}g</span>
+        <span class="macro-chip macro-chip-fat">F ${f.fat_g}g</span>
+        <span class="macro-chip macro-chip-protein">P ${f.protein_g}g</span>
+      </div>
     </div>
   `).join('');
   box.querySelectorAll('.suggestion').forEach(el => {
