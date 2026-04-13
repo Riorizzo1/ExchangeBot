@@ -1,0 +1,52 @@
+{
+  "foods": [
+    {
+      "id": "core-elite-protein-shake",
+      "name": "Core Elite protein shake",
+      "aliases": ["core shake", "elite shake", "core elite shake"],
+      "serving": "1 bottle",
+      "calories": 230,
+      "carbs_g": 8,
+      "fat_g": 3.5,
+      "protein_g": 42,
+      "source": "personal",
+      "confidence": "exact"
+    },
+    {
+      "id": "doritos-personal-bag",
+      "name": "Personal bag of Doritos",
+      "aliases": ["small bag doritos", "doritos personal bag"],
+      "serving": "1 bag",
+      "calories": 250,
+      "carbs_g": 20,
+      "fat_g": 10,
+      "protein_g": 6,
+      "source": "personal",
+      "confidence": "strong"
+    },
+    {
+      "id": "ny-cheese-pizza-slice",
+      "name": "New York style cheese pizza slice",
+      "aliases": ["ny cheese pizza", "cheese pizza slice", "new york cheese pizza"],
+      "serving": "1 slice",
+      "calories": 285,
+      "carbs_g": 34,
+      "fat_g": 11,
+      "protein_g": 12,
+      "source": "personal",
+      "confidence": "strong"
+    },
+    {
+      "id": "spaghetti-meatballs-bowl",
+      "name": "Spaghetti and meatballs with 2 meatballs",
+      "aliases": ["spaghetti and meatballs", "bowl spaghetti and meatballs"],
+      "serving": "1 bowl",
+      "calories": 650,
+      "carbs_g": 72,
+      "fat_g": 24,
+      "protein_g": 28,
+      "source": "personal",
+      "confidence": "strong"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "foods": [
+    {
+      "id": "seed-cheese-pizza-slice",
+      "name": "Cheese pizza slice",
+      "aliases": ["pizza slice", "cheese pizza", "slice pizza"],
+      "serving": "1 slice",
+      "calories": 285,
+      "carbs_g": 34,
+      "fat_g": 11,
+      "protein_g": 12,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-spaghetti-meatballs-bowl",
+      "name": "Spaghetti and meatballs",
+      "aliases": ["spaghetti", "bowl spaghetti", "spaghetti with meatballs"],
+      "serving": "1 bowl",
+      "calories": 650,
+      "carbs_g": 72,
+      "fat_g": 24,
+      "protein_g": 28,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-jersey-mikes-italian-half",
+      "name": "Half Italian sub",
+      "aliases": ["half italian sub", "half sub", "jersey mikes half italian"],
+      "serving": "1 half sub",
+      "calories": 850,
+      "carbs_g": 72,
+      "fat_g": 38,
+      "protein_g": 32,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-fried-rice-serving",
+      "name": "Pork fried rice",
+      "aliases": ["fried rice", "pork fried rice"],
+      "serving": "1 serving",
+      "calories": 340,
+      "carbs_g": 48,
+      "fat_g": 12,
+      "protein_g": 8,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-general-tsos-serving",
+      "name": "General Tso's chicken",
+      "aliases": ["general tso", "general tsos chicken"],
+      "serving": "1 serving",
+      "calories": 450,
+      "carbs_g": 36,
+      "fat_g": 20,
+      "protein_g": 20,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-cheesecake-slice",
+      "name": "Cheesecake slice",
+      "aliases": ["slice cheesecake", "cheesecake"],
+      "serving": "1 slice",
+      "calories": 430,
+      "carbs_g": 35,
+      "fat_g": 30,
+      "protein_g": 7,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-bacon-cheeseburger",
+      "name": "Bacon cheeseburger",
+      "aliases": ["cheeseburger", "burger"],
+      "serving": "1 burger",
+      "calories": 780,
+      "carbs_g": 35,
+      "fat_g": 50,
+      "protein_g": 45,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-fries-large",
+      "name": "French fries",
+      "aliases": ["fries", "french fries"],
+      "serving": "1.5 cups",
+      "calories": 450,
+      "carbs_g": 58,
+      "fat_g": 22,
+      "protein_g": 5,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-pretzel",
+      "name": "Bavarian pretzel",
+      "aliases": ["pretzel"],
+      "serving": "1 pretzel",
+      "calories": 280,
+      "carbs_g": 55,
+      "fat_g": 2,
+      "protein_g": 8,
+      "source": "seed",
+      "confidence": "estimate"
+    },
+    {
+      "id": "seed-calamari",
+      "name": "Fried calamari",
+      "aliases": ["calamari"],
+      "serving": "1 plate",
+      "calories": 300,
+      "carbs_g": 20,
+      "fat_g": 16,
+      "protein_g": 18,
+      "source": "seed",
+      "confidence": "estimate"
+    }
+  ]
+}
