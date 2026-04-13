@@ -1,23 +1,24 @@
 :root {
   color-scheme: dark;
-  --bg: #0f1115;
-  --panel: #171a21;
-  --panel2: #1f2430;
-  --text: #f5f7fb;
-  --muted: #98a2b3;
-  --accent: #7c5cff;
-  --border: #2a3140;
-  --danger: #ff6b6b;
-  --calories: #ffb84d;
-  --protein: #58d68d;
-  --carbs: #5dade2;
-  --fat: #f78fb3;
+  --bg: #0b0d12;
+  --panel: #12161d;
+  --panel2: #171c24;
+  --panel3: #1d2430;
+  --text: #f3f5f8;
+  --muted: #8f98a8;
+  --accent: #8ea4ff;
+  --border: rgba(255, 255, 255, 0.08);
+  --danger: #ff7b72;
+  --calories: #d9a441;
+  --protein: #5fbf88;
+  --carbs: #5d8fd6;
+  --fat: #c47aa0;
 }
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: Inter, "SF Pro Text", "SF Pro Display", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, rgba(124, 92, 255, 0.16), transparent 30%), linear-gradient(180deg, #0d1016, #131722);
+  background: radial-gradient(circle at top, rgba(142, 164, 255, 0.09), transparent 28%), linear-gradient(180deg, #090b10, #0f131a 48%, #121720);
   color: var(--text);
   letter-spacing: -0.01em;
 }
@@ -51,12 +52,13 @@ header {
   flex: 1;
 }
 .card {
-  background: rgba(23, 26, 33, 0.92);
+  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01)), rgba(18, 22, 29, 0.96);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 16px;
+  border-radius: 14px;
+  padding: 18px;
   margin-bottom: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+  backdrop-filter: blur(10px);
 }
 h1,h2,p { margin-top: 0; }
 h1 {
@@ -80,28 +82,30 @@ h2 {
 input {
   flex: 1;
   width: 100%;
-  background: var(--panel2);
+  background: rgba(255,255,255,0.02);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 13px 14px;
   min-height: 46px;
   font-size: 16px;
 }
 button {
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 12px;
+  background: linear-gradient(180deg, #9bb0ff, #7892ff);
+  color: #0b1020;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
   padding: 11px 14px;
   min-height: 46px;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
 }
 .ghost-btn {
-  background: transparent;
+  background: rgba(255,255,255,0.02);
   color: var(--text);
   border: 1px solid var(--border);
+  box-shadow: none;
 }
 .danger-btn {
   color: var(--danger);
@@ -140,10 +144,10 @@ button {
   gap: 10px;
 }
 .metric {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)), var(--panel2);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 13px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.012)), var(--panel3);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px;
   position: relative;
   overflow: hidden;
 }
@@ -179,9 +183,9 @@ button {
   gap: 8px;
 }
 .entry, .suggestion {
-  background: var(--panel2);
+  background: rgba(255,255,255,0.018);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 12px;
 }
 .compact-entry {
@@ -224,7 +228,7 @@ button {
   margin-top: 12px;
 }
 .collapsible-card {
-  padding-top: 10px;
+  padding-top: 12px;
 }
 .collapse-toggle {
   width: 100%;
@@ -272,11 +276,12 @@ button {
   width: auto;
   margin: 0 auto;
   overflow: auto;
-  background: rgba(23, 26, 33, 0.98);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)), rgba(18, 22, 29, 0.98);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
 }
 @media (max-width: 860px) {
   .app {
@@ -285,7 +290,7 @@ button {
   }
   .card {
     padding: 14px;
-    border-radius: 16px;
+    border-radius: 12px;
   }
   .grid, header, .row, .section-head, .header-actions {
     flex-direction: column;
