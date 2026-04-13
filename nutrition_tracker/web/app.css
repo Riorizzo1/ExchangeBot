@@ -222,13 +222,13 @@ button {
 }
 .modal-panel {
   position: absolute;
-  inset: auto 12px 12px 12px;
+  top: 12px;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
   max-width: 760px;
+  width: auto;
   margin: 0 auto;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(760px, calc(100% - 24px));
-  max-height: calc(100vh - 24px);
   overflow: auto;
   background: rgba(23, 26, 33, 0.98);
   border: 1px solid var(--border);
@@ -280,9 +280,12 @@ button {
     width: 100%;
   }
   .modal-panel {
-    inset: auto 8px 8px 8px;
-    width: calc(100% - 16px);
-    max-height: calc(100vh - 16px);
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
   }
 }
 
