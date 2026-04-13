@@ -1,5 +1,49 @@
 () => (async () => {
-async function extractRwiListings({ pages = 3 } = {}) {
+async function extractRwiListings({ pages = 3, enrichPrices = true } = {}) {
+  function parsePrice(text) {
+    if (!text) return null;
+    const match = String(text).match(/(?:USD\s*|US\$\s*|\$\s*|€\s*|EUR\s*|£\s*|GBP\s*)?([0-9][0-9,]*(?:\.[0-9]{1,2})?)/i);
+    if (!match) return null;
+    const value = Number(match[1].replace(/,/g, ''));
+    return Number.isFinite(value) && value > 20 && value < 200000 ? value : null;
+  }
+
+  function parseCurrency(text) {
+    const raw = String(text || '');
+    if (/€|\bEUR\b|euro/i.test(raw)) return 'EUR';
+    if (/£|\bGBP\b|pound/i.test(raw)) return 'GBP';
+    if (/\$|\bUSD\b|\bUS\$/i.test(raw)) return 'USD';
+    return null;
+  }
+
+  async function enrichRow(row) {
+    if (!enrichPrices || !row?.url) return row;
+    try {
+      const html = await fetch(row.url, { credentials: 'include' }).then(r => r.text());
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const fields = [...doc.querySelectorAll('dl.pairs--customField')];
+      const map = {};
+      for (const dl of fields) {
+        const dt = dl.querySelector('dt');
+        const dd = dl.querySelector('dd');
+        if (dt && dd) map[dt.textContent.trim()] = dd.textContent.trim();
+      }
+      const body = doc.querySelector('article.message .bbWrapper, article.message .message-body')?.textContent?.trim() || '';
+      const askingRaw = map['Asking Price?'] || map['Price'] || body;
+      const shippingRaw = map['Shipping Costs?'] || '';
+      const askingPrice = parsePrice(askingRaw);
+      return {
+        ...row,
+        askingPrice: askingPrice != null ? `${parseCurrency(askingRaw) === 'EUR' ? '€' : parseCurrency(askingRaw) === 'GBP' ? '£' : '$'}${askingPrice}` : null,
+        priceValue: askingPrice,
+        currency: parseCurrency(askingRaw),
+        shipping: shippingRaw || null,
+      };
+    } catch {
+      return row;
+    }
+  }
+
   function plp(html) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const rows = doc.querySelectorAll('.structItem--thread:not(.structItem--sticky)');
@@ -51,6 +95,11 @@ async function extractRwiListings({ pages = 3 } = {}) {
     all = all.concat(plp(html));
   }
   all.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+  if (enrichPrices) {
+    const enriched = [];
+    for (const row of all) enriched.push(await enrichRow(row));
+    all = enriched;
+  }
   return {
     href: location.href,
     count: all.length,
@@ -65,6 +114,6 @@ async function extractRwiListings({ pages = 3 } = {}) {
   };
 }
 
-return extractRwiListings({ pages: 3 });
+return extractRwiListings({ pages: 3, enrichPrices: true });
 
 })()
