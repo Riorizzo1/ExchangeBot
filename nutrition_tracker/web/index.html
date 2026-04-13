@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nutrition Tracker</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div>
+          <h1>Nutrition Tracker</h1>
+          <p class="sub">Quick-add desktop logger</p>
+        </div>
+        <button id="renderBtn">Render modern card</button>
+      </header>
+
+      <section class="card add-card">
+        <label for="foodInput">Add food</label>
+        <div class="row">
+          <input id="foodInput" placeholder="e.g. 2 slices cheese pizza" />
+          <button id="addBtn">Add</button>
+        </div>
+        <p class="hint">Uses the current nutrition tracker data and render pipeline underneath.</p>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h2>Today</h2>
+          <div id="totals" class="totals"></div>
+        </div>
+        <div class="card">
+          <h2>Modern card</h2>
+          <div id="renderState" class="hint">Not rendered yet</div>
+          <img id="renderImg" class="render" style="display:none" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Entries</h2>
+        <div id="entries" class="entries"></div>
+      </section>
+    </div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
