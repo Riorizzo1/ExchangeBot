@@ -78,8 +78,8 @@ async function pollForUpdates() {
   } catch {}
 }
 
-function metric(label, value) {
-  return `<div class="metric"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+function metric(label, value, tone = 'neutral') {
+  return `<div class="metric metric-${tone}"><div class="label">${label}</div><div class="value">${value}</div></div>`;
 }
 
 function renderRecentQuickAdds(entries) {
@@ -106,10 +106,10 @@ function renderDay(payload) {
   const day = payload.day;
   const totals = day.totals || {};
   document.getElementById('totals').innerHTML = [
-    metric('Calories', Math.round(totals.calories || 0)),
-    metric('Protein', `${Math.round(totals.protein_g || 0)}g`),
-    metric('Carbs', `${Math.round(totals.carbs_g || 0)}g`),
-    metric('Fat', `${Math.round(totals.fat_g || 0)}g`),
+    metric('Calories', Math.round(totals.calories || 0), 'calories'),
+    metric('Protein', `${Math.round(totals.protein_g || 0)}g`, 'protein'),
+    metric('Carbs', `${Math.round(totals.carbs_g || 0)}g`, 'carbs'),
+    metric('Fat', `${Math.round(totals.fat_g || 0)}g`, 'fat'),
   ].join('');
 
   const entries = day.entries || [];
