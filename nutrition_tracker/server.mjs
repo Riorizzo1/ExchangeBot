@@ -151,30 +151,66 @@ function brandedLookup(text) {
   const tmpDir = path.join(__dirname, '..', '.firecrawl');
   fs.mkdirSync(tmpDir, { recursive: true });
   const slug = String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  const out = path.join(tmpDir, `${slug || 'lookup'}.json`);
-  execFileSync('firecrawl', ['search', `${text} nutrition facts`, '--limit', '5', '--scrape', '-o', out, '--json'], {
+  const searchOut = path.join(tmpDir, `${slug || 'lookup'}.json`);
+  execFileSync('firecrawl', ['search', `${text} nutrition facts`, '--limit', '5', '--scrape', '-o', searchOut, '--json'], {
     cwd: path.join(__dirname, '..'),
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
   });
-  const obj = readJson(out);
+  const obj = readJson(searchOut);
   const pages = (((obj || {}).data || {}).web) || [];
-  const joined = pages.map(p => `${p.title || ''}\n${p.description || ''}\n${p.markdown || ''}`).join('\n');
-  const num = (re, fallback = null) => {
-    const m = joined.match(re);
-    return m ? Number(m[1]) : fallback;
+  const bestUrl = pages[0]?.url || null;
+  let joined = pages.map(p => `${p.title || ''}\n${p.description || ''}\n${p.markdown || ''}`).join('\n');
+
+  if (bestUrl) {
+    const scrapeOut = path.join(tmpDir, `${slug || 'lookup'}-page.md`);
+    try {
+      execFileSync('firecrawl', ['scrape', bestUrl, '-f', 'markdown', '--wait-for', '2000', '-o', scrapeOut], {
+        cwd: path.join(__dirname, '..'),
+        encoding: 'utf8',
+        maxBuffer: 20 * 1024 * 1024,
+      });
+      joined += `\n${fs.readFileSync(scrapeOut, 'utf8')}`;
+    } catch {}
+  }
+
+  const num = (...patterns) => {
+    for (const re of patterns) {
+      const m = joined.match(re);
+      if (m) return Number(m[1]);
+    }
+    return null;
   };
-  const calories = num(/(\d+)\s*(?:calories|kcal)/i, null);
-  const protein = num(/(\d+)\s*g\s*protein/i, null);
-  const carbs = num(/(\d+)\s*g\s*(?:total\s+)?carb/i, null);
-  const fat = num(/(\d+)\s*g\s*(?:total\s+)?fat/i, null);
+
+  const calories = num(
+    /\*\*Calories:\*\*\s*\|\s*(\d+(?:\.\d+)?)/i,
+    /Calories\s*[:|]\s*(\d+(?:\.\d+)?)/i,
+    /(\d+(?:\.\d+)?)\s*(?:calories|kcal)/i,
+  );
+  const fat = num(
+    /Total Fat\s*\|\s*(\d+(?:\.\d+)?)/i,
+    /Total Fat\s*(\d+(?:\.\d+)?)G/i,
+    /fat\D{0,12}(\d+(?:\.\d+)?)\s*g/i,
+  );
+  const carbs = num(
+    /Total Carbohydrates\s*\|\s*(\d+(?:\.\d+)?)/i,
+    /Total Carbohydrates\s*(\d+(?:\.\d+)?)G/i,
+    /carbohydrates?\D{0,12}(\d+(?:\.\d+)?)\s*g/i,
+    /carbs?\D{0,12}(\d+(?:\.\d+)?)\s*g/i,
+  );
+  const protein = num(
+    /Protein\s*\|\s*(\d+(?:\.\d+)?)/i,
+    /Protein\s*(\d+(?:\.\d+)?)G/i,
+    /protein\D{0,12}(\d+(?:\.\d+)?)\s*g/i,
+  );
+
   return {
     name: text,
     calories,
     carbs_g: carbs,
     fat_g: fat,
     protein_g: protein,
-    sourceUrl: pages[0]?.url || null,
+    sourceUrl: bestUrl,
     sourceTitle: pages[0]?.title || null,
     found: [calories, carbs, fat, protein].some(v => v != null)
   };
