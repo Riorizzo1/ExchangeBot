@@ -47,6 +47,23 @@
         <h2>Personal foods</h2>
         <div id="foods" class="entries"></div>
       </section>
+
+      <section class="card" id="editorCard" style="display:none">
+        <h2>Edit entry</h2>
+        <div class="entries">
+          <input id="editText" placeholder="Entry text" />
+          <div class="row">
+            <input id="editCalories" placeholder="Calories" />
+            <input id="editCarbs" placeholder="Carbs" />
+            <input id="editFat" placeholder="Fat" />
+            <input id="editProtein" placeholder="Protein" />
+          </div>
+          <div class="row">
+            <button id="saveEditBtn">Save edit</button>
+            <button id="cancelEditBtn">Cancel</button>
+          </div>
+        </div>
+      </section>
     </div>
     <script src="/app.js" type="module"></script>
   </body>

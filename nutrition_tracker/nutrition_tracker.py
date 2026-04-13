@@ -133,6 +133,7 @@ def estimate(text: str) -> Dict[str, float]:
     if memory_match:
         return memory_match
     t = text.lower()
+    brandy = any(word in t for word in ['ratio', 'chobani', 'oikos', 'siggi', 'fairlife', 'quest', 'jersey mike', 'doritos', 'gatorade'])
     totals = {'calories': 0.0, 'carbs_g': 0.0, 'fat_g': 0.0, 'protein_g': 0.0}
     matched = False
     for name, vals in COMMON.items():
@@ -151,6 +152,8 @@ def estimate(text: str) -> Dict[str, float]:
         exact = COMMON.get(t.strip())
         if exact:
             return {k: float(v) for k, v in exact.items()}
+    if brandy and not matched:
+        return {'calories': 0.0, 'carbs_g': 0.0, 'fat_g': 0.0, 'protein_g': 0.0}
     return totals
 
 

@@ -13,6 +13,7 @@ async function postJson(url, body) {
 }
 
 let currentEntries = [];
+let editingIndex = null;
 
 async function refreshAll() {
   const today = await getJson('/api/today');
@@ -62,14 +63,14 @@ function bindEntryActions() {
       const index = Number(btn.dataset.index);
       const e = currentEntries[index];
       if (!e) return;
-      const newText = prompt('Edit text:', e.text);
-      if (newText == null || newText === '') return;
-      const cals = Number(prompt('Calories:', e.calories));
-      const carbs = Number(prompt('Carbs:', e.carbs_g));
-      const fat = Number(prompt('Fat:', e.fat_g));
-      const protein = Number(prompt('Protein:', e.protein_g));
-      await postJson('/api/entry/update', { index, text: newText, calories: cals, carbs_g: carbs, fat_g: fat, protein_g: protein });
-      await refreshAll();
+      editingIndex = index;
+      document.getElementById('editorCard').style.display = 'block';
+      document.getElementById('editText').value = e.text;
+      document.getElementById('editCalories').value = e.calories;
+      document.getElementById('editCarbs').value = e.carbs_g;
+      document.getElementById('editFat').value = e.fat_g;
+      document.getElementById('editProtein').value = e.protein_g;
+      document.getElementById('editorCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
@@ -157,6 +158,26 @@ async function renderCard() {
   img.style.display = 'block';
   state.textContent = 'Rendered';
 }
+
+document.getElementById('saveEditBtn').addEventListener('click', async () => {
+  if (editingIndex == null) return;
+  await postJson('/api/entry/update', {
+    index: editingIndex,
+    text: document.getElementById('editText').value,
+    calories: Number(document.getElementById('editCalories').value),
+    carbs_g: Number(document.getElementById('editCarbs').value),
+    fat_g: Number(document.getElementById('editFat').value),
+    protein_g: Number(document.getElementById('editProtein').value),
+  });
+  editingIndex = null;
+  document.getElementById('editorCard').style.display = 'none';
+  await refreshAll();
+});
+
+document.getElementById('cancelEditBtn').addEventListener('click', () => {
+  editingIndex = null;
+  document.getElementById('editorCard').style.display = 'none';
+});
 
 document.getElementById('addBtn').addEventListener('click', addFood);
 document.getElementById('foodInput').addEventListener('keydown', (e) => {
