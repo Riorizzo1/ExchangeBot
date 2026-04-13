@@ -82,6 +82,26 @@ function metric(label, value) {
   return `<div class="metric"><div class="label">${label}</div><div class="value">${value}</div></div>`;
 }
 
+function renderRecentQuickAdds(entries) {
+  const box = document.getElementById('recentQuickAdds');
+  if (!box) return;
+  const recent = [];
+  for (let i = entries.length - 1; i >= 0; i -= 1) {
+    const text = (entries[i]?.text || '').trim();
+    if (!text) continue;
+    if (recent.some(item => item.toLowerCase() === text.toLowerCase())) continue;
+    recent.push(text);
+    if (recent.length === 3) break;
+  }
+  box.innerHTML = recent.map((text) => `
+    <button class="ghost-btn quick-add-btn" data-text="${escapeHtml(text)}">${escapeHtml(text)}</button>
+  `).join('');
+  box.style.display = recent.length ? 'grid' : 'none';
+  box.querySelectorAll('.quick-add-btn').forEach(btn => {
+    btn.addEventListener('click', () => addFood(btn.dataset.text || ''));
+  });
+}
+
 function renderDay(payload) {
   const day = payload.day;
   const totals = day.totals || {};
@@ -93,6 +113,7 @@ function renderDay(payload) {
   ].join('');
 
   const entries = day.entries || [];
+  renderRecentQuickAdds(entries);
   document.getElementById('entries').innerHTML = entries.slice().reverse().map((e, reverseIndex, arr) => {
     const index = arr.length - 1 - reverseIndex;
     return `
@@ -366,9 +387,6 @@ document.getElementById('cancelFoodBtn').addEventListener('click', () => {
 
 document.getElementById('lookupBtn').addEventListener('click', lookupFood);
 document.getElementById('addBtn').addEventListener('click', () => addFood());
-document.querySelectorAll('.quick-add-btn').forEach(btn => {
-  btn.addEventListener('click', () => addFood(btn.dataset.text || ''));
-});
 document.getElementById('foodInput').addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown' && suggestionFoods.length) {
     e.preventDefault();
