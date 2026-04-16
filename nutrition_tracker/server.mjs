@@ -9,11 +9,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, 'data', 'nutrition.json');
 const personalFoodsPath = path.join(__dirname, 'data', 'foods_personal.json');
+const cacheFoodsPath = path.join(__dirname, 'data', 'foods_cache.json');
 const dailyDir = path.join(__dirname, 'daily');
 const renderPath = path.join(__dirname, 'renders');
+const TARGETS = { calories: 2030, carbs_g: 200, fat_g: 70, protein_g: 150 };
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function ensureFoodsFile(file) {
+  if (!fs.existsSync(file)) {
+    fs.writeFileSync(file, JSON.stringify({ foods: [] }, null, 2));
+  }
 }
 
 function todayKey() {
@@ -24,30 +32,128 @@ function todayKey() {
   return `${y}-${m}-${d}`;
 }
 
+function buildTargetSummary(totals = {}) {
+  const keys = ['calories', 'carbs_g', 'fat_g', 'protein_g'];
+  const out = {};
+  for (const key of keys) {
+    const target = Number(TARGETS[key] || 0);
+    const current = Number(totals[key] || 0);
+    const remaining = target - current;
+    out[key] = {
+      target,
+      current,
+      remaining,
+      over: remaining < 0,
+      overBy: remaining < 0 ? Math.abs(remaining) : 0,
+      pct: target > 0 ? current / target : 0,
+    };
+  }
+  return out;
+}
+
+function rebuildDayTotals(day = {}) {
+  const totals = { calories: 0, carbs_g: 0, fat_g: 0, protein_g: 0 };
+  for (const entry of day.entries || []) {
+    for (const key of Object.keys(totals)) {
+      totals[key] += Number(entry?.[key] || 0);
+    }
+  }
+  day.totals = Object.fromEntries(Object.entries(totals).map(([k, v]) => [k, Math.round((v + Number.EPSILON) * 100) / 100]));
+  return day;
+}
+
+function normalizeDb(db) {
+  db.days = db.days || {};
+  for (const key of Object.keys(db.days)) {
+    const day = db.days[key] || {};
+    day.entries = Array.isArray(day.entries) ? day.entries : [];
+    rebuildDayTotals(day);
+    db.days[key] = day;
+  }
+  return db;
+}
+
+function writeDb(db) {
+  normalizeDb(db);
+  fs.writeFileSync(dataPath, JSON.stringify(db, null, 2));
+}
+
 function getToday() {
-  const db = readJson(dataPath);
+  const db = normalizeDb(readJson(dataPath));
   const key = todayKey();
+  const day = db.days[key] || { entries: [], totals: { calories: 0, carbs_g: 0, fat_g: 0, protein_g: 0 } };
   return {
     date: key,
-    day: db.days[key] || { entries: [], totals: { calories: 0, carbs_g: 0, fat_g: 0, protein_g: 0 } },
+    day,
+    targets: TARGETS,
+    targetSummary: buildTargetSummary(day.totals || {}),
     updatedAt: fs.statSync(dataPath).mtimeMs,
   };
 }
 
-function addFood(text) {
-  execFileSync('python3', [path.join(__dirname, 'nutrition_tracker.py'), 'add', text, '--source', 'app'], {
-    cwd: __dirname,
-    encoding: 'utf8',
-    maxBuffer: 5 * 1024 * 1024,
-  });
+function addFood(text, options = {}) {
+  const before = getToday();
+  const beforeCount = before.day.entries.length;
+  const bestMatch = searchFoods(text)[0] || null;
+  const servings = Number(options.servings || 1);
+
+  if (bestMatch && Number.isFinite(servings) && servings > 0) {
+    const db = readJson(dataPath);
+    const key = todayKey();
+    db.days[key] = db.days[key] || { entries: [], totals: { calories: 0, carbs_g: 0, fat_g: 0, protein_g: 0 } };
+    const day = db.days[key];
+    const round = (n) => Math.round((Number(n || 0) + Number.EPSILON) * 100) / 100;
+    const entry = {
+      text: servings === 1 ? bestMatch.name : `${servings} × ${bestMatch.name}`,
+      calories: round(bestMatch.calories * servings),
+      carbs_g: round(bestMatch.carbs_g * servings),
+      fat_g: round(bestMatch.fat_g * servings),
+      protein_g: round(bestMatch.protein_g * servings),
+      timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+      source: bestMatch.source || 'app',
+      serving: bestMatch.serving,
+      servings,
+    };
+    day.entries.push(entry);
+    for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
+      day.totals[k] = round(Number(day.totals[k] || 0) + Number(entry[k] || 0));
+    }
+    writeDb(db);
+  } else {
+    execFileSync('python3', [path.join(__dirname, 'nutrition_tracker.py'), 'add', text, '--source', 'app'], {
+      cwd: __dirname,
+      encoding: 'utf8',
+      maxBuffer: 5 * 1024 * 1024,
+    });
+  }
+
   const after = getToday();
   const entry = after.day.entries[after.day.entries.length - 1];
   const zero = entry && Number(entry.calories) === 0 && Number(entry.carbs_g) === 0 && Number(entry.fat_g) === 0 && Number(entry.protein_g) === 0;
-  return { ...after, warning: zero ? 'No nutrition match found for this item yet.' : null };
+  const matchedFromSavedFoods = bestMatch && after.day.entries.length === beforeCount + 1 && !zero;
+
+  return {
+    ...after,
+    warning: zero ? 'No nutrition match found for this item yet.' : null,
+    addContext: matchedFromSavedFoods ? {
+      matched: true,
+      name: bestMatch.name,
+      source: bestMatch.source,
+      serving: bestMatch.serving,
+      servings,
+    } : null
+  };
 }
 
 function getPersonalFoods() {
+  ensureFoodsFile(personalFoodsPath);
   const obj = readJson(personalFoodsPath);
+  return obj.foods || [];
+}
+
+function getCacheFoods() {
+  ensureFoodsFile(cacheFoodsPath);
+  const obj = readJson(cacheFoodsPath);
   return obj.foods || [];
 }
 
@@ -65,39 +171,105 @@ function getAllFoods() {
   });
 }
 
+function scoreFoodMatch(food, query) {
+  const q = String(query || '').trim().toLowerCase();
+  if (!q) return 0;
+  const names = [food.name, ...(food.aliases || [])].map(v => String(v).toLowerCase());
+  let best = 0;
+  for (const name of names) {
+    if (!name) continue;
+    if (name === q) best = Math.max(best, 5000);
+    else if (name.startsWith(q)) best = Math.max(best, 2000 + q.length);
+    else if (q.startsWith(name)) best = Math.max(best, 1800 + name.length);
+    else if (name.includes(q)) best = Math.max(best, 1200 + q.length);
+    else {
+      const tokens = q.split(/\s+/).filter(Boolean);
+      const tokenHits = tokens.filter(tok => name.includes(tok)).length;
+      if (tokenHits) best = Math.max(best, tokenHits * 100);
+    }
+  }
+  return best;
+}
+
 function searchFoods(query) {
   const q = String(query || '').trim().toLowerCase();
   if (!q) return [];
   const scored = [];
   for (const food of getAllFoods()) {
-    const hay = [food.name, ...(food.aliases || [])].join(' ').toLowerCase();
-    if (!hay.includes(q)) continue;
-    const score = hay.startsWith(q) ? 1000 : q.split(/\s+/).filter(tok => hay.includes(tok)).length * 10;
+    const score = scoreFoodMatch(food, q);
+    if (!score) continue;
     scored.push({ ...food, score });
   }
   return scored.sort((a, b) => b.score - a.score || a.name.localeCompare(b.name)).slice(0, 12);
 }
 
-function savePersonalFood(payload) {
-  const obj = readJson(personalFoodsPath);
-  obj.foods = obj.foods || [];
-  const item = {
+function normalizeFoodPayload(payload, source = 'personal') {
+  return {
     id: payload.id || String(payload.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
     name: payload.name,
     aliases: payload.aliases || [],
     serving: payload.serving || '1 serving',
+    servingAmount: Number(payload.servingAmount || 1),
+    servingUnit: payload.servingUnit || payload.serving || 'serving',
     calories: Number(payload.calories || 0),
     carbs_g: Number(payload.carbs_g || 0),
     fat_g: Number(payload.fat_g || 0),
     protein_g: Number(payload.protein_g || 0),
-    source: 'personal',
-    confidence: payload.confidence || 'exact'
+    source,
+    confidence: payload.confidence || 'exact',
+    sourceUrl: payload.sourceUrl || null,
+    sourceTitle: payload.sourceTitle || null,
+    cachedAt: payload.cachedAt || null,
   };
-  const idx = obj.foods.findIndex(f => f.id === item.id || f.name.toLowerCase() === item.name.toLowerCase());
-  if (idx >= 0) obj.foods[idx] = item;
+}
+
+function upsertFoodFile(file, payload, source = 'personal') {
+  ensureFoodsFile(file);
+  const obj = readJson(file);
+  obj.foods = obj.foods || [];
+  const item = normalizeFoodPayload(payload, source);
+  const idx = obj.foods.findIndex(f =>
+    f.id === item.id ||
+    f.name.toLowerCase() === item.name.toLowerCase() ||
+    (item.aliases || []).some(alias => alias && [f.name, ...(f.aliases || [])].map(v => String(v).toLowerCase()).includes(String(alias).toLowerCase()))
+  );
+  if (idx >= 0) obj.foods[idx] = { ...obj.foods[idx], ...item };
   else obj.foods.unshift(item);
-  fs.writeFileSync(personalFoodsPath, JSON.stringify(obj, null, 2));
+  fs.writeFileSync(file, JSON.stringify(obj, null, 2));
   return item;
+}
+
+function savePersonalFood(payload) {
+  return upsertFoodFile(personalFoodsPath, payload, 'personal');
+}
+
+function saveCachedFood(payload) {
+  return upsertFoodFile(cacheFoodsPath, {
+    ...payload,
+    cachedAt: new Date().toISOString(),
+  }, 'cache');
+}
+
+function findCachedFood(text) {
+  const q = String(text || '').trim().toLowerCase();
+  if (!q) return null;
+  let best = null;
+  let bestScore = 0;
+  for (const food of getCacheFoods()) {
+    const names = [food.name, ...(food.aliases || [])].map(v => String(v).toLowerCase());
+    for (const name of names) {
+      if (!name) continue;
+      let score = 0;
+      if (name === q) score = 5000;
+      else if (q === name) score = 5000;
+      else if (q.includes(name) || name.includes(q)) score = 1000 + Math.min(q.length, name.length);
+      if (score > bestScore) {
+        best = food;
+        bestScore = score;
+      }
+    }
+  }
+  return bestScore >= 1000 ? best : null;
 }
 
 function updateEntry(index, payload) {
@@ -106,9 +278,6 @@ function updateEntry(index, payload) {
   const day = db.days[key];
   if (!day || !day.entries[index]) throw new Error('entry not found');
   const prev = day.entries[index];
-  for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
-    day.totals[k] -= Number(prev[k] || 0);
-  }
   const next = {
     ...prev,
     text: payload.text ?? prev.text,
@@ -119,10 +288,7 @@ function updateEntry(index, payload) {
     source: payload.source ?? prev.source ?? 'app',
   };
   day.entries[index] = next;
-  for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
-    day.totals[k] += Number(next[k] || 0);
-  }
-  fs.writeFileSync(dataPath, JSON.stringify(db, null, 2));
+  writeDb(db);
   return getToday();
 }
 
@@ -131,33 +297,71 @@ function deleteEntry(index) {
   const key = todayKey();
   const day = db.days[key];
   if (!day || !day.entries[index]) throw new Error('entry not found');
-  const prev = day.entries[index];
-  for (const k of ['calories', 'carbs_g', 'fat_g', 'protein_g']) {
-    day.totals[k] -= Number(prev[k] || 0);
-  }
   day.entries.splice(index, 1);
-  fs.writeFileSync(dataPath, JSON.stringify(db, null, 2));
+  writeDb(db);
   return getToday();
 }
 
-function renderTodayModern() {
-  execFileSync('python3', [path.join(__dirname, 'render_today_modern.py')], {
+function addChatEntry(payload) {
+  const db = readJson(dataPath);
+  const key = payload.date || todayKey();
+  db.days[key] = db.days[key] || { entries: [], totals: { calories: 0, carbs_g: 0, fat_g: 0, protein_g: 0 } };
+  const entry = {
+    timestamp: payload.timestamp || new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+    text: String(payload.text || '').trim(),
+    calories: Number(payload.calories || 0),
+    carbs_g: Number(payload.carbs_g || 0),
+    fat_g: Number(payload.fat_g || 0),
+    protein_g: Number(payload.protein_g || 0),
+    source: payload.source || 'chat',
+  };
+  if (!entry.text) throw new Error('text required');
+  db.days[key].entries.push(entry);
+  writeDb(db);
+  return { date: key, entry, ...getToday() };
+}
+
+function renderMacroImage() {
+  execFileSync('python3', [path.join(__dirname, 'render_macro_image.py')], {
     cwd: __dirname,
     encoding: 'utf8',
     maxBuffer: 5 * 1024 * 1024,
   });
-  return path.join(renderPath, `${todayKey()}_modern.jpg`);
+  return path.join(renderPath, `${todayKey()}_macro.jpg`);
 }
 
+const FIRECRAWL_BIN = process.env.FIRECRAWL_BIN || '/opt/homebrew/bin/firecrawl';
+const FIRECRAWL_ENV = {
+  ...process.env,
+  PATH: ['/opt/homebrew/bin', '/opt/homebrew/sbin', process.env.PATH || ''].filter(Boolean).join(':'),
+};
+
 function brandedLookup(text) {
+  const cached = findCachedFood(text);
+  if (cached) {
+    return {
+      name: cached.name,
+      calories: cached.calories,
+      carbs_g: cached.carbs_g,
+      fat_g: cached.fat_g,
+      protein_g: cached.protein_g,
+      serving: cached.serving,
+      sourceUrl: cached.sourceUrl || null,
+      sourceTitle: cached.sourceTitle || null,
+      found: true,
+      cached: true,
+    };
+  }
+
   const tmpDir = path.join(__dirname, '..', '.firecrawl');
   fs.mkdirSync(tmpDir, { recursive: true });
   const slug = String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   const searchOut = path.join(tmpDir, `${slug || 'lookup'}.json`);
-  execFileSync('firecrawl', ['search', `${text} nutrition facts`, '--limit', '5', '--scrape', '-o', searchOut, '--json'], {
+  execFileSync(FIRECRAWL_BIN, ['search', `${text} nutrition facts`, '--limit', '5', '--scrape', '-o', searchOut, '--json'], {
     cwd: path.join(__dirname, '..'),
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
+    env: FIRECRAWL_ENV,
   });
   const obj = readJson(searchOut);
   const pages = (((obj || {}).data || {}).web) || [];
@@ -167,10 +371,11 @@ function brandedLookup(text) {
   if (bestUrl) {
     const scrapeOut = path.join(tmpDir, `${slug || 'lookup'}-page.md`);
     try {
-      execFileSync('firecrawl', ['scrape', bestUrl, '-f', 'markdown', '--wait-for', '2000', '-o', scrapeOut], {
+      execFileSync(FIRECRAWL_BIN, ['scrape', bestUrl, '-f', 'markdown', '--wait-for', '2000', '-o', scrapeOut], {
         cwd: path.join(__dirname, '..'),
         encoding: 'utf8',
         maxBuffer: 20 * 1024 * 1024,
+        env: FIRECRAWL_ENV,
       });
       joined += `\n${fs.readFileSync(scrapeOut, 'utf8')}`;
     } catch {}
@@ -206,16 +411,25 @@ function brandedLookup(text) {
     /protein\D{0,12}(\d+(?:\.\d+)?)\s*g/i,
   );
 
-  return {
+  const result = {
     name: text,
     calories,
     carbs_g: carbs,
     fat_g: fat,
     protein_g: protein,
+    serving: '1 serving',
+    aliases: [text],
     sourceUrl: bestUrl,
     sourceTitle: pages[0]?.title || null,
-    found: [calories, carbs, fat, protein].some(v => v != null)
+    found: [calories, carbs, fat, protein].some(v => v != null),
+    cached: false,
   };
+
+  if (result.found) {
+    saveCachedFood(result);
+  }
+
+  return result;
 }
 
 function sendJson(res, status, payload) {
@@ -246,6 +460,9 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && url.pathname === '/api/foods/personal') {
     return sendJson(res, 200, { foods: getPersonalFoods() });
   }
+  if (req.method === 'GET' && url.pathname === '/api/foods/all') {
+    return sendJson(res, 200, { foods: getAllFoods() });
+  }
   if (req.method === 'GET' && url.pathname === '/api/foods/search') {
     return sendJson(res, 200, { foods: searchFoods(url.searchParams.get('q') || '') });
   }
@@ -256,7 +473,10 @@ const server = http.createServer(async (req, res) => {
       try {
         const parsed = JSON.parse(body || '{}');
         if (!parsed.text || !String(parsed.text).trim()) return sendJson(res, 400, { error: 'text required' });
-        return sendJson(res, 200, addFood(String(parsed.text).trim()));
+        const multiplier = Number(parsed.multiplier || 1);
+        const servings = Number(parsed.servings || multiplier || 1);
+        const quantityText = multiplier === 1 ? String(parsed.text).trim() : `${multiplier} ${String(parsed.text).trim()}`;
+        return sendJson(res, 200, addFood(quantityText, { servings }));
       } catch (err) {
         return sendJson(res, 500, { error: String(err.message || err) });
       }
@@ -265,7 +485,7 @@ const server = http.createServer(async (req, res) => {
   }
   if (req.method === 'POST' && url.pathname === '/api/render') {
     try {
-      const out = renderTodayModern();
+      const out = renderMacroImage();
       return sendJson(res, 200, { ok: true, path: out, url: `/render/${path.basename(out)}` });
     } catch (err) {
       return sendJson(res, 500, { error: String(err.message || err) });
@@ -306,6 +526,19 @@ const server = http.createServer(async (req, res) => {
       try {
         const parsed = JSON.parse(body || '{}');
         return sendJson(res, 200, updateEntry(Number(parsed.index), parsed));
+      } catch (err) {
+        return sendJson(res, 500, { error: String(err.message || err) });
+      }
+    });
+    return;
+  }
+  if (req.method === 'POST' && url.pathname === '/api/entry/chat') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body || '{}');
+        return sendJson(res, 200, addChatEntry(parsed));
       } catch (err) {
         return sendJson(res, 500, { error: String(err.message || err) });
       }

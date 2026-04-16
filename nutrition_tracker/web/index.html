@@ -7,66 +7,60 @@
     <link rel="stylesheet" href="/app.css" />
   </head>
   <body>
-    <div class="app">
-      <header class="hero card">
-        <div class="hero-copy">
-          <div class="eyebrow">Daily nutrition</div>
-          <h1>Nutrition Tracker</h1>
-          <p class="sub">A cleaner daily dashboard for fast logging, smarter reuse, and a better read on your day.</p>
-          <div id="heroMeta" class="hero-meta"></div>
+    <div class="app nutrition-app-shell">
+      <section class="nutrition-master-shell">
+        <div class="nutrition-topbar">
+          <button class="icon-shell-btn" type="button" aria-label="Close">×</button>
+          <button id="savedFoodsBtn" class="icon-shell-btn" type="button" aria-label="Saved foods">⌂</button>
         </div>
-        <div class="header-actions hero-actions">
-          <button id="savedFoodsBtn" class="ghost-btn">Saved foods</button>
-          <button id="renderBtn">Render macro image</button>
-        </div>
-      </header>
 
-      <section class="card add-card premium-panel">
-        <div class="section-kicker">Quick log</div>
-        <label for="foodInput">Add food</label>
-        <div class="add-stack">
-          <input id="foodInput" placeholder="e.g. 2 slices cheese pizza" autocomplete="off" />
-          <div class="row action-row">
-            <button id="lookupBtn" class="ghost-btn">Lookup</button>
-            <button id="addBtn">Add</button>
+        <section class="nutrition-dashboard-shell">
+          <div id="totals" class="nutrition-dashboard-grid"></div>
+        </section>
+
+        <section class="nutrition-quicklog-shell">
+          <div class="nutrition-section-kicker">Quick log</div>
+          <div class="nutrition-search-shell">
+            <span class="nutrition-search-icon">⌕</span>
+            <input id="foodInput" placeholder="Search a saved food or type something new..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
           </div>
-        </div>
-        <div id="recentQuickAdds" class="quick-actions compact-quick-actions"></div>
-        <div id="suggestions" class="entries compact-list"></div>
-        <div id="lookupResult" class="hint"></div>
-        <div id="addResult" class="hint"></div>
-      </section>
+          <div id="suggestions" class="entries compact-list nutrition-suggestions"></div>
+          <div id="lookupResult" class="hint nutrition-inline-status"></div>
+          <div id="addResult" class="hint nutrition-inline-status"></div>
 
-      <section class="grid mobile-priority dashboard-grid">
-        <div class="card premium-panel">
-          <div class="section-kicker">Dashboard</div>
-          <div class="section-head premium-head">
-            <div>
-              <h2>Today</h2>
-              <div class="hint">Current daily totals</div>
+          <div class="nutrition-servings-card">
+            <div id="activeServingText" class="nutrition-servings-title">1 serving</div>
+            <div class="nutrition-stepper-row">
+              <button id="decreaseServingsBtn" class="ghost-btn nutrition-stepper-btn" type="button">−</button>
+              <input id="servingsInput" type="number" min="0.25" step="0.25" value="1" />
+              <button id="increaseServingsBtn" class="ghost-btn nutrition-stepper-btn" type="button">+</button>
+            </div>
+            <div id="servingChips" class="nutrition-chip-row">
+              <button class="ghost-btn nutrition-chip serving-chip" data-servings="0.5">0.5x</button>
+              <button class="ghost-btn nutrition-chip serving-chip active" data-servings="1">1x</button>
+              <button class="ghost-btn nutrition-chip serving-chip" data-servings="2">2x</button>
+              <button class="ghost-btn nutrition-chip serving-chip" data-servings="3">3x</button>
             </div>
           </div>
-          <div id="totals" class="totals"></div>
-        </div>
-        <div class="card collapsible-card collapsed premium-panel" id="macroCard">
-          <button class="collapse-toggle" data-target="macroContent" aria-expanded="false">
-            <span>
-              <span class="section-kicker">Export</span>
-              <span class="collapse-title">Macro image</span>
-            </span>
-            <span class="collapse-icon">+</span>
-          </button>
-          <div id="macroContent" class="collapse-body">
-            <div id="renderState" class="hint">Not rendered yet</div>
-            <img id="renderImg" class="render" style="display:none" />
+
+          <div id="quickLogPreview" class="nutrition-preview-text">Choose a saved food to preview macros per serving.</div>
+
+          <div class="nutrition-quicklog-actions">
+            <button id="lookupBtn" class="ghost-btn nutrition-secondary-btn">Lookup</button>
+            <button id="addBtn" class="nutrition-primary-btn">Add</button>
           </div>
-        </div>
+
+          <div class="nutrition-recent-shell">
+            <div class="nutrition-section-kicker">Recent</div>
+            <div id="recentQuickAdds" class="nutrition-recent-grid"></div>
+          </div>
+        </section>
       </section>
 
-      <section class="card premium-panel">
+      <section class="card premium-panel nutrition-entries-shell">
         <div class="section-head premium-head entries-head">
           <div>
-            <div class="section-kicker">Journal</div>
+            <div class="section-kicker">Daily nutrition</div>
             <h2>Entries</h2>
           </div>
           <div class="hint">Tap edit only when needed</div>
@@ -122,11 +116,28 @@
           </div>
         </div>
       </section>
+
+      <section class="card collapsible-card collapsed premium-panel" id="macroCard">
+        <button class="collapse-toggle" data-target="macroContent" aria-expanded="false">
+          <span>
+            <span class="section-kicker">Export</span>
+            <span class="collapse-title">Macro image</span>
+          </span>
+          <span class="collapse-icon">+</span>
+        </button>
+        <div id="macroContent" class="collapse-body">
+          <div class="row action-row">
+            <button id="renderBtn">Generate macro image</button>
+          </div>
+          <div id="renderState" class="hint">Not rendered yet</div>
+          <img id="renderImg" class="render" style="display:none" />
+        </div>
+      </section>
     </div>
 
     <div id="savedFoodsModal" class="modal hidden" aria-hidden="true">
       <div class="modal-backdrop" data-close-modal="true"></div>
-      <div class="modal-panel">
+      <div class="modal-panel saved-foods-panel">
         <div class="modal-head">
           <div>
             <div class="section-kicker">Library</div>
@@ -134,14 +145,23 @@
           </div>
           <button id="closeSavedFoodsBtn" class="ghost-btn">Close</button>
         </div>
-        <input id="foodLibrarySearch" placeholder="Filter saved foods" />
-        <div class="hint">Tap a food to load it, or use the quick quantity buttons.</div>
-        <div id="libraryQuickAdd" class="quick-actions" style="display:none">
-          <button class="ghost-btn library-multiplier-btn" data-multiplier="0.5">Add 0.5x</button>
-          <button class="ghost-btn library-multiplier-btn" data-multiplier="1">Add 1x</button>
-          <button class="ghost-btn library-multiplier-btn" data-multiplier="2">Add 2x</button>
+        <div class="saved-foods-toolbar">
+          <input id="foodLibrarySearch" placeholder="Filter saved foods" />
+          <div class="hint">Tap once to load, or add right from the card.</div>
         </div>
-        <div id="foods" class="entries compact-list"></div>
+        <div id="librarySelectionBar" class="library-selection-bar" style="display:none">
+          <div>
+            <div class="section-kicker">Selected</div>
+            <div id="librarySelectionName" class="library-selection-name"></div>
+            <div id="librarySelectionMeta" class="hint"></div>
+          </div>
+          <div id="libraryQuickAdd" class="quick-actions compact-quick-actions library-inline-actions" style="display:none">
+            <button class="ghost-btn library-multiplier-btn" data-multiplier="0.5">0.5x</button>
+            <button class="ghost-btn library-multiplier-btn" data-multiplier="1">1x</button>
+            <button class="ghost-btn library-multiplier-btn" data-multiplier="2">2x</button>
+          </div>
+        </div>
+        <div id="foods" class="entries compact-list saved-foods-list"></div>
       </div>
     </div>
 

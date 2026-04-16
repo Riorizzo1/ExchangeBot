@@ -1,3 +1,93 @@
 {
-  "foods": []
+  "foods": [
+    {
+      "id": "peanut-butter",
+      "name": "peanut butter",
+      "aliases": [
+        "peanut butter"
+      ],
+      "serving": "1 serving",
+      "servingAmount": 1,
+      "servingUnit": "1 serving",
+      "calories": 95,
+      "carbs_g": 8,
+      "fat_g": 16,
+      "protein_g": 7,
+      "source": "cache",
+      "confidence": "exact",
+      "sourceUrl": "https://www.jif.com/products/creamy/creamy-peanut-butter",
+      "sourceTitle": "Creamy Peanut Butter",
+      "cachedAt": "2026-04-16T01:16:03.844Z"
+    },
+    {
+      "id": "apple",
+      "name": "apple",
+      "aliases": [
+        "apple"
+      ],
+      "serving": "1 serving",
+      "servingAmount": 1,
+      "servingUnit": "1 serving",
+      "calories": 94.6,
+      "carbs_g": 25.1,
+      "fat_g": 0,
+      "protein_g": 0,
+      "source": "cache",
+      "confidence": "exact",
+      "sourceUrl": "https://www.healthline.com/nutrition/foods/apples",
+      "sourceTitle": "Apples 101: Nutrition Facts and Health Benefits - Healthline",
+      "cachedAt": "2026-04-16T01:15:23.925Z"
+    },
+    {
+      "id": "ratio-yogurt",
+      "name": "Ratio yogurt",
+      "aliases": [
+        "Ratio yogurt"
+      ],
+      "serving": "1 serving",
+      "calories": 170,
+      "carbs_g": 9,
+      "fat_g": 3.5,
+      "protein_g": 25,
+      "source": "cache",
+      "confidence": "exact",
+      "sourceUrl": "https://ratiofood.com/products/vanilla-protein-dairy-snack",
+      "sourceTitle": "ratio Vanilla High Protein Yogurt-Cultured Dairy Snack 5.3 oz",
+      "cachedAt": "2026-04-13T04:07:15.635Z"
+    },
+    {
+      "id": "mallomars",
+      "name": "Mallomars",
+      "aliases": [
+        "Mallomars"
+      ],
+      "serving": "1 serving",
+      "calories": 27.8,
+      "carbs_g": 18,
+      "fat_g": 5,
+      "protein_g": 1,
+      "source": "cache",
+      "confidence": "exact",
+      "sourceUrl": "https://smartlabel.mondelez.info/00044000006747-0001-en-US/index.html",
+      "sourceTitle": "Nabisco Mallomars Pure Chocolate Cookies 8 oz - SmartLabel™",
+      "cachedAt": "2026-04-13T03:53:57.731Z"
+    },
+    {
+      "id": "ellios",
+      "name": "Ellios",
+      "aliases": [
+        "Ellios"
+      ],
+      "serving": "1 serving",
+      "calories": 250,
+      "carbs_g": 38,
+      "fat_g": 6,
+      "protein_g": 11,
+      "source": "cache",
+      "confidence": "exact",
+      "sourceUrl": "https://www.thefreshgrocer.com/product/ellios-cheese-pizza-27-count-5488-oz-00041118009707",
+      "sourceTitle": "Ellio's Cheese Pizza, 27 count, 54.88 oz - The Fresh Grocer",
+      "cachedAt": "2026-04-13T03:41:25.937Z"
+    }
+  ]
 }
