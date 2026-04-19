@@ -8,8 +8,8 @@ const wrappedJs = fs.readFileSync(path.join(root, 'list_sales_bookmarklet_wrappe
 fs.mkdirSync(outDir, { recursive: true });
 
 const configs = [
-  { sub: 'repwatchbuysell', mode: 'bookmarklet' },
-  { sub: 'repwatchbuyselltrade', mode: 'bookmarklet' },
+  { sub: 'repwatchbuysell', mode: 'directParsed', limit: 100 },
+  { sub: 'repwatchbuyselltrade', mode: 'directParsed', limit: 100 },
   { sub: 'watchexchangeBST', mode: 'direct', limit: 100 },
   { sub: 'TheRepTimeBST', mode: 'direct', limit: 100 },
 ];
@@ -49,7 +49,7 @@ function captureBookmarklet(sub) {
   return { mode: 'bookmarklet', sub, file, ok: !result.error, count: Array.isArray(result.rows) ? result.rows.length : 0, error: result.error || null };
 }
 
-function captureDirect(sub, limit = 100) {
+function fetchDirect(sub, limit = 100) {
   run(['start'], false);
   run(['navigate', 'https://www.reddit.com/'], false);
   run(['wait', '--time', '3000'], false);
@@ -62,17 +62,38 @@ function captureDirect(sub, limit = 100) {
       return { ok:false, error:String(e) };
     }
   }`;
-  const result = JSON.parse(run(['evaluate', '--fn', fn])).result || {};
+  return JSON.parse(run(['evaluate', '--fn', fn])).result || {};
+}
+
+function captureDirect(sub, limit = 100) {
+  const result = fetchDirect(sub, limit);
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   const file = path.join(outDir, `${sub}_direct_${stamp}.json`);
   fs.writeFileSync(file, JSON.stringify(result, null, 2));
   return { mode: 'direct', sub, file, ok: !!result.ok, status: result.status || null, error: result.error || null };
 }
 
+function captureDirectParsed(sub, limit = 100) {
+  const result = fetchDirect(sub, limit);
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const rawFile = path.join(outDir, `${sub}_direct_${stamp}.json`);
+  fs.writeFileSync(rawFile, JSON.stringify(result, null, 2));
+
+  const parsedFile = path.join(outDir, `${sub}_${stamp}.json`);
+  const parseScript = path.join(root, 'scripts', 'parse_direct_reddit_json.py');
+  execFileSync('python3', [parseScript, rawFile, parsedFile], {
+    encoding: 'utf8',
+    maxBuffer: 50 * 1024 * 1024,
+  });
+
+  return { mode: 'directParsed', sub, file: parsedFile, rawFile, ok: !!result.ok, status: result.status || null, error: result.error || null };
+}
+
 const results = [];
 for (const cfg of configs) {
   try {
     if (cfg.mode === 'bookmarklet') results.push(captureBookmarklet(cfg.sub));
+    else if (cfg.mode === 'directParsed') results.push(captureDirectParsed(cfg.sub, cfg.limit));
     else results.push(captureDirect(cfg.sub, cfg.limit));
   } catch (error) {
     results.push({ sub: cfg.sub, mode: cfg.mode, ok: false, error: String(error?.message || error) });
