@@ -1,0 +1,1773 @@
+{
+  "ASML": {
+    "mentions": 3,
+    "last_score": 25.85,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "SNAP": {
+    "mentions": 1,
+    "last_score": 9.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TSLA": {
+    "mentions": 15,
+    "last_score": 82.8,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      15,
+      15,
+      15
+    ]
+  },
+  "NKE": {
+    "mentions": 6,
+    "last_score": 38.4,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      6,
+      6,
+      6
+    ]
+  },
+  "MS": {
+    "mentions": 5,
+    "last_score": 36.75,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      5,
+      5,
+      5
+    ]
+  },
+  "KKR": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "AAPL": {
+    "mentions": 6,
+    "last_score": 39.5,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      6,
+      6,
+      6
+    ]
+  },
+  "AFRM": {
+    "mentions": 3,
+    "last_score": 21.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "AVGO": {
+    "mentions": 6,
+    "last_score": 36.1,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      6,
+      6,
+      6
+    ]
+  },
+  "META": {
+    "mentions": 5,
+    "last_score": 33.65,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      5,
+      5,
+      5
+    ]
+  },
+  "MRVL": {
+    "mentions": 3,
+    "last_score": 17.85,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "MO": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BROS": {
+    "mentions": 2,
+    "last_score": 9.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "PGY": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BE": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ALSN": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CNBC": {
+    "mentions": 3,
+    "last_score": 15.55,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "HOOD": {
+    "mentions": 1,
+    "last_score": 8.05,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NVDA": {
+    "mentions": 11,
+    "last_score": 64.9,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      11,
+      11,
+      11
+    ]
+  },
+  "AACE": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "AMZN": {
+    "mentions": 4,
+    "last_score": 18.5,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      4,
+      4,
+      4
+    ]
+  },
+  "FCC": {
+    "mentions": 1,
+    "last_score": 4.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "GSAT": {
+    "mentions": 1,
+    "last_score": 4.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "FDA": {
+    "mentions": 3,
+    "last_score": 18.35,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "GBR": {
+    "mentions": 1,
+    "last_score": 8.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SEC": {
+    "mentions": 1,
+    "last_score": 8.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BLUF": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "XPU": {
+    "mentions": 2,
+    "last_score": 9.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "DELL": {
+    "mentions": 2,
+    "last_score": 8.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "INTC": {
+    "mentions": 3,
+    "last_score": 17.75,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "QS": {
+    "mentions": 1,
+    "last_score": 4.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SLDP": {
+    "mentions": 1,
+    "last_score": 4.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "AMD": {
+    "mentions": 6,
+    "last_score": 38.1,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      6,
+      6,
+      6
+    ]
+  },
+  "MP": {
+    "mentions": 1,
+    "last_score": 10.85,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "EPYC": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CTO": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "UBER": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PT": {
+    "mentions": 1,
+    "last_score": 4.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "QCOM": {
+    "mentions": 1,
+    "last_score": 4.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NAND": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SNDK": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "MU": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PAA": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PAGP": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CCC": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "MXN": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BUZZ": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "F": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NFLX": {
+    "mentions": 5,
+    "last_score": 32.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      5,
+      5,
+      5
+    ]
+  },
+  "RFK": {
+    "mentions": 1,
+    "last_score": 7.05,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SMR": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NOK": {
+    "mentions": 1,
+    "last_score": 8.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BKSY": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NBA": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "VZ": {
+    "mentions": 1,
+    "last_score": 4.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PLTR": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PSIX": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SA": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "MSFT": {
+    "mentions": 2,
+    "last_score": 14.7,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "NBIS": {
+    "mentions": 2,
+    "last_score": 11.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "TSM": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "FAA": {
+    "mentions": 2,
+    "last_score": 10.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "ABT": {
+    "mentions": 2,
+    "last_score": 10.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "SLB": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NAS": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SE": {
+    "mentions": 1,
+    "last_score": 5.85,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TTE": {
+    "mentions": 1,
+    "last_score": 5.85,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SOXX": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SPY": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "JOBY": {
+    "mentions": 1,
+    "last_score": 4.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BAC": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "APPN": {
+    "mentions": 1,
+    "last_score": 9.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "IMF": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "HE": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ID": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "AST": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ASTS": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "DOT": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CBP": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "COST": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "IEEPA": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NY": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "KMPR": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BA": {
+    "mentions": 2,
+    "last_score": 16.5,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "CMCSA": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "GE": {
+    "mentions": 3,
+    "last_score": 19.05,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "IBM": {
+    "mentions": 2,
+    "last_score": 15.7,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "GSK": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "JNJ": {
+    "mentions": 2,
+    "last_score": 11.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "OS": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TKC": {
+    "mentions": 1,
+    "last_score": 4.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BSC": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "DIS": {
+    "mentions": 1,
+    "last_score": 7.85,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PHLX": {
+    "mentions": 1,
+    "last_score": 8.05,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PG": {
+    "mentions": 1,
+    "last_score": 3.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SBI": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "XRP": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ZION": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SPRB": {
+    "mentions": 1,
+    "last_score": 3.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CRWD": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "UNH": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "GOOGL": {
+    "mentions": 2,
+    "last_score": 18.1,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "IPG": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "IPGP": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PEG": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BMBL": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "LHX": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "PYPL": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CAG": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "AMAT": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "KMB": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "EU": {
+    "mentions": 2,
+    "last_score": 12.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "FM": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "RTL": {
+    "mentions": 1,
+    "last_score": 9.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CASP": {
+    "mentions": 1,
+    "last_score": 9.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "EMMN": {
+    "mentions": 1,
+    "last_score": 9.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SK": {
+    "mentions": 1,
+    "last_score": 7.05,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "RTX": {
+    "mentions": 2,
+    "last_score": 18.3,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "INBRX": {
+    "mentions": 1,
+    "last_score": 8.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BYND": {
+    "mentions": 1,
+    "last_score": 8.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "RSI": {
+    "mentions": 2,
+    "last_score": 16.7,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "ATON": {
+    "mentions": 1,
+    "last_score": 5.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "KYTX": {
+    "mentions": 1,
+    "last_score": 8.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SC": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "UAL": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CUE": {
+    "mentions": 1,
+    "last_score": 3.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "AML": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "SLS": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "IDE": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "GPU": {
+    "mentions": 2,
+    "last_score": 13.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "ANET": {
+    "mentions": 1,
+    "last_score": 8.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CAR": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "HTZ": {
+    "mentions": 2,
+    "last_score": 13.0,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      2,
+      2,
+      2
+    ]
+  },
+  "AWS": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "MRO": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TAT": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TATT": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "GILD": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "XLV": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ASIC": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "MPU": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TPU": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "HSBC": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ECB": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "VW": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BSE": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NSE": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CNOB": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CSU": {
+    "mentions": 1,
+    "last_score": 9.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TSX": {
+    "mentions": 1,
+    "last_score": 6.45,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "FSD": {
+    "mentions": 3,
+    "last_score": 13.75,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      3,
+      3,
+      3
+    ]
+  },
+  "NC": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TM": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "TZOO": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "AM": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ARR": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "CFO": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "REIT": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "NOW": {
+    "mentions": 1,
+    "last_score": 6.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "ADBE": {
+    "mentions": 1,
+    "last_score": 5.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  },
+  "BXSL": {
+    "mentions": 1,
+    "last_score": 7.25,
+    "updated_at": "2026-04-24T01:57:53.699886+00:00",
+    "seen_runs": 4,
+    "history_mentions": [
+      1,
+      1,
+      1
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+.firecrawl/
+data/articles.jsonl
+data/seen_urls.json
+data/tickers.json
+reports/

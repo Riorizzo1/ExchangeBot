@@ -1,0 +1,23 @@
+{
+  "queries": [
+    "site:reuters.com stock earnings beat miss guidance raise cut",
+    "site:reuters.com analyst upgrade downgrade price target stock",
+    "site:reuters.com company acquisition deal contract stock",
+    "site:cnbc.com stock move catalyst earnings guidance",
+    "site:cnbc.com analyst calls stocks to watch upgrade downgrade",
+    "site:marketwatch.com stock upgraded downgrade outlook earnings",
+    "site:marketwatch.com company layoffs restructuring demand outlook stock",
+    "site:barrons.com stocks to buy this week catalyst analyst",
+    "site:barrons.com stock rally earnings guidance upgrade",
+    "site:benzinga.com stock unusual options activity analyst",
+    "site:benzinga.com stock earnings guidance deal approval",
+    "site:seekingalpha.com stock rally catalyst earnings guidance",
+    "site:seekingalpha.com rating downgrade upgrade valuation stock"
+  ],
+  "maxResultsPerQuery": 8,
+  "scrapeThreshold": {
+    "minDistinctSources": 2,
+    "minMentions": 2
+  },
+  "candidateScrapeLimitPerRun": 5
+}
