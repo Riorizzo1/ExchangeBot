@@ -1,0 +1,8 @@
+# Local generated dashboard experiments
+tmp_watch_aggregate/
+build_temp_watch_dashboard.py
+
+# Watch Desk generated data/media
+watch_desk/public/data/*.json
+watch_desk/public/images/
+watch_desk/public/*.png

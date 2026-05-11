@@ -1,0 +1,7 @@
+# Generated dashboard payloads and local media cache
+public/data/*.json
+public/images/
+public/*.png
+
+# Local server/runtime clutter
+.DS_Store

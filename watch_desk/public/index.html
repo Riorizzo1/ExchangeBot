@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Watch Desk</title>
+  <link rel="stylesheet" href="/assets/app.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <div class="brand"><span class="mark">◉</span><div><b>Watch Desk</b><small>Daily market board</small></div></div>
+      <nav class="nav" id="sourceNav"></nav>
+      <div class="railFoot"><span id="generatedAt">Loading…</span></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Live local dashboard</div>
+          <h1 id="viewTitle">Aggregate</h1>
+        </div>
+        <div class="metrics" id="metrics"></div>
+      </header>
+
+      <section class="filters">
+        <div class="segmented" id="statusFilters">
+          <button data-status="active" class="active">Active</button>
+          <button data-status="available">For sale</button>
+          <button data-status="pending">Pending</button>
+          <button data-status="all">All</button>
+        </div>
+        <label class="search"><span>⌕</span><input id="search" placeholder="Search factory, model, seller, source…" /></label>
+        <select id="sort">
+          <option value="newest">Newest first</option>
+          <option value="priceLow">Price low → high</option>
+          <option value="priceHigh">Price high → low</option>
+          <option value="source">Source</option>
+        </select>
+      </section>
+
+      <section class="rangebar"><div class="segmented" id="rangeFilters"><button data-range="today" class="active">Today</button><button data-range="all">All current</button></div></section>
+      <section class="subnav" id="subredditFilters"></section>
+      <section class="contentHead"><div id="resultCount"></div><button id="loadMore">Load more</button></section>
+      <section class="grid" id="grid"></section>
+    </main>
+  </div>
+
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="scrim" data-close></div>
+    <article class="panel">
+      <button class="close" data-close>×</button>
+      <div id="detail"></div>
+    </article>
+  </div>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>
