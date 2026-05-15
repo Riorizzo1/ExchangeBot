@@ -26,7 +26,8 @@ fi
 # --- Step 2: Supplementary list ---
 echo ""
 echo "=== Step 2: Supplementary list ==="
-SUPP_TICKERS=$(python3 "$SCRIPTS/extract_robinhood_watchlist_tickers.py" --supplementary --limit "$LIMIT")
+# Pass main tickers as --exclude so supplementary list doesn't duplicate them
+SUPP_TICKERS=$(python3 "$SCRIPTS/extract_robinhood_watchlist_tickers.py" --supplementary --limit "$LIMIT" --exclude "$MAIN_TICKERS")
 echo "Supplementary tickers: $SUPP_TICKERS"
 if [[ -n "${SUPP_TICKERS// }" ]]; then
     LIST_DATE="$LIST_DATE" TICKERS="$SUPP_TICKERS" LIMIT="$LIMIT" bash "$SCRIPTS/update_robinhood_supplementary.sh"

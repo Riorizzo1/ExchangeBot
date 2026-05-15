@@ -98,11 +98,15 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--main", action="store_true", help="Primary + mega-cap tickers (existing behavior)")
     ap.add_argument("--supplementary", action="store_true", help="Raw Yahoo discovery supplementary tickers")
+    ap.add_argument("--exclude", type=str, default="", help="Comma-separated tickers to exclude from output")
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
     ap.add_argument("--nightly", type=Path, default=None)
     ap.add_argument("--dashboard", type=Path, default=REPORTS / "signal-board.html")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
+
+    exclude_raw = args.exclude.replace(",", " ")
+    exclude_set = set(s.strip().upper() for s in exclude_raw.split() if s.strip())
 
     nightly = args.nightly or latest_nightly_report()
     dashboard_tickers = dashboard_board_tickers(args.dashboard)
@@ -120,8 +124,11 @@ def main() -> int:
         supp_tickers = unique(
             sym for sym, lane in disc.items()
             if lane.strip().lower() in include_lanes
-        )[: args.limit]
-        tickers = supp_tickers
+        )
+        # Filter out any tickers already on the main list
+        if exclude_set:
+            supp_tickers = [t for t in supp_tickers if t not in exclude_set]
+        tickers = supp_tickers[: args.limit]
     else:
         # Default: main tickers
         tickers = main_tickers
@@ -132,7 +139,8 @@ def main() -> int:
             "date": et_today(),
             "nightly": str(nightly) if nightly else None,
             "count": len(tickers),
-            "tickers": tickers
+            "tickers": tickers,
+            "excluded": sorted(exclude_set) if args.supplementary else []
         }, indent=2))
     else:
         print(" ".join(tickers))
