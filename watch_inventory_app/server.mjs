@@ -27,43 +27,203 @@ function getDb() {
   return db;
 }
 
-function decorateWatch(watch) {
+function roundMoney(value) {
+  return Math.round((Number(value || 0) + Number.EPSILON) * 100) / 100;
+}
+
+function retailValue(watch, fallback = 0) {
+  const explicit = Number(watch?.retail_value || 0);
+  return explicit > 0 ? explicit : Number(fallback || 0);
+}
+
+function lineageRootId(watch, byId) {
+  let current = watch;
+  const seen = new Set();
+  while (current?.linked_trade_from_watch_id && byId.has(current.linked_trade_from_watch_id) && !seen.has(current.linked_trade_from_watch_id)) {
+    seen.add(current.linked_trade_from_watch_id);
+    current = byId.get(current.linked_trade_from_watch_id);
+  }
+  return current?.id || watch.id;
+}
+
+function buildLineagePath(watch, byId) {
+  const path = [];
+  let current = watch;
+  const seen = new Set();
+  while (current && !seen.has(current.id)) {
+    seen.add(current.id);
+    path.unshift(current.id);
+    if (!current.linked_trade_from_watch_id || !byId.has(current.linked_trade_from_watch_id)) break;
+    current = byId.get(current.linked_trade_from_watch_id);
+  }
+  return path;
+}
+
+function computeBasisAndChains(baseWatches, byId) {
+  const basisMap = new Map();
+  const chainMap = new Map();
+
+  function ensureChain(rootId) {
+    if (!chainMap.has(rootId)) {
+      chainMap.set(rootId, {
+        final_realized_pl: 0,
+        unrealized_trade_delta: 0,
+        members: [],
+        is_closed: false,
+      });
+    }
+    return chainMap.get(rootId);
+  }
+
+  function computeWatch(watch) {
+    if (basisMap.has(watch.id)) return basisMap.get(watch.id);
+
+    const rootId = lineageRootId(watch, byId);
+    const lineagePath = buildLineagePath(watch, byId);
+    const tradeOut = Number(watch.trade_out_value || 0);
+    const tradeIn = Number(watch.trade_in_value || 0);
+    const soldValue = Number(watch.sold_value || 0);
+    const paidValue = Number(watch.paid_value || 0);
+    const isMonthlyPaymentWatch = watch.acquisition_type === 'monthly_payment';
+    const cashBasis = isMonthlyPaymentWatch ? 0 : paidValue;
+
+    let originalBasis = cashBasis;
+    let carriedBasis = cashBasis;
+
+    if (watch.linked_trade_from_watch_id && byId.has(watch.linked_trade_from_watch_id)) {
+      const parent = computeWatch(byId.get(watch.linked_trade_from_watch_id));
+      originalBasis = Number(parent.original_basis || 0);
+      carriedBasis = Number(parent.carried_basis || 0);
+    }
+
+    let tradeDelta = 0;
+    const isIncomingTradeWatch = watch.acquisition_type === 'trade' && !!watch.linked_trade_from_watch_id;
+    if (watch.status === 'traded') {
+      tradeDelta = tradeIn - tradeOut;
+    } else if (isIncomingTradeWatch) {
+      // The trade gain/loss belongs to the outgoing/root watch. Keep the
+      // incoming watch's carried basis for later sale math, but do not expose a
+      // second per-watch trade_delta that the UI can render as a duplicate loss.
+      tradeDelta = 0;
+    }
+
+    let saleDelta = 0;
+    let finalRealizedPl = 0;
+    let chainClosed = false;
+    if (watch.status === 'sold' && soldValue) {
+      saleDelta = soldValue - carriedBasis;
+      finalRealizedPl = soldValue - originalBasis;
+      chainClosed = true;
+    }
+
+    const result = {
+      root_id: rootId,
+      lineage_path: lineagePath,
+      original_basis: roundMoney(originalBasis),
+      carried_basis: roundMoney(carriedBasis),
+      trade_delta: roundMoney(tradeDelta),
+      sale_delta: roundMoney(saleDelta),
+      final_realized_pl: roundMoney(finalRealizedPl),
+      chain_closed: chainClosed,
+    };
+
+    basisMap.set(watch.id, result);
+    const chain = ensureChain(rootId);
+    if (!chain.members.includes(watch.id)) chain.members.push(watch.id);
+    if (!chainClosed && tradeDelta) {
+      chain.unrealized_trade_delta = roundMoney(tradeDelta);
+    }
+    if (chainClosed) {
+      chain.final_realized_pl = roundMoney(finalRealizedPl);
+      chain.is_closed = true;
+      chain.unrealized_trade_delta = 0;
+    }
+    return result;
+  }
+
+  for (const watch of baseWatches) computeWatch(watch);
+  return { basisMap, chainMap };
+}
+
+function decorateWatch(watch, byId, basisMap, chainMap) {
   const outgoing = Number(watch.trade_out_value || 0);
   const incoming = Number(watch.trade_in_value || 0);
-  const trade_delta = incoming - outgoing;
+  const tradeDeltaRaw = incoming - outgoing;
+  const isIncomingTradeWatch = watch.acquisition_type === 'trade' && !!watch.linked_trade_from_watch_id;
   let trade_result = '';
-  if (watch.status === 'traded' || outgoing || incoming) {
-    trade_result = trade_delta > 0 ? 'win' : trade_delta < 0 ? 'loss' : 'even';
+  if (!isIncomingTradeWatch && (watch.status === 'traded' || outgoing || incoming)) {
+    trade_result = tradeDeltaRaw > 0 ? 'win' : tradeDeltaRaw < 0 ? 'loss' : 'even';
   }
-  const sale_delta = Number(watch.sold_value || 0) - Number(watch.paid_value || 0);
+  const fallbackCashBasis = watch.acquisition_type === 'monthly_payment' ? 0 : Number(watch.paid_value || 0);
+  const basis = basisMap.get(watch.id) || {
+    root_id: watch.id,
+    lineage_path: [watch.id],
+    original_basis: fallbackCashBasis,
+    carried_basis: fallbackCashBasis,
+    trade_delta: 0,
+    sale_delta: 0,
+    final_realized_pl: 0,
+    chain_closed: false,
+  };
   let sale_result = '';
   if (watch.status === 'sold' && Number(watch.sold_value || 0)) {
-    sale_result = sale_delta > 0 ? 'win' : sale_delta < 0 ? 'loss' : 'even';
+    sale_result = basis.sale_delta > 0 ? 'win' : basis.sale_delta < 0 ? 'loss' : 'even';
   }
+  const chain = chainMap.get(basis.root_id) || { final_realized_pl: basis.final_realized_pl, unrealized_trade_delta: basis.trade_delta, members: [watch.id], is_closed: basis.chain_closed };
   return {
     ...watch,
-    trade_delta,
+    trade_delta: basis.trade_delta,
     trade_result,
-    sale_delta,
+    sale_delta: basis.sale_delta,
     sale_result,
+    original_basis: basis.original_basis,
+    carried_basis: basis.carried_basis,
+    root_id: basis.root_id,
+    lineage_path: basis.lineage_path,
+    chain_closed: chain.is_closed,
+    chain_final_realized_pl: roundMoney(chain.final_realized_pl),
+    chain_unrealized_delta: roundMoney(chain.unrealized_trade_delta),
+    chain_member_ids: chain.members,
   };
 }
 
 function getInventorySummary(db) {
-  const watches = db.watches.map(decorateWatch);
+  const baseWatches = db.watches || [];
+  const byId = new Map(baseWatches.map(w => [w.id, w]));
+  const { basisMap, chainMap } = computeBasisAndChains(baseWatches, byId);
+  const watches = baseWatches.map(w => decorateWatch(w, byId, basisMap, chainMap));
   const onHand = watches.filter(w => w.status === 'on_hand');
   const sold = watches.filter(w => w.status === 'sold');
   const traded = watches.filter(w => w.status === 'traded');
-  const retailOnHand = onHand.reduce((sum, w) => sum + Number((w.trade_in_value || 0) > 0 ? w.trade_in_value : w.paid_value || 0), 0);
-  const netPaid = onHand
-    .filter(w => w.acquisition_type !== 'monthly_payment')
-    .reduce((sum, w) => sum + Number(w.paid_value || 0), 0);
+  const retailPaid = onHand
+    .filter(w => w.acquisition_type !== 'monthly_payment' && w.acquisition_type !== 'trade')
+    .reduce((sum, w) => sum + retailValue(w, w.paid_value), 0);
+  const retailTrade = onHand
+    .filter(w => w.acquisition_type === 'trade')
+    .reduce((sum, w) => sum + retailValue(w, w.trade_in_value || w.paid_value), 0);
   const monthlyValue = onHand
     .filter(w => w.acquisition_type === 'monthly_payment')
-    .reduce((sum, w) => sum + Number(w.paid_value || 0), 0);
+    .reduce((sum, w) => sum + retailValue(w, w.paid_value), 0);
+  const monthlyWatches = watches.filter(w => w.acquisition_type === 'monthly_payment');
+  const lifetimeMonthlyValue = monthlyWatches.reduce((sum, w) => sum + Number(w.paid_value || 0), 0);
+  const monthlySoldValue = monthlyWatches.reduce((sum, w) => sum + Number(w.sold_value || 0), 0);
+  const monthlyRealizedProfit = monthlyWatches.reduce((sum, w) => sum + Number(w.sale_delta || 0), 0);
+  const retailOnHand = retailPaid + retailTrade + monthlyValue;
+  const currentBasis = watches
+    .filter(w => w.status === 'on_hand' || w.status === 'pending')
+    .reduce((sum, w) => sum + Number(w.carried_basis || 0), 0);
+  const retailSpreadOnHand = retailOnHand - currentBasis;
   const totalSold = sold.reduce((sum, w) => sum + Number(w.sold_value || 0), 0);
-  const netSales = sold.reduce((sum, w) => sum + (Number(w.sold_value || 0) - Number(w.paid_value || 0)), 0);
-  const tradeDelta = traded.reduce((sum, w) => sum + Number(w.trade_delta || 0), 0);
+  const netSales = sold.reduce((sum, w) => sum + Number(w.sale_delta || 0), 0);
+  const tradeDelta = watches
+    .filter(w => w.status === 'traded' || (Number(w.trade_out_value || 0) && Number(w.trade_in_value || 0) && !w.linked_trade_from_watch_id))
+    .reduce((sum, w) => sum + Number(w.trade_delta || 0), 0);
+  const realizedChainTotals = Array.from(chainMap.values()).reduce((sum, chain) => sum + Number(chain.is_closed ? (chain.final_realized_pl || 0) : 0), 0);
+  const unrealizedChainTotals = Array.from(chainMap.values()).reduce((sum, chain) => sum + Number(!chain.is_closed ? (chain.unrealized_trade_delta || 0) : 0), 0);
+  // On-hand retail spread already captures open trade value when the incoming
+  // watch's trade/retail value is above its carried basis, so do not add
+  // unrealized trade delta again here.
+  const totalUnrealizedRetail = retailSpreadOnHand;
   return {
     counts: {
       total: watches.length,
@@ -74,11 +234,26 @@ function getInventorySummary(db) {
     },
     totals: {
       retail_on_hand: Math.round((retailOnHand + Number.EPSILON) * 100) / 100,
-      net_paid: Math.round((netPaid + Number.EPSILON) * 100) / 100,
+      retail_paid_value: Math.round((retailPaid + Number.EPSILON) * 100) / 100,
+      retail_trade_value: Math.round((retailTrade + Number.EPSILON) * 100) / 100,
+      current_basis_on_hand: Math.round((currentBasis + Number.EPSILON) * 100) / 100,
+      retail_spread_on_hand: Math.round((retailSpreadOnHand + Number.EPSILON) * 100) / 100,
+      total_unrealized_retail: Math.round((totalUnrealizedRetail + Number.EPSILON) * 100) / 100,
       monthly_payment_value: Math.round((monthlyValue + Number.EPSILON) * 100) / 100,
+      lifetime_monthly_payment_value: Math.round((lifetimeMonthlyValue + Number.EPSILON) * 100) / 100,
+      monthly_payment_sold_value: Math.round((monthlySoldValue + Number.EPSILON) * 100) / 100,
+      monthly_payment_realized_profit: Math.round((monthlyRealizedProfit + Number.EPSILON) * 100) / 100,
       sold_value: Math.round((totalSold + Number.EPSILON) * 100) / 100,
       net_sales: Math.round((netSales + Number.EPSILON) * 100) / 100,
       trade_delta: Math.round((tradeDelta + Number.EPSILON) * 100) / 100,
+      realized_chain_total: Math.round((realizedChainTotals + Number.EPSILON) * 100) / 100,
+      unrealized_chain_total: Math.round((unrealizedChainTotals + Number.EPSILON) * 100) / 100,
+    },
+    monthly: {
+      count: monthlyWatches.length,
+      on_hand: monthlyWatches.filter(w => w.status === 'on_hand' || w.status === 'pending').length,
+      closed: monthlyWatches.filter(w => w.status === 'sold' || w.status === 'traded').length,
+      watches: monthlyWatches,
     },
     watches,
   };
@@ -106,8 +281,23 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && url.pathname === '/app.js') {
     return serveStatic(res, path.join(webDir, 'app.js'), 'application/javascript; charset=utf-8');
   }
+  if (req.method === 'GET' && url.pathname === '/pwa-register.js') {
+    return serveStatic(res, path.join(webDir, 'pwa-register.js'), 'application/javascript; charset=utf-8');
+  }
+  if (req.method === 'GET' && url.pathname === '/sw.js') {
+    return serveStatic(res, path.join(webDir, 'sw.js'), 'application/javascript; charset=utf-8');
+  }
+  if (req.method === 'GET' && url.pathname === '/manifest.webmanifest') {
+    return serveStatic(res, path.join(webDir, 'manifest.webmanifest'), 'application/manifest+json; charset=utf-8');
+  }
   if (req.method === 'GET' && url.pathname === '/history.html') {
     return serveStatic(res, path.join(webDir, 'history.html'));
+  }
+  if (req.method === 'GET' && url.pathname === '/monthly.html') {
+    return serveStatic(res, path.join(webDir, 'monthly.html'));
+  }
+  if (req.method === 'GET' && url.pathname === '/accounting.html') {
+    return serveStatic(res, path.join(webDir, 'accounting.html'));
   }
   if (req.method === 'GET' && url.pathname === '/api/inventory') {
     const db = getDb();
@@ -130,9 +320,11 @@ const server = http.createServer((req, res) => {
           model: parsed.model,
           factory: parsed.factory || '',
           reference: parsed.reference || '',
+          display_name: parsed.display_name ?? existing?.display_name ?? '',
           status: parsed.status || existing?.status || 'on_hand',
           acquisition_type: parsed.acquisition_type || existing?.acquisition_type || 'purchase',
           paid_value: Number(parsed.paid_value || 0),
+          retail_value: parsed.retail_value !== undefined ? Number(parsed.retail_value || 0) : Number(existing?.retail_value || 0),
           sold_value: parsed.sold_value !== undefined ? Number(parsed.sold_value || 0) : Number(existing?.sold_value || 0),
           traded_for_watch_id: parsed.traded_for_watch_id ?? existing?.traded_for_watch_id ?? '',
           traded_for_label: parsed.traded_for_label ?? existing?.traded_for_label ?? '',
@@ -155,6 +347,23 @@ const server = http.createServer((req, res) => {
       }
     });
     return;
+  }
+
+  if (req.method === 'DELETE' && url.pathname.startsWith('/api/watch/')) {
+    const id = decodeURIComponent(url.pathname.split('/').pop() || '');
+    const db = getDb();
+    const watch = db.watches.find(w => w.id === id);
+    if (!watch) return sendJson(res, 404, { error: 'watch not found' });
+
+    const linked = db.watches.find(w => w.linked_trade_from_watch_id === id || w.traded_for_watch_id === id);
+    if (linked) {
+      return sendJson(res, 409, { error: `watch is linked to ${linked.brand || ''} ${linked.model || linked.id}; unlink or edit the chain before deleting` });
+    }
+
+    db.watches = db.watches.filter(w => w.id !== id);
+    db.transactions = db.transactions.filter(t => t.watch_id !== id);
+    writeJson(dataPath, db);
+    return sendJson(res, 200, { ok: true, summary: getInventorySummary(db) });
   }
 
   if (req.method === 'POST' && url.pathname === '/api/trade') {
@@ -183,6 +392,7 @@ const server = http.createServer((req, res) => {
           status: 'on_hand',
           acquisition_type: 'trade',
           paid_value: tradeInValue,
+          retail_value: Number(parsed.new_watch.retail_value || parsed.trade_in_value || 0),
           sold_value: 0,
           traded_for_watch_id: '',
           traded_for_label: '',
@@ -214,6 +424,50 @@ const server = http.createServer((req, res) => {
       }
     });
     return;
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/transaction') {
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body || '{}');
+        if (!parsed.type) return sendJson(res, 400, { error: 'transaction type required' });
+        const db = getDb();
+        const now = new Date().toISOString();
+        const transaction = {
+          id: parsed.id || `txn_${Date.now()}`,
+          date: parsed.date || now.slice(0, 10),
+          type: parsed.type,
+          watch_id: parsed.watch_id || '',
+          label: parsed.label || '',
+          cash_out: Number(parsed.cash_out || 0),
+          cash_in: Number(parsed.cash_in || 0),
+          trade_value: Number(parsed.trade_value || 0),
+          notes: parsed.notes || '',
+          created_at: parsed.created_at || now,
+          updated_at: now,
+        };
+        const idx = db.transactions.findIndex(t => t.id === transaction.id);
+        if (idx >= 0) db.transactions[idx] = { ...db.transactions[idx], ...transaction };
+        else db.transactions.unshift(transaction);
+        writeJson(dataPath, db);
+        return sendJson(res, 200, { ok: true, transaction, summary: getInventorySummary(db) });
+      } catch (err) {
+        return sendJson(res, 500, { error: String(err.message || err) });
+      }
+    });
+    return;
+  }
+
+  if (req.method === 'DELETE' && url.pathname.startsWith('/api/transaction/')) {
+    const id = decodeURIComponent(url.pathname.split('/').pop() || '');
+    const db = getDb();
+    const before = db.transactions.length;
+    db.transactions = db.transactions.filter(t => t.id !== id);
+    if (db.transactions.length === before) return sendJson(res, 404, { error: 'transaction not found' });
+    writeJson(dataPath, db);
+    return sendJson(res, 200, { ok: true, summary: getInventorySummary(db) });
   }
 
   if (req.method === 'POST' && url.pathname === '/api/watch/upload-image') {
@@ -254,6 +508,11 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(file).toLowerCase();
     const type = ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'image/jpeg';
     return serveStatic(res, file, type);
+  }
+  if (req.method === 'GET' && url.pathname.startsWith('/icons/')) {
+    const file = path.join(webDir, 'icons', path.basename(url.pathname));
+    if (!fs.existsSync(file)) return sendJson(res, 404, { error: 'not found' });
+    return serveStatic(res, file, 'image/png');
   }
 
   sendJson(res, 404, { error: 'not found' });
