@@ -8,12 +8,13 @@ Local-first strength tracking PWA. The app keeps its canonical fitness database 
 - `server.mjs` — loopback HTTP API and static PWA server
 - `web/` — installable mobile-first PWA with IndexedDB cache, recoverable workout drafts, and an offline write queue
 - `scripts/import-lifts.mjs` — lossless importer from `workout_tracker/lifts.json`
+- `scripts/audit-integrity.mjs` — full source, schema, set-row, progression-slot, and next-workout audit
 - `scripts/reconcile.mjs` — migration checks against the legacy tracker
 - `scripts/log-session.mjs` — API client for Telegram/automation writes
 
 Every imported session retains its original JSON record in `sessions.raw_json`. Normalized lift attempts and progression goals power the UI and future integrations.
 
-Schema v2 adds `lift_sets`, which records the actual load, reps, status, RPE/RIR, and notes for every set. Legacy aggregate attempts remain intact and are expanded into set rows during the idempotent migration. Corrections are snapshotted in `session_revisions` before an update is applied.
+Schema v2 adds `lift_sets`, which records the actual load, reps, status, RPE/RIR, and notes for every set. Schema v3 adds programmed/custom session metadata and explicit rotation advancement. Legacy aggregate attempts remain intact and are expanded into set rows during the idempotent migration. Corrections are snapshotted in `session_revisions` before an update is applied.
 
 ## URLs
 
@@ -27,6 +28,7 @@ An HTTPS endpoint is still required for full iPhone service-worker and notificat
 ```bash
 cd fitness_tracker
 npm test
+npm run audit
 npm run import -- --replace
 npm run reconcile
 npm start
