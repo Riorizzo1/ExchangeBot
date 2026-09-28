@@ -1,6 +1,7 @@
 name: Fitness tracker
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "fitness_tracker/**"
