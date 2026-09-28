@@ -12,6 +12,11 @@ test('partial bench repeats its target', () => {
   assert.equal(goal.weight_lb, 230);
 });
 
+test('partial work at a lighter load still repeats the prescribed target', () => {
+  const goal = deriveGoal({ exercise: 'volume bench press', outcome: 'partial', target_weight_lb: 230, actual_weight_lb: 225, target_sets: 3, target_reps: 5 });
+  assert.equal(goal.weight_lb, 230);
+});
+
 test('weighted chin-up completion advances added weight', () => {
   const goal = deriveGoal({ exercise: 'weighted chin-ups', outcome: 'complete', added_weight_lb: 20, actual_sets: 5, actual_reps: 5 });
   assert.equal(goal.added_weight_lb, 22.5);

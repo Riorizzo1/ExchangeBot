@@ -13,7 +13,12 @@ export function deriveGoal(attempt) {
   const usesAddedWeight = attempt.added_weight_lb !== null && attempt.added_weight_lb !== undefined;
   const actualWeight = numeric(usesAddedWeight ? attempt.added_weight_lb : attempt.actual_weight_lb);
   const targetWeight = numeric(usesAddedWeight ? attempt.target_added_weight_lb : attempt.target_weight_lb);
-  const baseWeight = actualWeight ?? targetWeight;
+  // A failed exposure repeats the prescribed target, even when the athlete
+  // used a lighter load. Only a verified complete exposure advances from the
+  // actual completed load.
+  const baseWeight = outcome === 'complete'
+    ? actualWeight ?? targetWeight
+    : targetWeight ?? actualWeight;
   const increment = outcome === 'complete' ? incrementForExercise(exercise) : 0;
   const nextWeight = baseWeight === null ? null : baseWeight + increment;
 

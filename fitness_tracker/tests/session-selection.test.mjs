@@ -74,6 +74,25 @@ test('custom sessions preserve rotation while programmed selections advance it',
   assert.equal(custom.session.advances_rotation, false);
   assert.equal(custom.next_workout.day_type, 'Day 2');
 
+  const underTarget = await request(baseUrl, '/api/sessions', {
+    method: 'POST',
+    headers: { 'Idempotency-Key': 'custom-under-target-complete-label' },
+    body: JSON.stringify(sessionPayload({
+      attempts: [{
+        exercise: 'volume bench press',
+        outcome: 'complete',
+        target_weight_lb: 232.5,
+        target_sets: 1,
+        target_reps: 5,
+        sets_detail: [{ target_weight_lb: 232.5, actual_weight_lb: 230, target_reps: 5, actual_reps: 5, status: 'complete' }],
+      }],
+    })),
+  });
+  assert.equal(underTarget.session.attempts[0].outcome, 'partial');
+  const afterUnderTarget = await request(baseUrl, '/api/bootstrap');
+  const volumeBench = afterUnderTarget.exercise_slots.find(slot => slot.slot_id === 'day-1:volume bench press');
+  assert.equal(volumeBench.current_target_lb, 232.5);
+
   const programmed = await request(baseUrl, '/api/sessions', {
     method: 'POST',
     headers: { 'Idempotency-Key': 'selected-day-3' },

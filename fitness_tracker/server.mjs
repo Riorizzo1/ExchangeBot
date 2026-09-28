@@ -54,7 +54,24 @@ function normalizeSets(attempt){
   if(Array.isArray(attempt.sets_detail)&&attempt.sets_detail.length)return attempt.sets_detail.map((set,index)=>({set_number:index+1,target_weight_lb:numberOrNull(set.target_weight_lb??attempt.target_weight_lb??attempt.target_added_weight_lb),actual_weight_lb:numberOrNull(set.actual_weight_lb??set.weight_lb??attempt.actual_weight_lb??attempt.added_weight_lb),target_reps:numberOrNull(set.target_reps??attempt.target_reps),actual_reps:numberOrNull(set.actual_reps??set.reps),status:set.status||attempt.outcome||'complete',rpe:numberOrNull(set.rpe),rir:numberOrNull(set.rir),notes:set.notes||null}));
   const count=Number(attempt.actual_sets??attempt.sets??attempt.target_sets??0);return Array.from({length:Math.max(0,count)},(_,index)=>({set_number:index+1,target_weight_lb:numberOrNull(attempt.target_weight_lb??attempt.target_added_weight_lb),actual_weight_lb:numberOrNull(attempt.actual_weight_lb??attempt.weight_lb??attempt.added_weight_lb),target_reps:numberOrNull(attempt.target_reps??attempt.reps),actual_reps:numberOrNull(attempt.actual_reps??attempt.reps),status:attempt.outcome||'complete',rpe:null,rir:null,notes:null}));
 }
-function normalizeAttempt(attempt){const sets=normalizeSets(attempt);const done=sets.filter(set=>!['skipped','planned'].includes(set.status));const allComplete=sets.length>0&&sets.every(set=>set.status==='complete'&&Number(set.actual_reps)>=Number(set.target_reps??set.actual_reps));const outcome=attempt.outcome||(allComplete?'complete':sets.some(set=>set.status==='missed')?'missed':sets.every(set=>set.status==='skipped')?'skipped':'partial');const actualWeights=done.map(set=>set.actual_weight_lb).filter(v=>v!==null);const actualReps=done.map(set=>set.actual_reps).filter(v=>v!==null);return{...attempt,outcome,sets_detail:sets,target_sets:numberOrNull(attempt.target_sets??sets.length),target_reps:numberOrNull(attempt.target_reps??sets[0]?.target_reps),actual_sets:done.length,actual_reps:actualReps.length&&new Set(actualReps).size===1?actualReps[0]:null,actual_weight_lb:numberOrNull(attempt.actual_weight_lb??(actualWeights.length&&new Set(actualWeights).size===1?actualWeights[0]:null)),target_weight_lb:numberOrNull(attempt.target_weight_lb),added_weight_lb:numberOrNull(attempt.added_weight_lb)};}
+function normalizeAttempt(attempt){
+  const sets=normalizeSets(attempt);
+  const done=sets.filter(set=>!['skipped','planned'].includes(set.status));
+  const hasRequiredReps=set=>set.actual_reps!==null&&set.actual_reps!==undefined&&Number(set.actual_reps)>=Number(set.target_reps??set.actual_reps);
+  const hasRequiredLoad=set=>{
+    const target=numberOrNull(set.target_weight_lb);
+    const actual=numberOrNull(set.actual_weight_lb);
+    return target===null||(actual!==null&&actual>=target);
+  };
+  // The server is authoritative: a client cannot force progression by labeling
+  // an under-target set "complete". Every required set must meet reps and load.
+  const allComplete=sets.length>0&&sets.every(set=>set.status==='complete'&&hasRequiredReps(set)&&hasRequiredLoad(set));
+  const allSkipped=sets.length>0&&sets.every(set=>set.status==='skipped');
+  const outcome=allComplete?'complete':sets.some(set=>set.status==='missed')?'missed':allSkipped?'skipped':'partial';
+  const actualWeights=done.map(set=>set.actual_weight_lb).filter(v=>v!==null);
+  const actualReps=done.map(set=>set.actual_reps).filter(v=>v!==null);
+  return{...attempt,outcome,sets_detail:sets,target_sets:numberOrNull(attempt.target_sets??sets.length),target_reps:numberOrNull(attempt.target_reps??sets[0]?.target_reps),actual_sets:done.length,actual_reps:actualReps.length&&new Set(actualReps).size===1?actualReps[0]:null,actual_weight_lb:numberOrNull(attempt.actual_weight_lb??(actualWeights.length&&new Set(actualWeights).size===1?actualWeights[0]:null)),target_weight_lb:numberOrNull(attempt.target_weight_lb),added_weight_lb:numberOrNull(attempt.added_weight_lb)};
+}
 function validateSession(input){if(!/^\d{4}-\d{2}-\d{2}$/.test(String(input.date_logged||'')))throw new Error('date_logged must be YYYY-MM-DD.');if(!String(input.day_type||'').trim())throw new Error('day_type is required.');if(!Array.isArray(input.attempts)||!input.attempts.length)throw new Error('At least one lift attempt is required.');for(const attempt of input.attempts){if(!String(attempt.exercise||'').trim())throw new Error('Every lift attempt requires an exercise.');for(const set of normalizeSets(attempt))if(!['planned','complete','partial','missed','skipped'].includes(set.status))throw new Error('Invalid set status.');}}
 
 const insertAttempt=db.prepare(`INSERT INTO lift_attempts(session_id,exercise,canonical_exercise,outcome,target_weight_lb,actual_weight_lb,added_weight_lb,target_sets,target_reps,actual_sets,actual_reps,rep_sequence_json,notes,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
