@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { canonicalExercise, PHASE_FOUR_TEMPLATES } from './constants.mjs';
 import { setState, transaction } from './db.mjs';
+import { deriveGoal } from './progression.mjs';
 
 const GOAL_FIELDS = [
   'next_squat_goal',
@@ -71,6 +72,58 @@ function goalFromField(record, field) {
   };
 }
 
+function goalFromAttempt(record, attempt, index) {
+  const goal = deriveGoal(attempt);
+  return {
+    source_date: record.date_logged,
+    goal_key: `derived_from_attempt_${index}`,
+    exercise: goal.exercise,
+    canonical_exercise: goal.canonical_exercise,
+    weight_lb: goal.weight_lb,
+    added_weight_lb: goal.added_weight_lb,
+    sets: goal.sets,
+    reps: goal.reps,
+    notes: attempt.notes ?? goal.notes,
+  };
+}
+
+export function backfillDerivedGoals(db) {
+  const attempts = db.prepare(`
+    SELECT a.*, s.date_logged
+    FROM lift_attempts a
+    JOIN sessions s ON s.id = a.session_id
+    WHERE s.source = 'legacy_json'
+      AND NOT EXISTS (
+        SELECT 1
+        FROM progression_goals g
+        WHERE g.session_id = a.session_id
+          AND g.canonical_exercise = a.canonical_exercise
+      )
+    ORDER BY s.date_logged, a.id
+  `).all();
+  const insertGoal = db.prepare(`
+    INSERT INTO progression_goals
+    (session_id, source_date, goal_key, exercise, canonical_exercise, weight_lb, added_weight_lb, sets, reps, notes)
+    VALUES (?, ?, 'derived_from_attempt_backfill', ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  for (const attempt of attempts) {
+    const goal = deriveGoal(attempt);
+    insertGoal.run(
+      attempt.session_id,
+      attempt.date_logged,
+      goal.exercise,
+      goal.canonical_exercise,
+      goal.weight_lb,
+      goal.added_weight_lb,
+      goal.sets,
+      goal.reps,
+      attempt.notes ?? goal.notes,
+    );
+  }
+  return attempts.length;
+}
+
 export function importLegacyJson(db, sourcePath, { replace = false } = {}) {
   const absolutePath = path.resolve(sourcePath);
   const source = JSON.parse(fs.readFileSync(absolutePath, 'utf8'));
@@ -103,13 +156,18 @@ export function importLegacyJson(db, sourcePath, { replace = false } = {}) {
       const id = `legacy-${String(index + 1).padStart(3, '0')}-${record.date_logged}`;
       insertSession.run(id, record.date_logged, record.day_type, record.phase ?? null, statusFor(record), record.notes ?? null, index, JSON.stringify(record));
       clearAttempts.run(id);
-      attemptsFor(record).forEach(attempt => insertAttempt.run(
+      const attempts = attemptsFor(record);
+      attempts.forEach(attempt => insertAttempt.run(
         id, attempt.exercise, attempt.canonical_exercise, attempt.outcome,
         attempt.target_weight_lb, attempt.actual_weight_lb, attempt.added_weight_lb,
         attempt.target_sets, attempt.target_reps, attempt.actual_sets, attempt.actual_reps,
         attempt.rep_sequence_json, attempt.notes, attempt.sort_order,
       ));
       clearGoals.run(id);
+      attempts.map((attempt, attemptIndex) => goalFromAttempt(record, attempt, attemptIndex)).forEach(goal => insertGoal.run(
+        id, goal.source_date, goal.goal_key, goal.exercise, goal.canonical_exercise,
+        goal.weight_lb, goal.added_weight_lb, goal.sets, goal.reps, goal.notes,
+      ));
       GOAL_FIELDS.map(field => goalFromField(record, field)).filter(Boolean).forEach(goal => insertGoal.run(
         id, goal.source_date, goal.goal_key, goal.exercise, goal.canonical_exercise,
         goal.weight_lb, goal.added_weight_lb, goal.sets, goal.reps, goal.notes,
