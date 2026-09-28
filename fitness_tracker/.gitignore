@@ -1,0 +1,9 @@
+# Personal/runtime data never belongs in source control.
+data/*
+!data/.gitkeep
+
+node_modules/
+*.log
+.DS_Store
+.learnings/
+coverage/

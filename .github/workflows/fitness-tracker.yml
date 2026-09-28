@@ -1,0 +1,27 @@
+name: Fitness tracker
+
+on:
+  push:
+    paths:
+      - "fitness_tracker/**"
+      - ".github/workflows/fitness-tracker.yml"
+  pull_request:
+    paths:
+      - "fitness_tracker/**"
+      - ".github/workflows/fitness-tracker.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run fitness tracker tests
+        working-directory: fitness_tracker
+        run: npm test

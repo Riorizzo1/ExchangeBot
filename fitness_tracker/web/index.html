@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b0e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Form">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Form — Training Log</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-view-target="home" aria-label="Home"><span class="brand-mark">F</span><span><b>FORM</b><small>Training system</small></span></button>
+      <button id="sync-pill" class="sync-pill"><i></i><span>Connecting</span></button>
+    </header>
+
+    <main>
+      <section id="home" class="view active">
+        <article class="next-card">
+          <div class="next-copy"><span class="kicker">UP NEXT</span><h1 id="next-day">—</h1><p id="phase-label">Loading program</p></div>
+          <button id="start-workout" class="button primary">Start workout <span>→</span></button>
+        </article>
+        <div id="next-lifts" class="next-grid"></div>
+
+        <section class="content-section">
+          <div class="section-head"><div><span class="kicker">CURRENT STRENGTH</span><h2>Your numbers</h2></div><button class="link-button" data-view-target="progress">See all</button></div>
+          <div id="strength-strip" class="strength-grid"></div>
+        </section>
+        <section class="content-section">
+          <div class="section-head"><div><span class="kicker">LATEST</span><h2>Recent training</h2></div><button class="link-button" data-view-target="history">Full history</button></div>
+          <div id="recent-sessions" class="session-list"></div>
+        </section>
+      </section>
+
+      <section id="workout" class="view">
+        <div class="page-head"><div><span class="kicker">LIVE SESSION</span><h1 id="workout-heading">Today's workout</h1><p id="draft-status" class="subtle">Draft saved on this device</p></div><button id="discard-workout" class="icon-button danger" aria-label="Discard workout">×</button></div>
+        <form id="workout-form">
+          <div class="session-meta panel">
+            <label>Date<input id="workout-date" type="date" required></label>
+            <div class="session-selection"><span>Workout</span><strong id="session-selection-name">—</strong><small id="session-selection-rule">—</small><button type="button" id="change-workout" class="mini-button">Change selection</button></div>
+          </div>
+          <div id="exercise-editors" class="exercise-stack"></div>
+          <button type="button" id="add-exercise" class="button secondary wide">＋ Add exercise</button>
+          <label class="notes-field">Session notes<textarea id="session-notes" rows="3" placeholder="How did it feel? Anything to remember?"></textarea></label>
+          <button type="submit" class="button primary wide sticky-save">Review workout</button>
+          <p id="form-status" class="form-status"></p>
+        </form>
+      </section>
+
+      <section id="history" class="view">
+        <div class="page-head"><div><span class="kicker">TRAINING LOG</span><h1>History</h1><p class="subtle" id="history-count"></p></div></div>
+        <div class="filters panel">
+          <input id="history-search" type="search" placeholder="Search exercise or notes">
+          <select id="history-day"><option value="">All days</option><option>Day 1</option><option>Day 2</option><option>Day 3</option><option>Custom</option></select>
+          <select id="history-status"><option value="">All results</option><option value="complete">Complete</option><option value="partial">Partial</option><option value="missed">Missed</option></select>
+        </div>
+        <div id="history-list"></div>
+      </section>
+
+      <section id="progress" class="view">
+        <div class="page-head"><div><span class="kicker">PERFORMANCE</span><h1>Progress</h1><p class="subtle">Best loads, estimated maxes, and working targets</p></div></div>
+        <div id="maxes-grid" class="maxes-grid"></div>
+        <div class="chart-panel panel">
+          <div class="chart-tools"><select id="chart-exercise"></select><div class="range-tabs"><button data-range="90">3M</button><button data-range="180">6M</button><button class="active" data-range="all">All</button></div></div>
+          <div id="chart-summary" class="chart-summary"></div>
+          <svg id="progress-chart" viewBox="0 0 720 360" role="img" aria-label="Lift progress chart"></svg>
+        </div>
+        <div id="lift-history" class="session-list compact-list"></div>
+      </section>
+
+      <section id="more" class="view">
+        <div class="page-head"><div><span class="kicker">SYSTEM</span><h1>More</h1><p class="subtle">Program and local app status</p></div></div>
+        <div id="system-stats" class="stats-grid"></div>
+        <article class="panel info-panel"><span class="kicker">PROGRAM</span><h2 id="program-name">Phase program</h2><p id="program-rule" class="subtle"></p></article>
+        <article class="panel info-panel"><span class="kicker">LOCAL-FIRST</span><h2>Your data stays available</h2><p class="subtle">The app caches your dashboard and active workout on this device. Completed workouts queue safely if the Mac mini is temporarily unreachable.</p><button id="refresh-data" class="button secondary">Refresh data</button></article>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Primary">
+      <button class="nav-button active" data-view-target="home"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5V21h-6v-6H9v6H3z"/></svg><span>Home</span></button>
+      <button class="nav-button" data-view-target="workout"><svg viewBox="0 0 24 24"><path d="M5 9v6m3-9v12m8-12v12m3-9v6M8 12h8M3 10v4m18-4v4"/></svg><span>Workout</span></button>
+      <button class="nav-button" data-view-target="history"><svg viewBox="0 0 24 24"><path d="M5 5h14v14H5zM8 9h8M8 13h8M8 17h5"/></svg><span>History</span></button>
+      <button class="nav-button" data-view-target="progress"><svg viewBox="0 0 24 24"><path d="m4 17 5-5 4 3 7-8M16 7h4v4"/></svg><span>Progress</span></button>
+      <button class="nav-button" data-view-target="more"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg><span>More</span></button>
+    </nav>
+  </div>
+
+  <dialog id="review-dialog" class="modal"><form method="dialog"><div class="modal-head"><div><span class="kicker">CONFIRM SESSION</span><h2>Review workout</h2></div><button value="cancel" class="icon-button">×</button></div><div id="review-content"></div><div class="modal-actions"><button value="cancel" class="button secondary">Keep editing</button><button id="confirm-save" value="default" class="button primary">Save workout</button></div></form></dialog>
+  <dialog id="session-dialog" class="modal"><div id="session-detail"></div></dialog>
+  <dialog id="workout-picker-dialog" class="modal workout-picker"><div id="workout-picker-content"></div></dialog>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
