@@ -47,6 +47,12 @@ The write is idempotent. The client returns the saved database record and the ne
 Runtime configuration is supplied through environment variables:
 
 - `FITNESS_DB_PATH` — SQLite location; defaults to `data/fitness.sqlite`
+
+## Push notifications
+
+The app supports standard Web Push for an HTTPS-installed Home Screen PWA. The Mac mini keeps VAPID keys in the ignored runtime file `data/vapid.json`, stores subscriptions in SQLite, and sends notifications through the existing Fitness API. The daily reminder LaunchAgent runs at 7:00 AM but only sends when **Workout reminders** is enabled in the app. No Firebase or Apple Developer account is required.
+
+After deploying a new version, open the HTTPS tunnel URL in the installed PWA, go to **More → Notifications**, tap **Enable notifications**, and approve the iPhone prompt. Use **Send test** to verify delivery.
 - `HOST` — API bind host; defaults to `127.0.0.1`
 - `PORT` — API port; defaults to `4318`
 - `FITNESS_API_URL` — endpoint used by `scripts/log-session.mjs`

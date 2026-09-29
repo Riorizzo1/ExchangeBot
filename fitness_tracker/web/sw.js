@@ -1,4 +1,4 @@
-const CACHE_NAME = 'form-fitness-v5';
+const CACHE_NAME = 'form-fitness-v6-push';
 const APP_SHELL = ['/', '/styles.css', '/app.js', '/manifest.webmanifest', '/icon.svg'];
 
 self.addEventListener('install', event => {
@@ -23,4 +23,22 @@ self.addEventListener('fetch', event => {
       })
       .catch(() => caches.match(event.request).then(response => response || caches.match('/')))
   );
+});
+
+self.addEventListener('push', event => {
+  const data = event.data?.json?.() || {title:'Fitness',body:'You have a training update.',url:'/'};
+  event.waitUntil(self.registration.showNotification(data.title || 'Fitness', {
+    body: data.body || 'You have a training update.',
+    icon: '/icon.svg',
+    badge: '/icon.svg',
+    data: {url: data.url || '/'}
+  }));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(list => {
+    const existing = list.find(client => 'focus' in client);
+    return existing ? existing.focus() : clients.openWindow(event.notification.data?.url || '/');
+  }));
 });

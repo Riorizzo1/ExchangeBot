@@ -88,6 +88,23 @@ function migrate(db) {
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
+    CREATE TABLE IF NOT EXISTS push_subscriptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      endpoint TEXT NOT NULL UNIQUE,
+      subscription_json TEXT NOT NULL,
+      user_agent TEXT,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      last_success_at TEXT,
+      last_error TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS push_preferences (
+      key TEXT PRIMARY KEY,
+      enabled INTEGER NOT NULL DEFAULT 0,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
+
     INSERT OR IGNORE INTO schema_migrations(version) VALUES (1);
   `);
 
@@ -144,6 +161,8 @@ function migrate(db) {
     WHERE session_kind IS NULL OR rotation_day IS NULL;
     INSERT OR IGNORE INTO schema_migrations(version) VALUES (3);
   `);
+
+  db.exec('INSERT OR IGNORE INTO schema_migrations(version) VALUES (4);');
 
   backfillLiftSets(db);
 }

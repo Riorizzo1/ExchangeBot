@@ -32,7 +32,7 @@ function workoutSignature(workout) {
 }
 
 check('sqlite_integrity', db.prepare('PRAGMA integrity_check').get().integrity_check === 'ok');
-check('schema_version', db.prepare('SELECT MAX(version) version FROM schema_migrations').get().version === 3);
+check('schema_version', db.prepare('SELECT MAX(version) version FROM schema_migrations').get().version === 4);
 
 const sessions = db.prepare("SELECT * FROM sessions WHERE source='legacy_json' ORDER BY source_record_index").all();
 check('session_count', sessions.length === source.history.length, `${sessions.length}/${source.history.length}`);

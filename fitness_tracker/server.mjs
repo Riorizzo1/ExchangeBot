@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import webpush from 'web-push';
 import { canonicalExercise, incrementForExercise, ROTATION } from './src/constants.mjs';
 import { getState, openDatabase, setState, transaction } from './src/db.mjs';
 import { summarizeMaxRows } from './src/metrics.mjs';
@@ -13,6 +14,12 @@ const webDir = path.join(rootDir, 'web');
 const host = process.env.HOST || '127.0.0.1';
 const port = Number(process.env.PORT || 4318);
 const db = openDatabase();
+const vapidPath = process.env.FITNESS_VAPID_PATH || path.join(rootDir, 'data', 'vapid.json');
+let vapid = null;
+try {
+  if (fs.existsSync(vapidPath)) vapid = JSON.parse(fs.readFileSync(vapidPath, 'utf8'));
+  if (vapid?.publicKey && vapid?.privateKey) webpush.setVapidDetails(vapid.subject || 'mailto:bobby@localhost', vapid.publicKey, vapid.privateKey);
+} catch (error) { console.error(`[fitness] unable to load VAPID config: ${error.message}`); }
 const MIME_TYPES = { '.css':'text/css; charset=utf-8','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.webmanifest':'application/manifest+json; charset=utf-8' };
 
 function json(response, status, payload) { const body=JSON.stringify(payload); response.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Content-Length':Buffer.byteLength(body),'Cache-Control':'no-store'}); response.end(body); }
@@ -49,6 +56,25 @@ function exerciseSlots(){
   }));
 }
 function bootstrapPayload(){const sessionCount=db.prepare('SELECT COUNT(*) count FROM sessions').get().count;const attemptCount=db.prepare('SELECT COUNT(*) count FROM lift_attempts').get().count;const setCount=db.prepare('SELECT COUNT(*) count FROM lift_sets').get().count;const recent=sessionsQuery({limit:60});const last=recent[0]||null;const programmedWorkouts=ROTATION.map(dayType=>buildWorkout(db,dayType));return{generated_at:new Date().toISOString(),summary:{session_count:sessionCount,attempt_count:attemptCount,set_count:setCount,active_phase:getState(db,'active_phase',4),last_session_date:last?.date_logged||null},next_workout:getState(db,'next_workout',buildWorkout(db,'Day 1')),programmed_workouts:programmedWorkouts,exercise_slots:exerciseSlots(),program:getState(db,'program',null),recent_sessions:recent,exercise_history:exerciseHistory(),maxes:maxes()};}
+function pushPreferences(){const rows=db.prepare('SELECT key,enabled FROM push_preferences').all();const result={workout_reminders:false,progression_alerts:true};for(const row of rows)result[row.key]=Boolean(row.enabled);return result;}
+function pushStatus(){return{configured:Boolean(vapid?.publicKey),subscription_count:db.prepare('SELECT COUNT(*) count FROM push_subscriptions').get().count,preferences:pushPreferences(),public_key:vapid?.publicKey||null};}
+async function sendPush(payload){
+  if(!vapid?.publicKey) throw new Error('Push notifications are not configured on the Fitness server.');
+  const subscriptions=db.prepare('SELECT * FROM push_subscriptions').all();
+  const results=[];
+  for(const subscription of subscriptions){
+    try { await webpush.sendNotification(JSON.parse(subscription.subscription_json), JSON.stringify(payload)); db.prepare('UPDATE push_subscriptions SET last_success_at=CURRENT_TIMESTAMP,last_error=NULL WHERE id=?').run(subscription.id); results.push({endpoint:subscription.endpoint,ok:true}); }
+    catch(error){ db.prepare('UPDATE push_subscriptions SET last_error=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(String(error.message).slice(0,500),subscription.id); if(error.statusCode===404||error.statusCode===410) db.prepare('DELETE FROM push_subscriptions WHERE id=?').run(subscription.id); results.push({endpoint:subscription.endpoint,ok:false,status:error.statusCode||500}); }
+  }
+  return results;
+}
+function savePushSubscription(input, userAgent){
+  const subscription=input?.subscription||input;
+  if(!subscription?.endpoint||!subscription?.keys?.p256dh||!subscription?.keys?.auth)throw new Error('Invalid push subscription.');
+  db.prepare(`INSERT INTO push_subscriptions(endpoint,subscription_json,user_agent,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(endpoint) DO UPDATE SET subscription_json=excluded.subscription_json,user_agent=excluded.user_agent,updated_at=CURRENT_TIMESTAMP,last_error=NULL`).run(subscription.endpoint,JSON.stringify(subscription),userAgent||null);
+  return pushStatus();
+}
+function updatePushPreferences(input){for(const key of ['workout_reminders','progression_alerts'])if(input?.[key]!==undefined)db.prepare(`INSERT INTO push_preferences(key,enabled,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET enabled=excluded.enabled,updated_at=CURRENT_TIMESTAMP`).run(key,input[key]?1:0);return pushStatus();}
 
 function normalizeSets(attempt){
   if(Array.isArray(attempt.sets_detail)&&attempt.sets_detail.length)return attempt.sets_detail.map((set,index)=>({set_number:index+1,target_weight_lb:numberOrNull(set.target_weight_lb??attempt.target_weight_lb??attempt.target_added_weight_lb),actual_weight_lb:numberOrNull(set.actual_weight_lb??set.weight_lb??attempt.actual_weight_lb??attempt.added_weight_lb),target_reps:numberOrNull(set.target_reps??attempt.target_reps),actual_reps:numberOrNull(set.actual_reps??set.reps),status:set.status||attempt.outcome||'complete',rpe:numberOrNull(set.rpe),rir:numberOrNull(set.rir),notes:set.notes||null}));
@@ -83,5 +109,21 @@ function createSession(input,idempotencyKey){validateSession(input);if(!idempote
 function updateSession(id,input,idempotencyKey){validateSession(input);if(!idempotencyKey)throw new Error('Idempotency-Key is required.');const replay=db.prepare('SELECT response_json FROM write_events WHERE idempotency_key=?').get(idempotencyKey);if(replay)return JSON.parse(replay.response_json);const before=sessionById(id);if(!before)throw new Error('Session not found.');return transaction(db,()=>{db.prepare("INSERT INTO session_revisions(session_id,operation,snapshot_json) VALUES(?,'update',?)").run(id,JSON.stringify(before));const normalized=input.attempts.map(normalizeAttempt);const status=input.status||(normalized.every(a=>a.outcome==='complete')?'complete':'partial');const rotation=sessionRotation({...input,session_kind:input.session_kind??before.session_kind,rotation_day:input.rotation_day??before.rotation_day,advance_rotation:input.advance_rotation??before.advances_rotation});db.prepare('UPDATE sessions SET date_logged=?,day_type=?,phase=?,status=?,notes=?,raw_json=?,session_kind=?,rotation_day=?,advances_rotation=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(input.date_logged,input.day_type,input.phase??before.phase,status,input.notes||null,JSON.stringify(input),rotation.sessionKind,rotation.rotationDay,rotation.advancesRotation?1:0,id);db.prepare('DELETE FROM progression_goals WHERE session_id=?').run(id);db.prepare('DELETE FROM lift_attempts WHERE session_id=?').run(id);writeAttempts(id,input.date_logged,normalized);const current=getState(db,'next_workout',{});const nextWorkout=buildWorkout(db,current.day_type||'Day 1');setState(db,'next_workout',nextWorkout);const saved=sessionById(id);const response={session:saved,next_workout:nextWorkout};db.prepare('INSERT INTO write_events(idempotency_key,event_type,response_json) VALUES(?,?,?)').run(idempotencyKey,'session.update',JSON.stringify(response));return response;});}
 
 function serveStatic(requestPath,response){const clean=requestPath==='/'?'/index.html':requestPath;const file=path.normalize(path.join(webDir,clean.replace(/^\/+/,'')));if(!file.startsWith(webDir))return text(response,403,'Forbidden');if(!fs.existsSync(file)||!fs.statSync(file).isFile())return text(response,404,'Not found');const body=fs.readFileSync(file);const ext=path.extname(file);response.writeHead(200,{'Content-Type':MIME_TYPES[ext]||'application/octet-stream','Content-Length':body.length,'Cache-Control':['/sw.js','/index.html'].includes(clean)?'no-cache':'public, max-age=300'});response.end(body);}
-const server=http.createServer(async(request,response)=>{const url=new URL(request.url,`http://${request.headers.host||`${host}:${port}`}`);try{if(request.method==='GET'&&url.pathname==='/api/health'){const schema=db.prepare('SELECT MAX(version) version FROM schema_migrations').get().version;return json(response,200,{ok:true,database:'ready',schema,time:new Date().toISOString()});}if(request.method==='GET'&&url.pathname==='/api/bootstrap')return json(response,200,bootstrapPayload());if(request.method==='GET'&&url.pathname==='/api/maxes')return json(response,200,{maxes:maxes()});if(request.method==='GET'&&url.pathname==='/api/sessions')return json(response,200,{sessions:sessionsQuery(Object.fromEntries(url.searchParams))});if(request.method==='GET'&&url.pathname.startsWith('/api/sessions/')){const item=sessionById(decodeURIComponent(url.pathname.split('/').at(-1)));return item?json(response,200,{session:item}):json(response,404,{error:'Session not found.'});}if(request.method==='POST'&&url.pathname==='/api/sessions')return json(response,201,createSession(await readJson(request),request.headers['idempotency-key']));if(request.method==='PUT'&&url.pathname.startsWith('/api/sessions/'))return json(response,200,updateSession(decodeURIComponent(url.pathname.split('/').at(-1)),await readJson(request),request.headers['idempotency-key']));if(request.method==='POST'&&url.pathname==='/api/rebuild-next-workout'){const payload=await readJson(request);const workout=buildWorkout(db,payload.day_type||getState(db,'next_workout',{}).day_type||'Day 1');setState(db,'next_workout',workout);return json(response,200,{next_workout:workout});}if(request.method==='GET')return serveStatic(url.pathname,response);return json(response,404,{error:'Not found.'});}catch(error){console.error(error);return json(response,400,{error:error.message||'Request failed.'});}});
+const server=http.createServer(async(request,response)=>{const url=new URL(request.url,`http://${request.headers.host||`${host}:${port}`}`);try{
+  if(request.method==='GET'&&url.pathname==='/api/health'){const schema=db.prepare('SELECT MAX(version) version FROM schema_migrations').get().version;return json(response,200,{ok:true,database:'ready',schema,push:pushStatus(),time:new Date().toISOString()});}
+  if(request.method==='GET'&&url.pathname==='/api/bootstrap')return json(response,200,{...bootstrapPayload(),push:pushStatus()});
+  if(request.method==='GET'&&url.pathname==='/api/push/status')return json(response,200,pushStatus());
+  if(request.method==='POST'&&url.pathname==='/api/push/subscribe')return json(response,201,savePushSubscription(await readJson(request),request.headers['user-agent']));
+  if(request.method==='DELETE'&&url.pathname==='/api/push/subscribe'){const input=await readJson(request);if(input.endpoint)db.prepare('DELETE FROM push_subscriptions WHERE endpoint=?').run(input.endpoint);return json(response,200,pushStatus());}
+  if(request.method==='PUT'&&url.pathname==='/api/push/preferences')return json(response,200,updatePushPreferences(await readJson(request)));
+  if(request.method==='POST'&&url.pathname==='/api/push/test'){const results=await sendPush({title:'Fitness notifications enabled',body:'Your Fitness PWA can now reach you.',url:'/'});return json(response,200,{results,push:pushStatus()});}
+  if(request.method==='POST'&&url.pathname==='/api/push/reminder'){const status=pushStatus();if(!status.preferences.workout_reminders)return json(response,200,{sent:false,reason:'Workout reminders are disabled.'});const workout=getState(db,'next_workout',buildWorkout(db,'Day 1'));const results=await sendPush({title:`${workout.day_type} workout`,body:(workout.goal_lifts||[]).map(lift=>`${lift.exercise}: ${lift.added_weight_lb??lift.weight_lb??'BW'} × ${lift.sets}×${lift.reps}`).join(' · '),url:'/'});return json(response,200,{sent:true,results,push:pushStatus()});}
+  if(request.method==='GET'&&url.pathname==='/api/maxes')return json(response,200,{maxes:maxes()});
+  if(request.method==='GET'&&url.pathname==='/api/sessions')return json(response,200,{sessions:sessionsQuery(Object.fromEntries(url.searchParams))});
+  if(request.method==='GET'&&url.pathname.startsWith('/api/sessions/')){const item=sessionById(decodeURIComponent(url.pathname.split('/').at(-1)));return item?json(response,200,{session:item}):json(response,404,{error:'Session not found.'});}
+  if(request.method==='POST'&&url.pathname==='/api/sessions'){const input=await readJson(request);const result=createSession(input,request.headers['idempotency-key']);if(pushPreferences().progression_alerts&&result.session.attempts.some(attempt=>attempt.outcome==='complete'))sendPush({title:'Workout saved',body:`${result.session.day_type} completed. Your progression has been updated.`,url:'/'}).catch(error=>console.error(`[fitness] push alert failed: ${error.message}`));return json(response,201,result);}
+  if(request.method==='PUT'&&url.pathname.startsWith('/api/sessions/'))return json(response,200,updateSession(decodeURIComponent(url.pathname.split('/').at(-1)),await readJson(request),request.headers['idempotency-key']));
+  if(request.method==='POST'&&url.pathname==='/api/rebuild-next-workout'){const payload=await readJson(request);const workout=buildWorkout(db,payload.day_type||getState(db,'next_workout',{}).day_type||'Day 1');setState(db,'next_workout',workout);return json(response,200,{next_workout:workout});}
+  if(request.method==='GET')return serveStatic(url.pathname,response);return json(response,404,{error:'Not found.'});
+}catch(error){console.error(error);return json(response,400,{error:error.message||'Request failed.'});}});
 server.listen(port,host,()=>console.log(`[fitness] listening on http://${host}:${port}`));
