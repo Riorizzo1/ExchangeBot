@@ -1,5 +1,5 @@
 const CACHE_NAME = 'form-fitness-v6-push';
-const APP_SHELL = ['/', '/styles.css', '/app.js', '/manifest.webmanifest', '/icon.svg'];
+const APP_SHELL = ['/', '/styles.css', '/app.js?v=6', '/manifest.webmanifest', '/icon.svg'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
