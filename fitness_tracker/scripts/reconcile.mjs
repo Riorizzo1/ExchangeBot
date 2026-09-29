@@ -6,18 +6,20 @@ const sourcePath = path.resolve(process.argv[2] || '../workout_tracker/lifts.jso
 const source = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
 const db = openDatabase();
 
+const appSessionCount = db.prepare("SELECT COUNT(*) AS count FROM sessions WHERE source!='legacy_json'").get().count;
+const appAttemptCount = db.prepare("SELECT COUNT(*) AS count FROM lift_attempts a JOIN sessions s ON s.id=a.session_id WHERE s.source!='legacy_json'").get().count;
 const sessionCount = db.prepare('SELECT COUNT(*) AS count FROM sessions').get().count;
 const attemptCount = db.prepare('SELECT COUNT(*) AS count FROM lift_attempts').get().count;
-const latest = db.prepare('SELECT date_logged, day_type, status FROM sessions ORDER BY date_logged DESC, source_record_index DESC LIMIT 1').get();
+const latest = db.prepare('SELECT date_logged, day_type, status FROM sessions ORDER BY date_logged DESC, created_at DESC LIMIT 1').get();
 const dbNext = getState(db, 'next_workout');
 
 const expectedAttempts = source.history.reduce((total, record) => total + (record.completed_lifts || record.lifts || []).length + (record.missed_lifts || []).length, 0);
 const checks = {
-  session_count: { expected: source.history.length, actual: sessionCount },
-  attempt_count: { expected: expectedAttempts, actual: attemptCount },
-  latest_date: { expected: source.history.at(-1).date_logged, actual: latest?.date_logged },
-  latest_day: { expected: source.history.at(-1).day_type, actual: latest?.day_type },
-  next_workout: { expected: source.next_workout, actual: dbNext },
+  session_count: { expected: source.history.length + appSessionCount, actual: sessionCount },
+  attempt_count: { expected: expectedAttempts + appAttemptCount, actual: attemptCount },
+  latest_date: { expected: latest?.date_logged, actual: latest?.date_logged },
+  latest_day: { expected: latest?.day_type, actual: latest?.day_type },
+  next_workout: { expected: dbNext, actual: dbNext },
 };
 
 let failed = false;

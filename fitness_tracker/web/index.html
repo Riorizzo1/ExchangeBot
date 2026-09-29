@@ -9,6 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="Form">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/styles.css">
   <title>Form — Training Log</title>
 </head>
@@ -91,9 +92,9 @@
     </nav>
   </div>
 
-  <dialog id="review-dialog" class="modal"><form method="dialog"><div class="modal-head"><div><span class="kicker">CONFIRM SESSION</span><h2>Review workout</h2></div><button value="cancel" class="icon-button">×</button></div><div id="review-content"></div><div class="modal-actions"><button value="cancel" class="button secondary">Keep editing</button><button id="confirm-save" value="default" class="button primary">Save workout</button></div></form></dialog>
+  <dialog id="review-dialog" class="modal"><form method="dialog"><div class="modal-head"><div><span class="kicker">CONFIRM SESSION</span><h2>Review workout</h2></div><button value="cancel" class="icon-button">×</button></div><div id="review-content"></div><p id="save-status" class="form-status" role="status" aria-live="polite"></p><div class="modal-actions"><button value="cancel" class="button secondary">Keep editing</button><button id="confirm-save" type="button" class="button primary">Save workout</button></div></form></dialog>
   <dialog id="session-dialog" class="modal"><div id="session-detail"></div></dialog>
   <dialog id="workout-picker-dialog" class="modal workout-picker"><div id="workout-picker-content"></div></dialog>
-  <script type="module" src="/app.js?v=8"></script>
+  <script type="module" src="/app.js?v=10"></script>
 </body>
 </html>

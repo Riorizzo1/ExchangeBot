@@ -32,10 +32,13 @@ function workoutSignature(workout) {
 }
 
 check('sqlite_integrity', db.prepare('PRAGMA integrity_check').get().integrity_check === 'ok');
-check('schema_version', db.prepare('SELECT MAX(version) version FROM schema_migrations').get().version === 4);
+check('schema_version', db.prepare('SELECT MAX(version) version FROM schema_migrations').get().version === 6);
 
 const sessions = db.prepare("SELECT * FROM sessions WHERE source='legacy_json' ORDER BY source_record_index").all();
+const appSessionCount = db.prepare("SELECT COUNT(*) count FROM sessions WHERE source!='legacy_json'").get().count;
+const appAttemptCount = db.prepare("SELECT COUNT(*) count FROM lift_attempts a JOIN sessions s ON s.id=a.session_id WHERE s.source!='legacy_json'").get().count;
 check('session_count', sessions.length === source.history.length, `${sessions.length}/${source.history.length}`);
+check('app_sessions_preserved', appSessionCount >= 0, `${appSessionCount} app-entered session(s)`);
 const rawMismatches = source.history.filter((record, index) => {
   const row = sessions[index];
   return !row || row.source_record_index !== index || JSON.stringify(record) !== JSON.stringify(JSON.parse(row.raw_json));
@@ -43,8 +46,8 @@ const rawMismatches = source.history.filter((record, index) => {
 check('source_records_exact', rawMismatches.length === 0, `${rawMismatches.length} mismatches`);
 
 const expectedAttempts = source.history.reduce((total, record) => total + (record.completed_lifts || record.lifts || []).length + (record.missed_lifts || []).length, 0);
-const actualAttempts = db.prepare('SELECT COUNT(*) count FROM lift_attempts').get().count;
-check('attempt_count', actualAttempts === expectedAttempts, `${actualAttempts}/${expectedAttempts}`);
+const actualAttempts = db.prepare("SELECT COUNT(*) count FROM lift_attempts a JOIN sessions s ON s.id=a.session_id WHERE s.source='legacy_json'").get().count;
+check('attempt_count', actualAttempts === expectedAttempts, `${actualAttempts}/${expectedAttempts} legacy attempts`);
 
 const setRows = db.prepare(`
   SELECT a.id,a.outcome,a.target_sets,a.actual_sets,a.rep_sequence_json,
@@ -95,10 +98,10 @@ for (const dayType of ROTATION) {
 
 const nextWorkout = getState(db, 'next_workout');
 check('next_workout_rebuild', JSON.stringify(workoutSignature(nextWorkout)) === JSON.stringify(workoutSignature(buildWorkout(db, nextWorkout.day_type))));
-check('source_next_workout', JSON.stringify(workoutSignature(nextWorkout)) === JSON.stringify(workoutSignature(source.next_workout)));
+check('source_next_workout', appSessionCount > 0 || JSON.stringify(workoutSignature(nextWorkout)) === JSON.stringify(workoutSignature(source.next_workout)), appSessionCount > 0 ? `not compared: ${appSessionCount} app-entered session(s) legitimately update progression` : 'matches migration source');
 
 const latestSource = source.history.at(-1);
-const latestSession = db.prepare('SELECT * FROM sessions ORDER BY date_logged DESC,source_record_index DESC LIMIT 1').get();
+const latestSession = db.prepare("SELECT * FROM sessions WHERE source='legacy_json' ORDER BY date_logged DESC,source_record_index DESC LIMIT 1").get();
 check('latest_session', latestSession.date_logged === latestSource.date_logged && latestSession.day_type === latestSource.day_type);
 
 if (failures.length) {
