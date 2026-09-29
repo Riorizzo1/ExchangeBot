@@ -78,7 +78,7 @@
         <div id="system-stats" class="stats-grid"></div>
         <article class="panel info-panel"><span class="kicker">PROGRAM</span><h2 id="program-name">Phase program</h2><p id="program-rule" class="subtle"></p></article>
         <article class="panel info-panel"><span class="kicker">LOCAL-FIRST</span><h2>Your data stays available</h2><p class="subtle">The app caches your dashboard and active workout on this device. Completed workouts queue safely if the Mac mini is temporarily unreachable.</p><button id="refresh-data" class="button secondary">Refresh data</button></article>
-        <article class="panel info-panel notification-panel"><span class="kicker">NOTIFICATIONS</span><h2>Stay on schedule</h2><p id="push-status-text" class="subtle">Checking notification support…</p><div class="notification-actions"><button id="enable-notifications" class="button primary">Enable notifications</button><button id="test-notification" class="button secondary" disabled>Send test</button></div><label class="toggle-row"><span><b>Workout reminders</b><small>Send the next workout to your phone</small></span><input id="workout-reminders" type="checkbox"></label><label class="toggle-row"><span><b>Progression alerts</b><small>Notify after a verified completed lift advances</small></span><input id="progression-alerts" type="checkbox" checked></label><p id="notification-status" class="form-status"></p></article>
+        <article class="panel info-panel notification-panel"><div class="notification-heading"><div><span class="kicker">NOTIFICATIONS</span><h2>Stay on schedule</h2></div><span class="notification-mark">●</span></div><p id="push-status-text" class="subtle notification-status-line">Checking notification support…</p><div class="notification-actions"><button id="enable-notifications" class="button primary">Enable notifications</button><button id="test-notification" class="button secondary" disabled>Send test</button></div><div class="notification-preferences"><div class="preference-label"><span>Preferences</span><small>Choose what reaches your phone</small></div><label class="toggle-row"><span><b>Workout reminders</b><small>Daily next-workout reminder at 7:00 AM</small></span><input id="workout-reminders" type="checkbox"></label><label class="toggle-row"><span><b>Progression alerts</b><small>After a verified completed lift advances</small></span><input id="progression-alerts" type="checkbox" checked></label></div><p id="notification-status" class="form-status"></p></article>
       </section>
     </main>
 
@@ -94,6 +94,6 @@
   <dialog id="review-dialog" class="modal"><form method="dialog"><div class="modal-head"><div><span class="kicker">CONFIRM SESSION</span><h2>Review workout</h2></div><button value="cancel" class="icon-button">×</button></div><div id="review-content"></div><div class="modal-actions"><button value="cancel" class="button secondary">Keep editing</button><button id="confirm-save" value="default" class="button primary">Save workout</button></div></form></dialog>
   <dialog id="session-dialog" class="modal"><div id="session-detail"></div></dialog>
   <dialog id="workout-picker-dialog" class="modal workout-picker"><div id="workout-picker-content"></div></dialog>
-  <script type="module" src="/app.js?v=6"></script>
+  <script type="module" src="/app.js?v=7"></script>
 </body>
 </html>
