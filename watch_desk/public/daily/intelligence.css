@@ -1,0 +1,22 @@
+.market-views { display:flex; gap:8px; align-items:center; margin:18px 0 -2px; overflow-x:auto; scrollbar-width:none; }
+.market-views::-webkit-scrollbar { display:none; }
+.view, .filter-actions button, .filter-actions select, .triage button { border:1px solid var(--line); border-radius:999px; background:#121519; color:var(--muted); min-height:34px; padding:0 13px; font:650 12px inherit; cursor:pointer; white-space:nowrap; }
+.view:hover, .filter-actions button:hover, .triage button:hover { border-color:#735d2b; color:#f3e5c2; }
+.view.active { border-color:#d8b967; background:#d8b967; color:#17130a; }
+.view b { margin-left:5px; padding:2px 5px; border-radius:5px; background:rgba(0,0,0,.12); font-size:10px; }
+.filter-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:10px; }
+.filter-actions select { max-width:180px; border-radius:8px; background:#171a1e; color:#dddde0; }
+.filter-actions button { border-radius:8px; }
+.card.shortlisted { border-color:rgba(216,185,103,.52); box-shadow:0 0 0 1px rgba(216,185,103,.08); }
+.card.shortlisted .pic:after { content:'★'; position:absolute; right:10px; bottom:9px; color:#e1bd5a; font-size:15px; text-shadow:0 1px 3px #000; }
+.crosspost-note { display:inline-flex; align-items:center; gap:5px; margin-top:7px; color:#d8bb73; font-size:11px; font-weight:700; }
+.triage { display:flex; gap:8px; margin:17px 0 3px; }
+.triage button { border-radius:8px; color:#d6d7d8; }
+.triage .selected { border-color:#d8b967; color:#f2dc9b; background:rgba(139,106,34,.16); }
+.source-posts { margin-top:18px; padding-top:14px; border-top:1px solid var(--line); }
+.source-posts h3 { margin:0 0 8px; color:var(--dim); font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+.source-posts a { display:flex; justify-content:space-between; gap:8px; padding:8px 0; color:#e0c579; font-size:12px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.06); }
+.source-posts a:last-child { border-bottom:0; }
+.filter-panel { position:relative; top:auto; z-index:auto; background:var(--surface); backdrop-filter:none; }
+@media(max-width:1100px) { .filter-controls { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+@media(max-width:680px) { .market-views { margin:15px 0 0; padding-bottom:3px; }.filter-controls { grid-template-columns:1fr 1fr; }.filter-controls label:last-child { grid-column:auto; }.filter-actions { justify-content:stretch; flex-wrap:wrap; }.filter-actions select { flex:1 1 100%; max-width:none; }.filter-actions button { flex:1 1 auto; }.triage button { flex:1; padding:0 8px; } }

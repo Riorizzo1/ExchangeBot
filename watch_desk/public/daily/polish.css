@@ -1,0 +1,17 @@
+.status-available .pic span {
+  border-color: rgba(118, 203, 156, .38);
+  background: rgba(18, 72, 50, .84);
+  color: #c7f2d7;
+}
+
+.status-pending .pic span {
+  border-color: rgba(236, 184, 83, .44);
+  background: rgba(91, 63, 17, .86);
+  color: #ffe4a7;
+}
+
+.status-sold .pic span {
+  border-color: rgba(216, 112, 112, .42);
+  background: rgba(88, 31, 31, .86);
+  color: #ffd1d1;
+}

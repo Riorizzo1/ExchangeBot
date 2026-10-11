@@ -1,0 +1,9 @@
+**/node_modules/
+**/__pycache__/
+**/data/
+**/logs/
+**/.env*
+**/*.sqlite*
+**/*.db*
+.checkpoints/
+private-runtime/

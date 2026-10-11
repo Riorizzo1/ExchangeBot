@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+import json
+import re
+from pathlib import Path
+from collections import defaultdict
+
+SNAPSHOT = Path('/Users/bobby/.openclaw/workspace/reddit_bst/data/aggregate_snapshot.json')
+obj = json.loads(SNAPSHOT.read_text())
+rows = obj.get('recent_delta') or obj.get('recent_fallback') or []
+mode = 'delta' if obj.get('recent_delta') else ('recent_fallback' if obj.get('recent_fallback') else 'empty')
+
+SUBS_ORDER = ['BSTRepWatch', 'repwatchbuysell', 'repwatchbuyselltrade', 'WatchExchangeBST', 'TheRepTimeBST', 'watchconnect']
+LABEL_MAP = {'watchexchangeBST': 'WatchExchangeBST'}
+STATUS_ORDER = ['available', 'pending']
+
+PREFIX_RE = re.compile(r'^(\[WTS\]|\[WTS\]\[CONUS\]|\[WTS\]\[US\]|\[WTS\]\[USA\]|\[FS\]\[USA\]|\[WTS\]\s*\[CONUS\]|\[WTS\]\s*\[US\]|\[WTS\]\s*\[EU\]|\[WTS\]\s*\[UK\]|\[WTS\]\s*\[WW\]|\[FS\]|\[WTS\]|WTS\s*[:\-]?|WTS\s+|FOR SALE\s*[:\-]?)\s*', re.I)
+SELLER_CODE_RE = re.compile(r'\s*✅\s*Seller Code:\s*\d+.*$', re.I)
+CHECKMARK_RE = re.compile(r'\s*✅\s*')
+BRAND_NEW_RE = re.compile(r'\s*[-–]?\s*brand new\b', re.I)
+SHIPPING_RE = re.compile(r'\s*[-–]?\s*shipped\b', re.I)
+PRICE_INLINE_RE = re.compile(r'\s*=?\$\s*([0-9]+(?:\.[0-9]+)?)')
+MULTISPACE_RE = re.compile(r'\s+')
+LEADING_ENUM_RE = re.compile(r'^\d+[\.)-]\s*')
+LEADING_DASH_RE = re.compile(r'^[-–]\s*')
+
+
+def normalize_sub(sub):
+    return LABEL_MAP.get(sub, sub)
+
+
+def clean_title(title):
+    t = ' '.join((title or '').split())
+    t = PREFIX_RE.sub('', t)
+    t = re.sub(r'^\((?:USA|US|CONUS|WW|UK|EU|CAN)\)\s*', '', t, flags=re.I)
+    t = LEADING_ENUM_RE.sub('', t)
+    t = LEADING_DASH_RE.sub('', t)
+    t = SELLER_CODE_RE.sub('', t)
+    t = CHECKMARK_RE.sub(' ', t)
+    t = BRAND_NEW_RE.sub('', t)
+    t = SHIPPING_RE.sub('', t)
+    t = PRICE_INLINE_RE.sub('', t)
+    t = t.replace('!=', '')
+    t = re.sub(r'^[\-–]+', '', t)
+    t = t.replace('•', ' ')
+    t = MULTISPACE_RE.sub(' ', t).strip(' -,:')
+    return t or title
+
+
+def fmt_price(price):
+    if price is None:
+        return None
+    if isinstance(price, (int, float)) and float(price).is_integer():
+        return f'${int(price)}'
+    return f'${price}'
+
+
+WATCH_MODEL_HINT_RE = re.compile(r'jaeger|jlc|polaris|santos|tank|nautilus|daytona|submariner|datejust|day[- ]?date|explorer|yacht[- ]?master|seamaster|speedmaster|overseas|royal oak|pelagos|reverso|portugieser|panthere|hydroconquest|aquaracer|planet ocean|superocean|skydweller|oyster perpetual|cartier|omega|rolex|iwc|tudor|patek|panerai|breitling|audemars|longines|tag heuer', re.I)
+ACCESSORY_HINT_RE = re.compile(r'box|watch roll|roll only|strap\b|bracelet\b|extra bracelet|links|link\b|dial\b(?!\s*(?:datejust|daydate|day-date|oyster|skydweller|sky-dweller|wimbledon|blue|green|black|silver|white|roman|stick))|hands\b|insert\b|bezel\b(?!\s*(?:blue|black|green|brown|red|ceramic))|clasp\b|springbar|spring bar|tool\b|caseback\b|goyard|pouch\b|travel case|presentation box|card holder', re.I)
+
+
+def classify_kind(title, price):
+    title = title or ''
+    if WATCH_MODEL_HINT_RE.search(title):
+        return 'Watch'
+    if ACCESSORY_HINT_RE.search(title):
+        return 'Accessory'
+    if price is not None and price < 170:
+        return 'Accessory'
+    return 'Watch'
+
+
+keep = []
+for r in rows:
+    status = (r.get('status') or '').lower()
+    if status not in ('available', 'pending'):
+        continue
+    price = r.get('price')
+    title = clean_title(r.get('title') or '')
+    keep.append({
+        'subreddit': normalize_sub(r.get('subreddit')),
+        'status': status,
+        'kind': classify_kind(title, price),
+        'title': title,
+        'raw_title': ' '.join((r.get('title') or '').split()),
+        'price': price,
+        'url': r.get('post_url') or r.get('url') or '',
+        'posted': r.get('posted') or '',
+        'seller': r.get('seller') or '',
+    })
+
+if not keep:
+    print('No new available or pending items since the prior baseline/delta pass.')
+    raise SystemExit
+
+parts = []
+if mode == 'recent_fallback':
+    parts.append('RECENT POSTS FALLBACK')
+    parts.append('(No strict delta rows survived, so showing recent posts from the active time window.)')
+    parts.append('')
+
+by_status = defaultdict(list)
+for r in keep:
+    by_status[r['status']].append(r)
+
+for status in STATUS_ORDER:
+    rows_for_status = by_status.get(status, [])
+    if not rows_for_status:
+        continue
+    parts.append('AVAILABLE' if status == 'available' else 'PENDING')
+    parts.append('')
+
+    by_sub = defaultdict(list)
+    for r in rows_for_status:
+        by_sub[r['subreddit']].append(r)
+
+    for sub in SUBS_ORDER:
+        items = by_sub.get(sub, [])
+        if not items:
+            continue
+        parts.append(sub)
+
+        by_kind = defaultdict(list)
+        for r in items:
+            by_kind[r['kind']].append(r)
+
+        for kind in ['Watch', 'Accessory']:
+            kind_items = by_kind.get(kind, [])
+            if not kind_items:
+                continue
+
+            if kind == 'Accessory':
+                parts.append('Accessories')
+
+            by_url = defaultdict(list)
+            for r in kind_items:
+                by_url[r['url']].append(r)
+
+            url_groups = sorted(by_url.items(), key=lambda kv: max(x['posted'] for x in kv[1]), reverse=True)
+            for url, group in url_groups:
+                group = sorted(group, key=lambda x: (x['price'] is None, x['price'] if x['price'] is not None else 10**9, x['title']))
+                if len(group) == 1:
+                    item = group[0]
+                    price = fmt_price(item['price'])
+                    line = f'• {item["title"]}'
+                    if price:
+                        line += f', {price}'
+                    parts.append(line)
+                    parts.append(f'Source: <{url}>')
+                    continue
+
+                prices = [g['price'] for g in group if g['price'] is not None]
+                bulk_label = 'Bulk post' if kind == 'Watch' else 'Packaging/accessory post'
+                if prices:
+                    summary = f'• {bulk_label}, {len(group)} items, from {fmt_price(min(prices))} to {fmt_price(max(prices))}'
+                else:
+                    summary = f'• {bulk_label}, {len(group)} items'
+                parts.append(summary)
+                parts.append(f'Source: <{url}>')
+
+                preview_limit = 12 if kind == 'Watch' else 6
+                for child in group[:preview_limit]:
+                    price = fmt_price(child['price'])
+                    child_line = f'  • {clean_title(child["title"])}'
+                    if price:
+                        child_line += f', {price}'
+                    parts.append(child_line)
+                if len(group) > preview_limit:
+                    parts.append(f'  • and {len(group) - preview_limit} more')
+
+            parts.append('')
+
+        if parts and parts[-1] != '':
+            parts.append('')
+
+print('\n'.join(parts).strip())

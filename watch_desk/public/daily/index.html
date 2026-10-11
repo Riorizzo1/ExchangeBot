@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0c0d0f">
+  <title>Watch Desk — Market Monitor</title>
+  <link rel="stylesheet" href="app.css?v=8">
+  <link rel="stylesheet" href="polish.css?v=2">
+  <link rel="stylesheet" href="intelligence.css?v=1">
+  <link rel="manifest" href="manifest.webmanifest?v=3">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-main">
+        <a class="brand" href="/daily/" aria-label="Watch Desk home"><span class="brand-mark">WD</span><span>Watch Desk</span></a>
+        <div class="topbar-actions"><span id="stamp">Loading market…</span><button id="notification-settings-button" class="icon-button notification-button" type="button"><span class="notification-label">Notifications</span><span class="notification-short-label">Alerts</span></button><button id="refresh" class="icon-button" aria-label="Refresh listings">↻</button></div>
+      </div>
+      <div class="topbar-alerts"><button id="enable-alerts" class="alert-button" type="button">Enable alerts</button><span id="alert-status" class="alert-status" role="status" aria-live="polite"></span></div>
+    </header>
+
+    <main>
+      <section class="hero-panel">
+        <div class="hero-copy"><p class="eyebrow">MARKET MONITOR</p><h1>Find the next one.</h1><p>A cleaner way to browse RWI and the replica watch market.</p></div>
+        <nav class="scope-switch" aria-label="Listing scope"><button class="scope active" data-scope="today"><span>Today</span><b id="todayCount">–</b></button><button class="scope" data-scope="catalog"><span>All listings</span><b id="catalogCount">–</b></button></nav>
+      </section>
+
+      <section class="market-stats" aria-label="Market summary"><div><span>Listings</span><strong id="total">–</strong></div><div><span>Price drops</span><strong id="drops">–</strong></div><div class="market-status"><span>View</span><strong id="loadState">Loading</strong></div></section>
+
+      <nav class="market-views" aria-label="Market views">
+        <button class="view active" data-view="market">Market</button>
+        <button class="view" data-view="fresh">New today</button>
+        <button class="view" data-view="drops">Price drops</button>
+        <button class="view" data-view="shortlist">Shortlist <b id="shortlistCount">0</b></button>
+      </nav>
+
+      <section class="filter-panel" aria-label="Listing filters">
+        <label class="search-field"><span>⌕</span><input id="query" type="search" placeholder="Search model, seller, factory, location…"></label>
+        <div class="filter-controls">
+          <label><span>Source</span><select id="source"><option value="all">All sources</option><option value="rwi">RWI</option><option value="reddit">Reddit</option></select></label>
+          <label><span>Status</span><select id="status"><option value="active">Available + pending</option><option value="available">For sale</option><option value="pending">Pending</option><option value="sold">Sold</option><option value="unknown">Unknown</option><option value="all">Any status</option></select></label>
+          <label><span>Community</span><select id="community"><option value="all">All communities</option></select></label>
+          <label><span>Brand</span><select id="brand"><option value="all">All brands</option></select></label>
+          <label><span>Factory</span><select id="factory"><option value="all">All factories</option></select></label>
+          <label><span>Region</span><select id="region"><option value="all">All regions</option></select></label>
+          <label><span>Price</span><select id="price"><option value="all">Any price</option><option value="known">Price listed</option><option value="under-300">Under $300</option><option value="300-600">$300–$600</option><option value="600-1000">$600–$1,000</option><option value="over-1000">Over $1,000</option></select></label>
+          <label><span>Sort</span><select id="sort"><option value="newest">Newest listed</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option></select></label>
+        </div>
+        <div class="filter-actions"><select id="savedSearch" aria-label="Saved searches"><option value="">Saved searches</option></select><button id="saveSearch" type="button">Save current search</button><button id="clearFilters" type="button">Reset filters</button></div>
+      </section>
+
+      <section id="cards" class="listing-grid" aria-live="polite"></section>
+      <button id="more" class="more-button" hidden>Load more listings <span>↓</span></button>
+    </main>
+  </div>
+
+  <dialog id="detail"><article><button id="close" class="drawer-close" aria-label="Close">×</button><div id="detailBody"></div></article></dialog>
+  <dialog id="notification-settings"><article class="notification-settings-panel"><button id="notification-settings-close" class="drawer-close" aria-label="Close notifications">×</button><p class="eyebrow">NOTIFICATION SETTINGS</p><h2>Daily Delta alerts</h2><p class="settings-copy">Choose which watch activity reaches your phone. These preferences affect Daily Delta only.</p><label class="setting-row"><span><strong>New feed additions</strong><small>Alert when new Daily Delta listings are published.</small></span><input id="notify-daily-delta" type="checkbox"></label><label class="setting-row"><span><strong>Under $400 watches</strong><small>One alert per new watch at or below $400 USD-equivalent.</small></span><input id="notify-under-400" type="checkbox"></label><button id="notification-test" class="settings-test" type="button">Send test notification</button><p id="notification-settings-status" class="settings-status" role="status" aria-live="polite"></p></article></dialog>
+  <template id="card"><button class="card"><div class="pic"><img loading="lazy" decoding="async" referrerpolicy="no-referrer"><span></span><i></i></div><div class="copy"><small></small><strong></strong><b></b><em></em></div></button></template>
+  <script src="app.js?v=7"></script>
+  <script src="push.js?v=9"></script>
+</body>
+</html>
