@@ -54,7 +54,7 @@
   "watch_desk/scripts/refresh_daily_dashboard.sh": "22347c41f3f917e5d2c15e587f9458e144ba2b0aaa69fb0b9f272c39039a9e8c",
   "watch_desk/scripts/find_watch_desk_backups.py": "c3823e6b693ec10a82bf9d337906e35c5e86ca61c6f18ce4392f8c288e5cff17",
   "watch_desk/scripts/repair_rwi_prices_from_logs.py": "86c88d46a894abf7179429d2906763b97d0a5194f8107f83402a5d0d5310bef3",
-  "watch_desk/scripts/send_watch_alerts.py": "77f71ef3dba93b20ddbef07a7de55b133bcfc315b713ca6474822748348aff14",
+  "watch_desk/scripts/send_watch_alerts.py": "dc07adc6c45613703e2f2f45d03f7468b4b556a28d5283f6733debe4c3526083",
   "watch_desk/scripts/remaining_missing_rwi.py": "8f99459ab23430844a478770c614bdb35d9a142a4cedc036a05c747986707829",
   "watch_desk/scripts/extract_rwi_images.mjs": "cf3c0d761e8b92719cdff40c01c7d66751c234b8698b6fe99b690bd536d004e1",
   "watch_desk/scripts/render_daily_watch_dashboard.py": "5187624f13266744e65fff63e62243ccb978d5fc70c8abe88ca64c879324938f",
@@ -148,5 +148,6 @@
   "rwi_mvp/render_sale_pending_full.py": "598a0e51b08e271e7ddb8c9401d4648c1e65c87831d5c74f90c536da11b6a0db",
   "rwi_mvp/src/run-crawl.js": "3f5f6649225482fa675922e9846560925806c335315f865a9886c22e9a74654a",
   "rwi_mvp/src/index.js": "d8cbd6b1c6a1ebd18636aabce8760247a4215d31896a9e76226ef5aa777455bf",
-  "rwi_mvp/src/capture-snapshot.js": "79a45e2e34b379f6e3f0cdc6132a6076b3e77a31b84fd090cc5c18e5d5f71c92"
+  "rwi_mvp/src/capture-snapshot.js": "79a45e2e34b379f6e3f0cdc6132a6076b3e77a31b84fd090cc5c18e5d5f71c92",
+  "watch_desk/tests/test_alert_groups.py": "c1c5eeb1eebc7e5e0cdbb46c6af766bfed562552323cd57119516f6804251a18"
 }

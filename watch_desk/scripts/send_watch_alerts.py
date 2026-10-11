@@ -3,6 +3,11 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import time
+import fcntl
+from datetime import datetime
+from build_daily_lite import crosspost_key
 import re
 from pathlib import Path
 from urllib.parse import quote
@@ -29,7 +34,9 @@ def load(path: Path, fallback):
 
 def save(path: Path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2))
+    temporary = path.with_suffix(path.suffix + '.tmp')
+    temporary.write_text(json.dumps(value, indent=2))
+    temporary.replace(path)
 
 
 def rates():
@@ -137,6 +144,34 @@ def push(title: str, body: str, tag: str, url: str = DAILY_DELTA_URL, category: 
         return False, {'error': type(exc).__name__}
 
 
+# A genuinely new source post may alert again after seven days. Already
+# acknowledged raw IDs never replay, even when this crosspost window expires.
+CROSSPOST_WINDOW = 7 * 24 * 60 * 60
+
+
+def group_id(item):
+    return hashlib.sha256(crosspost_key(item).encode()).hexdigest()[:24]
+
+
+def migrate_groups(old, current, prior, now):
+    groups = dict(old.get('notification_groups') or {})
+    if old.get('notification_groups_version') == 1:
+        return groups
+    # Old raw-ID acknowledgements are the only available migration evidence.
+    # firstSeenAt is stable; postedAt can be reconstructed on every scrape.
+    for item in current:
+        if str(item.get('id')) not in prior:
+            continue
+        try:
+            seen = datetime.fromisoformat(str(item.get('firstSeenAt')).replace('Z', '+00:00')).timestamp()
+            seen = min(seen, now)
+        except (ValueError, TypeError):
+            seen = now
+        key = group_id(item)
+        groups[key] = max(float(groups.get(key, 0)), seen)
+    return groups
+
+
 def main():
     payload = load(LATEST, {})
     current = payload.get('currentItems') or []
@@ -151,6 +186,8 @@ def main():
 
     prior_current = set(old.get('current_ids') or [])
     prior_daily = set(old.get('daily_ids') or [])
+    now = time.time()
+    groups = migrate_groups(old, current, prior_current, now)
     new_current = [item for item in current if str(item.get('id')) not in prior_current]
     new_daily = [item for item in daily if str(item.get('id')) not in prior_daily]
     fx = rates()
@@ -179,14 +216,19 @@ def main():
             item_id = str(item.get('id') or '')
             if not item_id:
                 continue
+            key = group_id(item)
+            if key in groups and now - groups[key] < CROSSPOST_WINDOW:
+                acknowledged_current.add(item_id)
+                continue
             title = str(item.get('title') or 'Untitled')[:80]
             detail_id = pwa_listing_id(item)
             detail_url = f'{DAILY_DELTA_URL}?watch={quote(detail_id, safe="")}'
             body = f'{title} · ${usd:,.0f} USD eq. ({currency} {amount:g})'
-            ok, result = push('Watch under $400 USD', body, f'watch-under-400-{item_id}', detail_url, 'under_400')
+            ok, result = push('Watch under $400 USD', body, f'watch-under-400-{key}', detail_url, 'under_400')
             if ok:
                 cheap_sent += 1
                 acknowledged_current.add(item_id)
+                groups[key] = now
             else:
                 print(result)
         if cheap_sent:
@@ -197,10 +239,14 @@ def main():
     else:
         acknowledged_current.update(str(item.get('id')) for item in new_current if item.get('id'))
 
-    save(STATE, {'current_ids': sorted(acknowledged_current), 'daily_ids': sorted(acknowledged_daily)})
+    save(STATE, {**old, 'current_ids': sorted(acknowledged_current), 'daily_ids': sorted(acknowledged_daily),
+                 'notification_groups_version': 1, 'notification_groups': groups})
     print(json.dumps({'new_current': len(new_current), 'new_daily': len(new_daily), 'cheap': len(cheap), 'sent': sent}))
     return 0
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    STATE.parent.mkdir(parents=True, exist_ok=True)
+    with STATE.with_suffix('.lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        raise SystemExit(main())
